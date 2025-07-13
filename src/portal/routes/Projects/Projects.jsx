@@ -1,21 +1,21 @@
 import { useState } from 'react';
+import { useLoaderData } from 'react-router-dom';
 import {
     StyledProjects,
+    ContentStyle,
     ListContainer,
     StyledLink,
     StyledUL,
     ProjectDetails,
     ImageStyle
 } from './index.styled.js';
-import { useLoaderData } from 'react-router-dom';
-import { StyledContent } from '../../style/root.style.js';
 
 export default function Projects() {
   const [ activeRepo, setActiveRepo ] = useState(null);
   const { pageImage, repoList } = useLoaderData();
 
   const handleClick = (list) => {
-    list === null ? setActiveRepo(null) : setActiveRepo(list)
+    list === null ? setActiveRepo(null) : setActiveRepo(list);
   };
 
   const renderList = (list) => {
@@ -38,6 +38,7 @@ export default function Projects() {
   };
 
   const renderedList = renderList(repoList);
+
   return (
     <StyledProjects>
       <ImageStyle $pageImage={pageImage}>
@@ -58,11 +59,11 @@ export default function Projects() {
           )
         }
       </ImageStyle>
-      <StyledContent>
+      <ContentStyle>
         <ListContainer>
           { renderedList }
         </ListContainer>
-      </StyledContent>
+      </ContentStyle>
     </StyledProjects>
   );
 };

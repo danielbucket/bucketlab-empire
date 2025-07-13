@@ -11,7 +11,7 @@ export default function Header() {
           <CustomLink to='../about'>About</CustomLink>
           <CustomLink to='../contact'>Contact</CustomLink>
           <CustomLink to='../projects'>Projects</CustomLink>
-          <CustomLink to='../login'>Login</CustomLink>
+          <CustomLink to='../portal'>Portal</CustomLink>
         </StyledUL>
       </div>
     </StyledHeader>

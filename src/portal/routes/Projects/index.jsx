@@ -7,8 +7,8 @@ export const route = {
   element: <Projects />,
   loader: async () => {
     return {
-      repoList: repoList,
-      pageImage: pageImage
+      repoList,
+      pageImage
     }
   }
 };

@@ -6,7 +6,7 @@ export const route = {
   element: <Login />,
   loader: async () => {
     return {
-      pageImage: pageImage
+      pageImage
     };
   }
 };

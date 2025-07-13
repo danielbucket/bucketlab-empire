@@ -12,10 +12,22 @@ export const ListContainer = styled.div`
 
 export const StyledUL = styled.ul`
   display: flex;
+  height: 100%;
   flex-direction: column;
+  justify-content: space-evenly;
   align-items: center;
   gap: 0.5rem;
+  font-family: Laila_Med;
   font-size: 2.50rem;
+
+  &:hover {
+    cursor: pointer;
+    color: var(--special-blue);
+    background-color: var(--ac-green-opaque);
+    border-radius: 0.5rem;
+    box-shadow: 0 0 0.25rem 0.25rem #0E66F0Eb;
+    transition: background-color 0.5s, color 0.5s, border-radius 0.5s, box-shadow 0.5s;
+  }
 `;
 
 export const StyledLink = styled(Link)`
@@ -67,6 +79,4 @@ export const ProjectDetails = styled.div`
 
     }
   }
-
-
 `;

@@ -1,10 +1,10 @@
 import { styled } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { BasePageLayout } from '../../style/root.style.js';
+import { PageLayout, StyledImage, StyledContent } from '../../style/root.style.js';
 
-export const StyledProjects = styled(BasePageLayout)`
-  
-`;
+export const StyledProjects = styled(PageLayout)``;
+export const ImageStyle = styled(StyledImage)``;
+export const ContentStyle = styled(StyledContent)``;
 
 export const ListContainer = styled.div`
   height: 100%;
@@ -19,8 +19,6 @@ export const StyledUL = styled.ul`
 `;
 
 export const StyledLink = styled(Link)`
-  padding: 0.1rem 0.5rem;
-
   &:hover {
     color: #EEE;
     background-color: var(--special-blue);
@@ -31,39 +29,44 @@ export const StyledLink = styled(Link)`
 `;
 
 export const ProjectDetails = styled.div` 
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
   height: 100%;
-  border: 0.1rem solid var(--special-blue);
-
-  & p:first-child {
-    font-size: 2.5rem;
+  background-color: rgb(86 142 253 / 71%);
+  font-size: 1.5rem;
+  text-shadow: #fff 1px 0 5px;
+  
+  .repo-name {
+    height: 5rem;
+    margin-top: 2rem;
+    font-family: KodeMono_Var, monospace;
+    font-size: 3rem;
     font-weight: bold;
-    font-family: Orbitron;
-    border-bottom: 0.1rem solid var(--special-blue);
   }
     
-  & p:nth-child(2) {
-    padding: 1rem;
-    font-size: 2rem;
-    font-family: Roboto;
-    text-indent: 2rem hanging;
+  .repo-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    text-align: center;
+    width: 100%;
+    padding-top: 1rem;
+    border-radius: 1rem;
 
-    span {
+    .description {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      font-family: Laila_Med;
+    }
+  
+    .url {
       font-size: 1.5rem;
-      font-weight: bold;
-      text-align: start;
+
     }
   }
-    
-  & p:last-child {
-    padding-top: 2rem;
-    padding-left: 2rem;
-    font-size: 2rem;
-    font-family: Roboto;
-    text-indent: 2rem hanging;
 
-    span {
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
-  }
+
 `;

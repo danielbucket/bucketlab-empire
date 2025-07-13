@@ -2,13 +2,13 @@ export const repoList = [
   {
     repo: 'BucketLab API',
     url: 'https://github.com/danielbucket/BucketLab_api',
-    description: 'An RESTful API used to power the BucketLab.io web app.',
+    description: 'A RESTful API used to power the BucketLab.io web app.',
     techstack: ['NodeJS', 'ExpressJS', 'MongooseJS', 'MongoDB', 'Docker', 'RaspberryPi'],
   },
   {
     repo: 'SpinConnect',
     url: 'https://github.com/danielbucket/SpinConnect',
-    description: 'A full-stack application that allows users to combine multiple musical sources and dataset.',
+    description: 'A full-stack application that allows users to combine multiple musical sources and datasets for a comprehensive musical library experience.',
     techstack: ['React', 'Node.js', 'Express.js', 'Knex.js', 'PostgreSQL'],
   },
   {

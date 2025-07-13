@@ -1,55 +1,68 @@
 import { useState } from 'react';
-import { StyledProjects, ListContainer, StyledLink, StyledUL, ProjectDetails } from './index.styled.js';
+import {
+    StyledProjects,
+    ListContainer,
+    StyledLink,
+    StyledUL,
+    ProjectDetails,
+    ImageStyle
+} from './index.styled.js';
 import { useLoaderData } from 'react-router-dom';
+import { StyledContent } from '../../style/root.style.js';
 
 export default function Projects() {
-  const [activeRepo, setActiveRepo] = useState(null);
+  const [ activeRepo, setActiveRepo ] = useState(null);
   const { pageImage, repoList } = useLoaderData();
 
-  const handleHover = list => {
+  const handleClick = (list) => {
     list === null ? setActiveRepo(null) : setActiveRepo(list)
   };
 
-  function renderRepoList(arr) {
+  const renderList = (list) => {
     return (
-      <StyledUL onMouseLeave={() => handleHover(null, false)}>
+      <StyledUL >
         {
-          arr.map((repo, i) => {
+          list.map((repo, i) => {
             return (
               <li key={i}>
-                <CustomLink
-                  to={ repo.url }
-                  target="_blank"
-                  onMouseEnter={() => handleHover(repo)}
-                >{ repo.repo }</CustomLink>
+                <div className="list-item"
+                  onClick={() => handleClick(repo)}>
+                  {repo.repo}
+                </div>
               </li>
             )
           })
-        }  
+        }
       </StyledUL>
-    );
+    )
   };
-  
-  const renderedList = renderRepoList(repoList);
 
+  const renderedList = renderList(repoList);
   return (
     <StyledProjects>
-      {
-        activeRepo === null
-        ? (
-            <img src={pageImage} alt="Project Background" id="modalImage" />
-          )
-        : (
+      <ImageStyle $pageImage={pageImage}>
+        {
+          activeRepo && (
             <ProjectDetails>
-              <p>{activeRepo.repo}</p>
-              <p>Description: <br/><span>{activeRepo.description}</span></p>
-              <p>Tech Stack: <br/><span>{activeRepo.techstack.map((i) => `${i}, `)}</span></p>
+              <div className="repo-name">{activeRepo.repo}</div>
+              <div className="repo-content">
+                <div className="description">{activeRepo.description}</div>
+                <div className="url">
+                  <CustomLink
+                    to={activeRepo.url}
+                    target="_blank"
+                  >{activeRepo.url}</CustomLink>
+                </div>
+              </div>
             </ProjectDetails>
           )
-      }
-      <ListContainer>
-        { renderedList }
-      </ListContainer>
+        }
+      </ImageStyle>
+      <StyledContent>
+        <ListContainer>
+          { renderedList }
+        </ListContainer>
+      </StyledContent>
     </StyledProjects>
   );
 };

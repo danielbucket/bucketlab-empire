@@ -19,6 +19,7 @@ export const ContentStyle = styled(StyledContent)`
   button {
     font-size: 2rem;
     font-family: Orbitron;
+    text-shadow: #fc0 1px 0 10px;
     background-color: var(--special-blue);
     border-radius: 0.5rem;
     padding: 0.5rem 1rem;

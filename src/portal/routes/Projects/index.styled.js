@@ -1,9 +1,9 @@
-import { styled }  from 'styled-components';
+import { styled } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { BasePageLayout } from '../../style/root.style.js';
 
 export const StyledProjects = styled(BasePageLayout)`
-  background-image: url(${props => props.backgroundImage});
+  
 `;
 
 export const ListContainer = styled.div`
@@ -30,13 +30,9 @@ export const StyledLink = styled(Link)`
   }
 `;
 
-export const ContentContainer = styled.div` 
-  & img {
-    width: 100%;
-    max-height: 40rem;
-    // object-fit: cover;
-    border-radius: 0.5rem;
-  }
+export const ProjectDetails = styled.div` 
+  height: 100%;
+  border: 0.1rem solid var(--special-blue);
 
   & p:first-child {
     font-size: 2.5rem;
@@ -45,11 +41,11 @@ export const ContentContainer = styled.div`
     border-bottom: 0.1rem solid var(--special-blue);
   }
     
-    & p:nth-child(2) {
-      padding: 1rem;
-      font-size: 2rem;
-      font-family: Roboto;
-      text-indent: 2rem hanging;
+  & p:nth-child(2) {
+    padding: 1rem;
+    font-size: 2rem;
+    font-family: Roboto;
+    text-indent: 2rem hanging;
 
     span {
       font-size: 1.5rem;

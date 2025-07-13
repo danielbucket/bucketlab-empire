@@ -6,7 +6,8 @@ export default function Home() {
   const { pageImage } = loaderData;
 
   return (
-    <StyledHome pageimage={pageImage}>
+    <StyledHome>
+      <img src={pageImage} alt="Home Page Background" />
       <h1>Welcome to BucketLab</h1>
       <p>Your one-stop solution for all things tech!</p>
     </StyledHome>

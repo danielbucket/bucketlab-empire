@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { StyledProjects, ListContainer, StyledLink, StyledUL, ContentContainer } from './index.styled.js';
+import { StyledProjects, ListContainer, StyledLink, StyledUL, ProjectDetails } from './index.styled.js';
 import { useLoaderData } from 'react-router-dom';
 
 export default function Projects() {
   const [activeRepo, setActiveRepo] = useState(null);
-  const loaderData = useLoaderData();
-  const { pageImage, repoList } = loaderData;
+  const { pageImage, repoList } = useLoaderData();
 
   const handleHover = list => {
     list === null ? setActiveRepo(null) : setActiveRepo(list)
@@ -34,20 +33,18 @@ export default function Projects() {
   const renderedList = renderRepoList(repoList);
 
   return (
-    <StyledProjects pageimage={pageImage}>
+    <StyledProjects>
       {
         activeRepo === null
         ? (
-            <ContentContainer>
-              {/* <img id="modalImage" src={ backgroundImage }/> */}
-            </ContentContainer>
+            <img src={pageImage} alt="Project Background" id="modalImage" />
           )
         : (
-            <ContentContainer>
+            <ProjectDetails>
               <p>{activeRepo.repo}</p>
               <p>Description: <br/><span>{activeRepo.description}</span></p>
               <p>Tech Stack: <br/><span>{activeRepo.techstack.map((i) => `${i}, `)}</span></p>
-            </ContentContainer>
+            </ProjectDetails>
           )
       }
       <ListContainer>

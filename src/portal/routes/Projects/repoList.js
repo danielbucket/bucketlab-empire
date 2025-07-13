@@ -1,4 +1,4 @@
-export const repotList = [
+export const repoList = [
   {
     repo: 'BucketLab API',
     url: 'https://github.com/danielbucket/BucketLab_api',
@@ -24,5 +24,3 @@ export const repotList = [
     techstack: ['Webpack', 'React', 'Node.js', 'Express.js'],
   },
 ];
-
-export const fakeLoaderData = () => repotList;

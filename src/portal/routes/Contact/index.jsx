@@ -1,10 +1,12 @@
-import { StyledContact } from './index.styled.js';
+import Contact from './Contact.jsx';
+import pageImage from '../../assets/images/laboratory_02.jpeg';
 
-export default function Contact() {
-  return (
-    <StyledContact>
-      <h1>Contact Us</h1>
-      <p>If you have any questions, feel free to reach out!</p>
-    </StyledContact>
-  );
+export const route = {
+  path: '/contact',
+  element: <Contact />,
+  loader: async () => {
+    return {
+      pageImage: pageImage
+    };
+  }
 };

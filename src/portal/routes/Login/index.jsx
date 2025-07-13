@@ -1,11 +1,12 @@
-import { StyledLogin } from './index.styled.js';
+import Login from './Login.jsx';
+import pageImage from '../../assets/images/laboratory_04.jpeg';
 
-export default function Login() {
-  return (
-    <StyledLogin>
-      <h1>Login to BucketLab</h1>
-      <p>Please enter your credentials to access your account.</p>
-      {/* Add login form here */}
-    </StyledLogin>
-  );
+export const route = {
+  path: '/login',
+  element: <Login />,
+  loader: async () => {
+    return {
+      pageImage: pageImage
+    };
+  }
 };

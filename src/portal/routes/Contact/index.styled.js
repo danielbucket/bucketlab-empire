@@ -1,13 +1,11 @@
 import { styled } from 'styled-components';
+import { BasePageLayout } from '../../style/root.style.js';
 
-export const StyledContact = styled.div`
+export const StyledContact = styled(BasePageLayout)`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  padding: 2rem;
-  background-color: var(--background-color);
-  color: var(--text-color);
+  background-image: url(${props => props.pageimage});
   font-family: 'Laila_Med', sans-serif;
 `;

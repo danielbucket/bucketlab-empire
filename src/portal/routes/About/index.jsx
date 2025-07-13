@@ -1,11 +1,12 @@
-import { StyledAbout } from './index.styled.js';
+import About from './About.jsx';
+import pageImage from '../../assets/images/laboratory_01.jpeg';
 
-export default function About() {
-  return (
-    <StyledAbout>
-      <h1>About BucketLab</h1>
-      <p>BucketLab is your one-stop solution for all things tech!</p>
-      <p>We provide a wide range of services and resources to help you succeed in the digital world.</p>
-    </StyledAbout>
-  );
+export const route = {
+  path: '/about',
+  element: <About />,
+  loader: async () => {
+    return {
+      pageImage: pageImage
+    };
+  }
 };

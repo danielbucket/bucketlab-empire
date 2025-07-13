@@ -1,10 +1,12 @@
-import { StyledHome } from './index.styled.js';
+import Home from './Home.jsx';
+import pageImage from '../../assets/images/danielBucket_ai_01.jpeg';
 
-export default function Home() {
-  return (
-    <StyledHome>
-      <h1>Welcome to BucketLab</h1>
-      <p>Your one-stop solution for all things tech!</p>
-    </StyledHome>
-  );
+export const route = {
+  element: <Home />,
+  index: true,
+  loader: async () => {
+    return {
+      pageImage: pageImage
+    };
+  }
 };

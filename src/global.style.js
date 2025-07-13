@@ -73,6 +73,12 @@ export const GlobalStyle = createGlobalStyle`
     text-align: center;
   }
 
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
   html {
     font-size: 62.5%;
   }

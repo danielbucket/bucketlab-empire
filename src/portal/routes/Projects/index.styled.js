@@ -1,19 +1,21 @@
-import { styled}  from 'styled-components';
+import { styled }  from 'styled-components';
 import { Link } from 'react-router-dom';
-import { BasePageLayout, ContentContainer } from '../../style/root.style.js';
+import { BasePageLayout } from '../../style/root.style.js';
 
-export const ProjectsContainer = styled(BasePageLayout)``;
-export const ContentWrapper = styled(ContentContainer)``;
+export const StyledProjects = styled(BasePageLayout)`
+  background-image: url(${props => props.backgroundImage});
+`;
+
+export const ListContainer = styled.div`
+  height: 100%;
+`;
 
 export const StyledUL = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  list-style: none;
-  font-family: Ubuntu_Reg;
-  font-size: 2rem;
-  padding: 0;
+  font-size: 2.50rem;
 `;
 
 export const StyledLink = styled(Link)`
@@ -28,9 +30,13 @@ export const StyledLink = styled(Link)`
   }
 `;
 
-export const ModalWrapper = styled.div` 
-  flex-direction: column;
-  justify-content: start;
+export const ContentContainer = styled.div` 
+  & img {
+    width: 100%;
+    max-height: 40rem;
+    // object-fit: cover;
+    border-radius: 0.5rem;
+  }
 
   & p:first-child {
     font-size: 2.5rem;
@@ -60,7 +66,8 @@ export const ModalWrapper = styled.div`
     text-indent: 2rem hanging;
 
     span {
-    font-size: 1.5rem;
-    font-weight: bold;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
   }
 `;

@@ -1,10 +1,10 @@
 import { styled } from 'styled-components';
+import { BasePageLayout } from '../../style/root.style.js';
 
-export const StyledHome = styled.div`
+export const StyledHome = styled(BasePageLayout)`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  border: 0.25rem solid red;
+  background-image: url(${props => props.pageimage});
 `;

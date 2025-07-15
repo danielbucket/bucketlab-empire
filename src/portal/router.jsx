@@ -1,4 +1,4 @@
-import Root from './routes/Root';
+import { route as RootRoute } from './routes/Root';
 import { route as HomeRoute } from './routes/Home';
 import { route as AboutRoute } from './routes/About';
 import { route as PortalRoute } from './routes/Portal';
@@ -7,9 +7,7 @@ import { route as ContactRoute } from './routes/Contact';
 import { route as LoginRoute } from './routes/Login';
 import ErrorPage from './routes/ErrorPage';
 
-export const router = {
-  path: '/',
-  element: <Root />,
+export const router = Object.assign({}, RootRoute, {
   errorElement: <ErrorPage />,
   children: [
     HomeRoute,
@@ -19,4 +17,4 @@ export const router = {
     PortalRoute,
     LoginRoute,
   ]
-};
+});

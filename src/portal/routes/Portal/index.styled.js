@@ -26,7 +26,7 @@ export const ContentStyle = styled(StyledContent)`
     box-shadow: 0 0 0.25rem 0.25rem #0E66F0Eb;
     width: 30rem;
     height: 6rem;
-    transition: background-color 0.5s, color 0.5s, border-radius 0.5s, box-shadow 0.5s;
+    transition: background-color 3.5s, color 3.5s, border-radius 3.5s, box-shadow 3.5s;
 
     &:hover {
       background-color: #0E66F0;

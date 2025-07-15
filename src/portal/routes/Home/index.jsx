@@ -1,5 +1,5 @@
 import Home from './Home.jsx';
-import pageImage from '../../assets/images/danielBucket_ai_01.jpeg';
+import pageImage from '../../assets/images/laboratory_01.jpeg';
 
 const contentData = {
   quote: 'Solving all of the worlds problems, one bucket of code at a time.',

@@ -17,5 +17,13 @@ export const TypeWriterEffect = ({ text, speed }) => {
     return () => clearInterval(intervalId);
   }, [currentIndex, text, speed]);
 
-  return <p>{typedText}</p>
+  return <span
+    style={{
+      whiteSpace: 'pre-wrap',
+      fontFamily: 'Laila_Med',
+      fontSize: '1.5rem',
+      textIndent: '2rem',
+      margin: 'auto 20px',
+    }}
+  >{typedText}</span>
 };

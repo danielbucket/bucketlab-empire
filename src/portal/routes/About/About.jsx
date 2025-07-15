@@ -10,8 +10,7 @@ export default function About() {
     <AboutStyle>
       <ImageStyle $pageImage={pageImage} alt="About Page Background" />
       <ContentStyle>
-        <h1>About BucketLab</h1>
-        <TypeWriterEffect text={contentData.bio} speed={50} />
+        <TypeWriterEffect text={contentData.bio} speed={75} />
         <p>- {contentData.name}</p>
         <p>{contentData.title}</p>
       </ContentStyle>

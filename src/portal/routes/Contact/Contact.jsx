@@ -9,7 +9,6 @@ export default function Contact() {
     <ContactStyle>
       <ImageStyle $pageImage={pageImage} />
       <ContentStyle>
-        <h1>Contact Us</h1>
         <TypeWriterEffect text={contentData.text} speed={50} />
       </ContentStyle>
     </ContactStyle>

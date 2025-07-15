@@ -7,7 +7,6 @@ export const PageLayout = styled.div`
   justify-content: start;
   height: 100%;
   padding: 0.5rem;
-  
   overflow-y: scroll;
 
   animation: fadeIn 0.35s;
@@ -38,6 +37,7 @@ export const StyledContent = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: start;
+  font-size: 1.6rem;
 
   margin-top: 1rem;
 `;

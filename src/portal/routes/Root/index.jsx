@@ -1,20 +1,19 @@
-import { Outlet } from 'react-router';
-import { StyledRoot } from './index.styled.js';
-import Header from './Header';
-import Footer from './Footer';
+import Root from './Root.jsx';
+// import GithubIcon from '../../assets/icons/github/github-mark.png';
 
-export default function Root() {
-  return (
-    <StyledRoot>
-      <div className="header">
-        <Header />
-      </div>
-      <div className="content">
-        <Outlet />
-      </div>
-      <div className="footer">
-        <Footer />
-      </div>
-    </StyledRoot>
-  );
+// import { AiOutlineLinkedin as LinkedInIcon } from "react-icons/ai";
+import { FaLinkedin as LinkedInIcon } from "react-icons/fa";
+import { FaGithubSquare as GithubIcon } from "react-icons/fa";
+
+
+
+export const route = {
+  path: '/',
+  element: <Root />,
+  loader: async () => {
+    return {
+      GithubIcon,
+      LinkedInIcon,
+    };
+  }
 };

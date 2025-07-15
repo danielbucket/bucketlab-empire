@@ -3,4 +3,6 @@ import { PageLayout, StyledImage, StyledContent } from '../../style/root.style.j
 
 export const AboutStyle = styled(PageLayout)``;
 export const ImageStyle = styled(StyledImage)``;
-export const ContentStyle = styled(StyledContent)``;
+export const ContentStyle = styled(StyledContent)`
+  margin: 0;
+`;

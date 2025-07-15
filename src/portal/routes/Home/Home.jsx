@@ -10,7 +10,7 @@ export default function Home() {
     <HomeStyle>
       <ImageStyle $pageImage={pageImage} />
       <ContentStyle>
-        <TypeWriterEffect text={contentData.quote} speed={50} />
+        <TypeWriterEffect text={contentData.quote} speed={100} />
         <p>- {contentData.author}</p>
       </ContentStyle>
     </HomeStyle>

@@ -3,7 +3,6 @@ import { useLoaderData } from 'react-router-dom';
 import {
     StyledProjects,
     ContentStyle,
-    ListContainer,
     StyledLink,
     StyledUL,
     ProjectDetails,
@@ -60,9 +59,7 @@ export default function Projects() {
         }
       </ImageStyle>
       <ContentStyle>
-        <ListContainer>
-          { renderedList }
-        </ListContainer>
+        { renderedList }
       </ContentStyle>
     </StyledProjects>
   );

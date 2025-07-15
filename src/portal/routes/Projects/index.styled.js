@@ -6,10 +6,6 @@ export const StyledProjects = styled(PageLayout)``;
 export const ImageStyle = styled(StyledImage)``;
 export const ContentStyle = styled(StyledContent)``;
 
-export const ListContainer = styled.div`
-  height: 100%;
-`;
-
 export const StyledUL = styled.ul`
   display: flex;
   height: 100%;
@@ -19,11 +15,17 @@ export const StyledUL = styled.ul`
   gap: 0.5rem;
   font-family: Laila_Med;
   font-size: 2.50rem;
+  
+  li {
+    width: 30rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-  &:hover {
+  li:hover {
     cursor: pointer;
     color: var(--special-blue);
-    background-color: var(--ac-green-opaque);
     border-radius: 0.5rem;
     box-shadow: 0 0 0.25rem 0.25rem #0E66F0Eb;
     transition: background-color 0.5s, color 0.5s, border-radius 0.5s, box-shadow 0.5s;
@@ -49,6 +51,15 @@ export const ProjectDetails = styled.div`
   background-color: rgb(86 142 253 / 71%);
   font-size: 1.5rem;
   text-shadow: #fff 1px 0 5px;
+
+  animation: fadeIn 0.5s;
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    } to {
+      opacity: 1;
+    }
+  }
   
   .repo-name {
     height: 5rem;
@@ -76,7 +87,6 @@ export const ProjectDetails = styled.div`
   
     .url {
       font-size: 1.5rem;
-
     }
   }
 `;

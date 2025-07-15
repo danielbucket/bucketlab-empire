@@ -23,9 +23,7 @@ export default function Portal() {
         <ContentStyle>
           <button onClick={() => handleClick()}>
             <span>Enter the Portal...</span>
-            
           </button>
-          
         </ContentStyle>
       </ImageStyle>
     </PortalStyle>

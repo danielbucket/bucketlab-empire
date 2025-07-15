@@ -134,7 +134,7 @@ export default function CreateUserForm() {
             value="Submit" />
           <input type="submit"
             value="Cancel"
-            onClick={() => navigate('/homelab')} />
+            onClick={() => navigate('/portal')} />
         </div>
       </FormStyle>
     </FormContainerStyle>

@@ -5,6 +5,7 @@ import { route as PortalRoute } from './routes/Portal';
 import { route as ProjectsRoute } from './routes/Projects';
 import { route as ContactRoute } from './routes/Contact';
 import { route as LoginRoute } from './routes/Login';
+import { route as CreateUserRoute } from './routes/CreateUser';
 import ErrorPage from './routes/ErrorPage';
 
 export const router = Object.assign({}, RootRoute, {
@@ -16,5 +17,6 @@ export const router = Object.assign({}, RootRoute, {
     ProjectsRoute,
     PortalRoute,
     LoginRoute,
+    CreateUserRoute
   ]
 });

@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from "react";
+import { useState } from "react";
 // import { submitForm } from './api'; // Assuming you have an API function to handle form
 import { FormStyle } from './index.styled.js';
 
@@ -11,9 +11,8 @@ export default function LoginForm() {
   const [email, setEmail] = useState('');
 
   const navigate = useNavigate();
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const onSubmit = data => console.log(data);
-  console.log(watch("example"));
 
   return (
     <FormStyle onSubmit={handleSubmit(onSubmit)}>

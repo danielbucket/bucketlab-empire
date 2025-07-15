@@ -49,6 +49,7 @@ export const GlobalStyle = createGlobalStyle`
     --grayd-a-grey:		#aaaaaa;
     --special-green: 	#3fee60;
     --special-blue:		#007bff;
+    --special-blue-trans: #007bff4d;
   }
 
   *,

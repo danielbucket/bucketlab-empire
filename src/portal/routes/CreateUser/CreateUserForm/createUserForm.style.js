@@ -1,31 +1,11 @@
 import { styled } from 'styled-components';
-import { PageLayout, StyledImage, StyledContent } from '../../style/root.style.js';
 
-export const LoginStyle = styled(PageLayout)``;
-export const ContentStyle = styled(StyledContent)`
-  margin-top: 0.5rem;
-  width: 100%;
-
-  .register-new {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 80%;
-
-    button:hover {
-      cursor: pointer;
-      color: var(--special-blue);
-      transition: color 0.3s ease-in-out;
-  }
-`;
-
-export const ImageStyle = styled(StyledImage)`
+export const FormContainerStyle = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: end;
+  justify-content: center;
   height: 100%;
-  padding-bottom: 3rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
 export const FormStyle = styled('form')`
@@ -34,13 +14,12 @@ export const FormStyle = styled('form')`
   justify-content: space-between;
   align-items: center;
   width: 90%;
-  height: 22rem;
   gap: 1rem;
   margin: 0 auto;
   padding: 1rem;
   border: 0.1rem solid var(--special-blue);
   border-radius: 0.5rem;
-  background-color: #007bff4d;
+  background-color: var(--special-blue-trans);
   box-shadow: 0 0 0.25rem 0.25rem var(--special-blue);
 
   & .fields-container {
@@ -64,7 +43,6 @@ export const FormStyle = styled('form')`
         height: 2.5rem;
 
         & label {
-          width: 40%;
           font-size: 2rem;
           font-family: Orbitron;
           color: #EEE;
@@ -93,7 +71,7 @@ export const FormStyle = styled('form')`
   }
   
 
-  & .submit-btn {
+  & .submit-btns {
     height: 10rem;
     display: flex;
     flex-direction: column;

@@ -26,6 +26,7 @@ export const StyledImage = styled.div`
   background-repeat: no-repeat;
 
   width: 100%;
+  max-width: 60rem;
   height: 65%;
   border-radius: 0.5rem;
   box-shadow: rgba(14, 102, 240, 0.92) 0px 0px 0.25rem 0.25rem;

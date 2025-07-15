@@ -132,7 +132,7 @@ export default function CreateUserForm() {
         <div className='submit-btns'>
           <input type="submit"
             value="Submit" />
-          <input type="button"
+          <input type="submit"
             value="Cancel"
             onClick={() => navigate('/homelab')} />
         </div>

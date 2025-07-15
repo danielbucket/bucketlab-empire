@@ -70,7 +70,6 @@ export const FormStyle = styled('form')`
     }
   }
   
-
   & .submit-btns {
     height: 10rem;
     display: flex;

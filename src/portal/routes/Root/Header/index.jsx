@@ -9,8 +9,8 @@ export default function Header() {
       <div className='list'>
         <StyledUL>
           <CustomLink to='../about'>About</CustomLink>
-          <CustomLink to='../contact'>Contact</CustomLink>
           <CustomLink to='../projects'>Projects</CustomLink>
+          <CustomLink to='../contact'>Contact</CustomLink>
           <CustomLink to='../portal'>Portal</CustomLink>
         </StyledUL>
       </div>

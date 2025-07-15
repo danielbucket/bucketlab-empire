@@ -9,8 +9,10 @@ export const StyledHeader = styled.header`
   height: 100%;
   font-family: KodeMono_Var;
   background-color: var(--special-blue);
-
+  
   .title {
+    display: flex;
+    align-items: center;
     height: 6rem;
   }
     

@@ -7,7 +7,7 @@ export const StyledRoot = styled.div`
 
   .header {
     width: 100%;
-    height: 12rem;
+    height: 10rem;
   }
 
   .content {

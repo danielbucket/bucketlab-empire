@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import EmailError from '../EmailError/index.jsx';
 import { FormStyle, FormContainerStyle } from './createUserForm.style.js';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export default function CreateUserForm() {
   const [error, setError] = useState(null);
   const [message, setMessage] = useState('');
@@ -24,7 +26,7 @@ export default function CreateUserForm() {
   }, [error]);
 
   const submitForm = async (values) => {
-    await fetch(`${API_URL}/accounts`, {
+    await fetch(`${apiUrl}/accounts`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

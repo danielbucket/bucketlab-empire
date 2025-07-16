@@ -5,11 +5,7 @@ import { FormStyle } from './index.styled.js';
 
 const apiKey = import.meta.env.VITE_API_KEY;
 const apiUrl = import.meta.env.VITE_API_URL;
-const origin = import.meta.env.VITE_ORIGIN;
-
-console.log('API Key:', apiKey);
-console.log('API URL:', apiUrl);
-console.log('Origin:', origin);
+const originUrl = import.meta.env.VITE_ORIGIN_URL;
 
 export default function LoginForm() {
   const [isNew, setIsNew] = useState(null);
@@ -55,7 +51,7 @@ export default function LoginForm() {
   const onSubmit = (values) => {
     fetch(`${apiUrl}/accounts/login`, {
       method: 'POST',
-      origin: origin,
+      originUrl: originUrl,
       headers: {
         'Content-Type': 'application/json'
       },

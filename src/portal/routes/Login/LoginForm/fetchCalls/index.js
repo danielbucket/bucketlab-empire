@@ -1,4 +1,4 @@
-const apiKey = process.env.API_KEY;
-const apiUrl = process.env.API_URL;
-const origin = process.env.ORIGIN;
+const apiKey = import.meta.env.API_KEY;
+const apiUrl = import.meta.env.API_URL;
+const origin = import.meta.env.ORIGIN;
 

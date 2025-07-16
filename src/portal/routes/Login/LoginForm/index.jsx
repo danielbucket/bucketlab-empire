@@ -3,9 +3,13 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import { FormStyle } from './index.styled.js';
 
-const apiKey = process.env.API_KEY;
-const apiUrl = process.env.API_URL;
-const origin = process.env.ORIGIN;
+const apiKey = import.meta.env.VITE_API_KEY;
+const apiUrl = import.meta.env.VITE_API_URL;
+const origin = import.meta.env.VITE_ORIGIN;
+
+console.log('API Key:', apiKey);
+console.log('API URL:', apiUrl);
+console.log('Origin:', origin);
 
 export default function LoginForm() {
   const [isNew, setIsNew] = useState(null);

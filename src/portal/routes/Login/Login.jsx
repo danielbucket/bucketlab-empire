@@ -1,7 +1,7 @@
 import { useLoaderData, useNavigate } from 'react-router-dom';
-import LoginForm from './LoginForm.jsx';
+import LoginForm from './LoginForm';
 import { LoginStyle, ImageStyle, ContentStyle } from './index.styled.js';
-
+  
 export default function Login() {
   const { pageImage } = useLoaderData();
   const navigate = useNavigate();

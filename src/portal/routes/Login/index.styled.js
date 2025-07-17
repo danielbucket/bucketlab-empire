@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { PageLayout, StyledImage, StyledContent } from '../../style/root.style.js';
+import { PageLayout, StyledImage, StyledContent } from '../../../terminal/style/root.style.js';
 
 export const LoginStyle = styled(PageLayout)``;
 export const ContentStyle = styled(StyledContent)`

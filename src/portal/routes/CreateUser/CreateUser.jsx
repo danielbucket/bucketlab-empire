@@ -1,5 +1,5 @@
 import { useLoaderData } from 'react-router-dom';
-import { CreateUserStyle, ImageStyle, ContentStyle } from "./index.styled";
+import { CreateUserStyle, ImageStyle } from "./index.styled.js";
 import CreateUserForm from './CreateUserForm/CreateUserForm.jsx';
 
 export default function CreateUser() {
@@ -7,9 +7,8 @@ export default function CreateUser() {
 
   return (
     <CreateUserStyle>
-      <ImageStyle $pageImage={pageImage}>
-        <CreateUserForm />
-      </ImageStyle>
+      <ImageStyle $pageImage={pageImage} />
+      <CreateUserForm />
     </CreateUserStyle>
   );
 };

@@ -1,18 +1,18 @@
-import { styled } from 'styled-components'
-import { NavLink } from 'react-router-dom'
+import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
 
-export const NavContainer = styled.nav`
+export const PortalNavStyle = styled.header`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 10rem;
-  padding: 0.75rem 0.25rem;
-  margin-bottom: 0.5rem;
-  font-family: Ubuntu_Reg;
-  box-shadow: 0 0 .15rem .25rem #0e66f0eb;
+  justify-content: center;
+  height: 100%;
+  font-family: KodeMono_Var;
   background-color: var(--special-blue);
-
+  
   .title {
+    display: flex;
+    align-items: center;
     height: 6rem;
   }
     
@@ -23,7 +23,7 @@ export const NavContainer = styled.nav`
       background-color: #0e66f0eb;
     }
   }
-`
+`;
 
 
 export const StyledLink = styled(NavLink)`
@@ -38,7 +38,7 @@ export const StyledLink = styled(NavLink)`
     box-shadow: 0 0 0.5rem 0.25rem #0e66f0eb;
     transition: background-color 0.5s, color 0.5s, border-radius 0.5s, box-shadow 0.5s;
   }
-`
+`;
 
 export const StyledUL = styled.ul`
   display: flex;
@@ -48,7 +48,7 @@ export const StyledUL = styled.ul`
   list-style: none;
   font-size: 1.75rem;
   padding: 0;
-`
+`;
 
 export const SiteTitleLink = styled(StyledLink)`
   font-size: clamp(5rem, 2.75rem, 8rem);
@@ -62,4 +62,4 @@ export const SiteTitleLink = styled(StyledLink)`
     border-radius: 0;
     box-shadow: none;
   }
-`
+`;

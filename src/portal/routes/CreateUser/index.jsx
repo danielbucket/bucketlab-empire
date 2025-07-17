@@ -2,7 +2,7 @@ import CreateUser from './CreateUser.jsx';
 import pageImage from '../../assets/images/robot-builder.jpeg';
 
 export const route = {
-  path: '/create-user',
+  path: '/portal/create-user',
   element: <CreateUser />,
   loader: async () => {
     return {

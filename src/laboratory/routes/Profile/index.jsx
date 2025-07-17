@@ -4,7 +4,6 @@ export const route = {
   path: '/laboratory/profile',
   element: <Profile />,
   loader: async () => {
-    // You can add any data fetching logic here if needed
     return {
       user: {
         id: 1,

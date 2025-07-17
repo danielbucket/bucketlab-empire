@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import EmailError from '../EmailError/index.jsx';
-import { FormStyle, FormContainerStyle } from './inboardForm.style.js';
+import { FormStyle, FormContainerStyle } from './index.style.js';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-export default function CreateUserForm() {
+export default function NewTravelerForm() {
   const [error, setError] = useState(null);
   const [message, setMessage] = useState('');
   

@@ -14,7 +14,7 @@ export default function Login() {
       <ContentStyle>
           <div className='register-new'>
             <p>Don't have an account?</p>
-            <button onClick={() => navigate('/create-user')}>Make one here.</button>
+            <button onClick={() => navigate('/portal/inboarding')}>Make one here.</button>
           </div>
       </ContentStyle>
     </LoginStyle>

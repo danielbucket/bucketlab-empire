@@ -8,10 +8,10 @@ export default function PortalNav() {
       </div>
       <div className='list'>
         <StyledUL>
-          <CustomLink to='/terminal/about'>About</CustomLink>
-          <CustomLink to='/terminal/projects'>Projects</CustomLink>
-          <CustomLink to='/terminal/contact'>Contact</CustomLink>
-          <CustomLink to='/login'>Portal</CustomLink>
+          <CustomLink to='/about'>About</CustomLink>
+          <CustomLink to='/projects'>Projects</CustomLink>
+          <CustomLink to='/contact'>Contact</CustomLink>
+          <CustomLink to='/portal'>Portal</CustomLink>
         </StyledUL>
       </div>
     </PortalNavStyle>

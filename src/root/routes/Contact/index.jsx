@@ -6,7 +6,7 @@ const contentData = {
 };
 
 export const route = {
-  path: '/terminal/contact',
+  path: '/contact',
   element: <Contact />,
   loader: async () => {
     return {

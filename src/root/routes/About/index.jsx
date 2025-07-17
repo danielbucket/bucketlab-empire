@@ -8,7 +8,7 @@ const contentData = {
 };
 
 export const route = {
-  path: '/terminal/about',
+  path: '/about',
   element: <About />,
   loader: async () => {
     return {

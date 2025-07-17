@@ -1,14 +1,14 @@
-import CreateUser from './CreateUser.jsx';
+import Inboarding from './Inboarding.jsx';
 import pageImage from '../../assets/images/robot-builder.jpeg';
 
 export const route = {
-  path: '/portal/create-user',
-  element: <CreateUser />,
+  path: '/portal/inboarding',
+  element: <Inboarding />,
   loader: async () => {
     return {
       pageImage,
       contentData: {
-        title: "Create User",
+        title: "Inboarding",
         description: "Fill out the form below to create a new user account."
       }
     };

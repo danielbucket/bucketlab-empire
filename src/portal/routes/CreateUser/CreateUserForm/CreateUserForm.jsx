@@ -40,7 +40,7 @@ export default function CreateUserForm() {
       };
 
       const { first_name, email, _id } = res.data;
-      navigate('/homelab/login', {
+      navigate('/laboratory', {
         state: {
           isNew: true,
           first_name,

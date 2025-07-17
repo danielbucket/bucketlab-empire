@@ -1,4 +1,7 @@
 import { styled } from 'styled-components';
+import { LaboratoryLayout } from '../../style/laboratory.style.js';
+
+export const CubicleLayout = styled(LaboratoryLayout)``;
 
 export const StyledCubicle = styled.div`
   display: flex;

@@ -1,14 +1,7 @@
-import { Outlet } from 'react-router';
-import { StyledRoot } from './index.styled.js';
-import LabNavigator from '../LabNavigator/';
-import Footer from '../Footer';
+import Root from './Root.jsx';
 
-export default function Root() {
-  return (
-    <StyledRoot>
-      <LabNavigator />
-      <Outlet />
-      <Footer />
-    </StyledRoot>
-  );
+export const route = {
+  path: '/laboratory',
+  element: <Root />,
+  errorElement: <div>Error loading laboratory root</div>
 };

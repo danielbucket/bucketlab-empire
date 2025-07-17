@@ -4,7 +4,7 @@ import { StyledRoot } from './index.styled.js';
 import Header from './Header/index.jsx';
 import Footer from './Footer/Footer.jsx';
 
-function Root() {
+export default function Root() {
   const { GithubIcon, LinkedInIcon } = useLoaderData();
 
   return (
@@ -21,5 +21,3 @@ function Root() {
     </StyledRoot>
   );
 };
-
-export default Root;

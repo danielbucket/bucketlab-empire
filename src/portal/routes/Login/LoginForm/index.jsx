@@ -3,9 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import { FormStyle } from './index.styled.js';
 
-const apiUrl = import.meta.env.VITE_API_URL_DEV || import.meta.env.VITE_API_URL_PROD;
-
-console.log('API URL:', apiUrl);
+const apiUrl = import.meta.env.DEV ? import.meta.env.VITE_DEV_API_URL : import.meta.env.VITE_PROD_API_URL;
 const apiKey = import.meta.env.VITE_API_KEY;
 const originUrl = import.meta.env.VITE_ORIGIN_URL;
 

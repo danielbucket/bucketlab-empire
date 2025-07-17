@@ -2,7 +2,6 @@ import Home from './Home.jsx';
 import pageImage from '../../assets/images/laboratory_01.jpeg';
 
 export const route = {
-  index: true,
   element: <Home />,
   loader: async () => {
     // Simulating a data fetch

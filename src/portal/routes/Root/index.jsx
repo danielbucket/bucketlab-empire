@@ -6,7 +6,7 @@ export const route = {
   path: '/portal',
   element: <Root />,
   children: [
-    LoginRoute,
+    { ...LoginRoute, index: true },
     NewTravelerRoute
   ]
 };

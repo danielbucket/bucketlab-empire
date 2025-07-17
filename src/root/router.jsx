@@ -9,7 +9,7 @@ import ErrorPage from './routes/ErrorPage';
 export const router = Object.assign({}, RootRoute, {
   errorElement: <ErrorPage />,
   children: [
-    HomeRoute,
+    { ...HomeRoute, index: true },
     AboutRoute,
     ContactRoute,
     ProjectsRoute,

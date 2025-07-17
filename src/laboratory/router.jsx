@@ -8,7 +8,7 @@ import LaboratoryError from './routes/LaboratoryError/LaboratoryError.jsx';
 export const router = Object.assign({}, RootRoute, {
   errorElement: <LaboratoryError />,
   children: [
-    CubicleRoute,
+    { ...CubicleRoute, index: true },
     ProfileRoute,
     WatchlistRoute,
     MessagesRoute

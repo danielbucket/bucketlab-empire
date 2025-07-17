@@ -7,7 +7,7 @@ import { route as NewTravelerRoute } from './routes/NewTraveler';
 export const router = Object.assign({}, RootRoute, {
   errorElement: <div>Error occurred</div>,
   children: [
-    LoginRoute,
+    { ...LoginRoute, index: true },
     NewTravelerRoute
   ]
 });

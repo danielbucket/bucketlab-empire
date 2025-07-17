@@ -1,22 +1,13 @@
 import { route as RootRoute } from './routes/Root';
-import { route as HomeRoute } from './routes/Home';
-import { route as AboutRoute } from './routes/About';
-import { route as PortalRoute } from './routes/Portal';
-import { route as ProjectsRoute } from './routes/Projects';
-import { route as ContactRoute } from './routes/Contact';
 import { route as LoginRoute } from './routes/Login';
-import { route as CreateUserRoute } from './routes/CreateUser';
-import ErrorPage from './routes/ErrorPage';
+import { route as NewTravelerRoute } from './routes/NewTraveler';
+// import { route as ForgotPasswordRoute } from './routes/ForgotPassword';
+// import { route as ResetPasswordRoute } from './routes/ResetPassword';
 
 export const router = Object.assign({}, RootRoute, {
-  errorElement: <ErrorPage />,
+  errorElement: <div>Error occurred</div>,
   children: [
-    HomeRoute,
-    AboutRoute,
-    ContactRoute,
-    ProjectsRoute,
-    PortalRoute,
     LoginRoute,
-    CreateUserRoute
+    NewTravelerRoute
   ]
 });

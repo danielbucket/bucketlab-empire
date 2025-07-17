@@ -1,23 +1,12 @@
-import { Outlet } from 'react-router';
-import { useLoaderData } from 'react-router';
-import { StyledRoot } from './index.styled.js';
-import Header from './Header/index.jsx';
-import Footer from './Footer/Footer.jsx';
+import { RootLayout } from './index.styled.js';
+import { Outlet } from 'react-router-dom';
 
 export default function Root() {
-  const { GithubIcon, LinkedInIcon } = useLoaderData();
-
   return (
-    <StyledRoot>
-      <div className="header">
-        <Header />
-      </div>
-      <div className="content">
-        <Outlet />
-      </div>
-      <div className="footer">
-        <Footer GithubIcon={GithubIcon} LinkedInIcon={LinkedInIcon} />
-      </div>
-    </StyledRoot>
+    <RootLayout>
+      <h1>Welcome to the Portal</h1>
+      <p>This is the main portal area where you can access various features.</p>
+      <Outlet />
+    </RootLayout>
   );
 };

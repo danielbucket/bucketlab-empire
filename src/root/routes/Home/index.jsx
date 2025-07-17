@@ -2,11 +2,11 @@ import Home from './Home.jsx';
 import pageImage from '../../assets/images/laboratory_01.jpeg';
 
 export const route = {
-  element: <Home />,
   index: true,
+  element: <Home />,
   loader: async () => {
     // Simulating a data fetch
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // await new Promise(resolve => setTimeout(resolve, 1000));
     
     return {
       pageImage,

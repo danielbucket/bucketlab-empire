@@ -1,5 +1,5 @@
 import { useLoaderData, useNavigate } from 'react-router-dom';
-import LoginForm from './LoginForm';
+import LoginForm from './LoginForm/index.jsx';
 import { LoginStyle, ImageStyle, ContentStyle } from './index.styled.js';
   
 export default function Login() {
@@ -14,7 +14,7 @@ export default function Login() {
       <ContentStyle>
           <div className='register-new'>
             <p>Don't have an account?</p>
-            <button onClick={() => navigate('/create-user')}>Make one here.</button>
+            <button onClick={() => navigate('/portal/new-traveler')}>Make one here.</button>
           </div>
       </ContentStyle>
     </LoginStyle>

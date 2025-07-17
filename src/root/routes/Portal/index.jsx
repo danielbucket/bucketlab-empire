@@ -7,7 +7,7 @@ const contentData = {
 };
 
 export const route = {
-  path: 'portal',
+  path: '/portal',
   element: <Portal />,
   loader: () => ({
     pageImage,

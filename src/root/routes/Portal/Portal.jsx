@@ -10,7 +10,7 @@ export default function Portal() {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/login',
+    navigate('/portal/login',
       {
         state: { isNew: false }
       }

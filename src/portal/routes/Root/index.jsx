@@ -1,19 +1,12 @@
 import Root from './Root.jsx';
-// import GithubIcon from '../../assets/icons/github/github-mark.png';
-
-// import { AiOutlineLinkedin as LinkedInIcon } from "react-icons/ai";
-import { FaLinkedin as LinkedInIcon } from "react-icons/fa";
-import { FaGithubSquare as GithubIcon } from "react-icons/fa";
-
-
+import { route as LoginRoute } from '../Login';
+import { route as NewTravelerRoute } from '../NewTraveler';
 
 export const route = {
-  path: '/',
+  path: '/portal',
   element: <Root />,
-  loader: async () => {
-    return {
-      GithubIcon,
-      LinkedInIcon,
-    };
-  }
+  children: [
+    LoginRoute,
+    NewTravelerRoute
+  ]
 };

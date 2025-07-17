@@ -63,7 +63,7 @@ export default function LoginForm() {
         return setError(() => res);
       };
     
-      navigate('/laboratory', {
+      navigate('/laboratory/cubicle', {
         state: res
       });
     })

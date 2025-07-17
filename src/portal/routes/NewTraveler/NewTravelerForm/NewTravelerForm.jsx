@@ -26,7 +26,7 @@ export default function NewTravelerForm() {
   }, [error]);
 
   const submitForm = async (values) => {
-    await fetch(`${apiUrl}/accounts`, {
+    await fetch(`${apiUrl}/accounts/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ export default function NewTravelerForm() {
   
   return (
     <FormContainerStyle>
-      {/* {error?.data.email && <EmailError email={error.data.email} />} */}
+      {error?.data.email && <EmailError email={error.data.email} />}
       {message && <EmailError email={error.data.email} />}
       <FormStyle onSubmit={(handleSubmit((values) => {
         submitForm(values)

@@ -2,21 +2,19 @@ import { useState } from 'react';
 import { StyledMain } from './index.styled';
 import { Link } from 'react-router-dom';
 
-export default function Main({ $traveler }) {
+export default function Main({ traveler }) {
+  console.log('Traveler data:', traveler);
+
   const [message, setMessage] = useState('Welcome to your Cubicle!');
   const [error, setError] = useState(null);
-  const [permissions, setPermissions] = useState($traveler.permissions);
-  const [name, setName] = useState({
-    first_name: $traveler.first_name || 'Traveler',
-    last_name: $traveler.last_name || ''
-  });
+  const [permissions, setPermissions] = useState([]);
+  const [name, setName] = useState({ first_name: '', last_name: '' });
 
-  console.log('Traveler data:', $traveler);
   
   return (
     <StyledMain>
       <div className='header'>
-      <h2>You've made it this far, <span>{$traveler.first_name}</span>!</h2>
+      <h2>You've made it this far, <span>{traveler.first_name}</span>!</h2>
       <p>Coming soon to a Cubicle near you...</p>
       <p>In the works is a communication utility that will bridge the gap between you the Traveler and me, Bucket.</p>
       <p>Stay tuned for updates!</p>

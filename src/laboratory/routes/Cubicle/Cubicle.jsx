@@ -4,13 +4,11 @@ import Main from './Main';
 
 export default function Cubicle() {
   const location = useLocation();
-  const { data } = location.state;
-  console.log('Current location:', data);
-  
+
   return (
     <CubicleLayout>
       <StyledCubicle>
-        <Main $traveler={data} />
+        <Main traveler={location.state} />
       </StyledCubicle>
     </CubicleLayout>
   );

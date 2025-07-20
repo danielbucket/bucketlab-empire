@@ -49,7 +49,7 @@ export default function LoginForm() {
   }, [location.state]);
 
   const onSubmit = (values) => {
-    fetch(`${apiUrl}/accounts/login`, {
+    fetch(`${apiUrl}/travelers/login`, {
       method: 'POST',
       originUrl: originUrl,
       headers: {

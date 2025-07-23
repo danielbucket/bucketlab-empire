@@ -7,6 +7,6 @@ export const route = {
   element: <Root />,
   children: [
     { ...LoginRoute, index: true },
-    NewTravelerRoute
+    { ...NewTravelerRoute }
   ]
 };

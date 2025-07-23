@@ -4,6 +4,7 @@ import Main from './Main';
 
 export default function Cubicle() {
   const location = useLocation();
+  console.log('Cubicle location state:', location.state);
 
   return (
     <CubicleLayout>

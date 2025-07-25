@@ -9,7 +9,7 @@ export const route = {
   loader: async () => {
     return {
       pageImage,
-      content: {
+      contentData: {
         text: pageText
       }
     };

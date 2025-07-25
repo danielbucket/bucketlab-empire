@@ -12,9 +12,9 @@ export default function Login() {
         <LoginForm />
       </ImageStyle>
       <ContentStyle>
-          <div className='register-new'>
+          <div className='new-user'>
             <p>Don't have an account?</p>
-            <button onClick={() => navigate('/portal/new-traveler')}>Make one here.</button>
+            <button onClick={() => navigate('/portal/new-login')}>Make one here.</button>
           </div>
       </ContentStyle>
     </LoginStyle>

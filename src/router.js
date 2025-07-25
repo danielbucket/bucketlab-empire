@@ -3,12 +3,10 @@ import { router as portalRouter } from './portal/router.jsx';
 import { router as labRouter } from './laboratory/router.jsx';
 import { router as rootRouter } from './root/router.jsx';
 
-const routes = [
+const router = createBrowserRouter([
   rootRouter,
   portalRouter,
   labRouter
-];
-
-const router = createBrowserRouter(routes);
+]);
 
 export default router;

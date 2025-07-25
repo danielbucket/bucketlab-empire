@@ -6,7 +6,7 @@ import { FormStyle, FormContainerStyle } from './index.style.js';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-export default function NewTravelerForm() {
+export default function NewLoginForm() {
   const [error, setError] = useState(null);
   const [message, setMessage] = useState('');
   

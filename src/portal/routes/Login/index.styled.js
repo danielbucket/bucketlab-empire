@@ -6,7 +6,7 @@ export const ContentStyle = styled(StyledContent)`
   margin-top: 0.5rem;
   width: 100%;
 
-  .register-new {
+  .new-user {
     display: flex;
     flex-direction: column;
     align-items: center;

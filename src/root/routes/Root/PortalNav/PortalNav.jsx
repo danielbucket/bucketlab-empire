@@ -11,6 +11,7 @@ export default function PortalNav() {
           <CustomLink to='/about'>About</CustomLink>
           <CustomLink to='/projects'>Projects</CustomLink>
           <CustomLink to='/contact'>Contact</CustomLink>
+          <CustomLink to='/mythta-t'>MythtaT</CustomLink>
           <CustomLink to='/portal'>Portal</CustomLink>
         </StyledUL>
       </div>

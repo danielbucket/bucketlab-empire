@@ -3,11 +3,15 @@ import { MythtaTStyle, ImageStyle, ContentStyle } from './index.styled.js';
 
 export default function MythtaT() {
   const data = useLoaderData();
+  const { content, image } = data;
 
   return (
     <MythtaTStyle>
-      <ImageStyle src={data.image} />
-      <ContentStyle>{data.content}</ContentStyle>
+      <ImageStyle $pageImage={image} />
+      <ContentStyle>
+        <h1>{content.title}</h1>
+        <p>{content.description}</p>
+      </ContentStyle>
     </MythtaTStyle>
   );
 };

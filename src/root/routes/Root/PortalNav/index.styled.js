@@ -29,7 +29,7 @@ export const PortalNavStyle = styled.header`
 export const StyledLink = styled(NavLink)`
   text-decoration: none;
   padding: 0.25rem;
-  font-size: 1.75rem;
+  font-size: 1.5rem;
 
   &.active, &:hover {
     color: #eee;
@@ -46,17 +46,16 @@ export const StyledUL = styled.ul`
   justify-content: space-evenly;
   gap: 0.5rem;
   list-style: none;
-  font-size: 1.75rem;
   padding: 0;
 `;
 
 export const SiteTitleLink = styled(StyledLink)`
-  font-size: clamp(5rem, 2.75rem, 8rem);
+  font-size: clamp(5rem, 2.25rem, 8rem);
   font-family: Laila_Med;
   line-height: 1;
   padding: 0;
 
-  &.active, , &.inactive, &:hover {
+  &.active, &.inactive, &:hover {
     color: black;
     background-color: transparent;
     border-radius: 0;

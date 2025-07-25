@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { FormStyle } from './index.styled.js';
 
 const apiUrl = import.meta.env.DEV ? import.meta.env.VITE_DEV_API_URL : import.meta.env.VITE_PROD_API_URL;
-const apiKey = import.meta.env.VITE_API_KEY;
 const originUrl = import.meta.env.VITE_ORIGIN_URL;
 
 export default function LoginForm() {
@@ -49,13 +48,13 @@ export default function LoginForm() {
   }, [location.state]);
 
   const onSubmit = (values) => {
-    fetch(`${apiUrl}/accounts/login`, {
+    fetch(`${apiUrl}/travelers/login`, {
       method: 'POST',
       originUrl: originUrl,
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ ...values }, { apiKey })
+      body: JSON.stringify({ ...values })
     })
     .then((res) => res.json())
     .then((res) => {

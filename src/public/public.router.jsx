@@ -5,7 +5,7 @@ import { projectsRoute } from './routes/projects.route.jsx';
 import { contactRoute } from './routes/contact.route.jsx';
 import { mythtaTRoute } from './routes/mythtaT.route.jsx';
 import { portalRoute } from './routes/portal.route.jsx';
-import ErrorPage from './pages/ErrorPage';
+import ErrorPage from './pages/ErrorPage/index.jsx';
 
 export const publicRouter = Object.assign({}, rootRoute, {
   errorElement: <ErrorPage />,

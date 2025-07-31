@@ -1,12 +1,12 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { router as portalRouter } from './portal/router.jsx';
-import { router as labRouter } from './laboratory/router.jsx';
-import { router as rootRouter } from './root/router.jsx';
+import { publicRouter } from './public/public.routes.jsx';
+import { authRouter } from './auth/auth.routes.jsx';
+import { laboratoryRouter } from './laboratory/laboratory.routes.jsx';
 
 const router = createBrowserRouter([
-  rootRouter,
-  portalRouter,
-  labRouter
+  publicRouter,
+  authRouter,
+  laboratoryRouter
 ]);
 
-export default router;
+export default router; 

@@ -1,7 +1,7 @@
 import { useLoaderData } from 'react-router-dom';
 import { MythtaTStyle, ImageStyle, ContentStyle } from './index.styled.js';
 
-export default function MythtaT() {
+function MythtaT() {
   const data = useLoaderData();
   const { content, image } = data;
 
@@ -15,3 +15,5 @@ export default function MythtaT() {
     </MythtaTStyle>
   );
 };
+
+export default MythtaT;

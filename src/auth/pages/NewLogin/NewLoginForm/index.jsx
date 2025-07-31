@@ -6,16 +6,12 @@ import { FormStyle, FormContainerStyle } from './index.style.js';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-export default function NewLoginForm() {
+function NewLoginForm() {
   const [error, setError] = useState(null);
   const [message, setMessage] = useState('');
   
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors }
-  } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
   useEffect(() => {
     if (error?.fail_type === 'server_error') {
@@ -136,9 +132,11 @@ export default function NewLoginForm() {
             value="Submit" />
           <input type="submit"
             value="Cancel"
-            onClick={() => navigate('/portal')} />
+            onClick={() => navigate('/auth/login')} />
         </div>
       </FormStyle>
     </FormContainerStyle>
   );
 };
+
+export default NewLoginForm;

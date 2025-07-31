@@ -1,8 +1,8 @@
-import { PortalNavStyle, StyledLink, SiteTitleLink, StyledUL } from './index.styled.js';
+import { NavigationStyle, StyledLink, SiteTitleLink, StyledUL } from './index.styled.js';
 
-export default function PortalNav() {
+export default function Navigation() {
   return (
-    <PortalNavStyle>
+    <NavigationStyle>
       <div className='title'>
         <SiteTitleLink to='/'>bucketlab.io</SiteTitleLink>
       </div>
@@ -15,7 +15,7 @@ export default function PortalNav() {
           <CustomLink to='/portal'>Portal</CustomLink>
         </StyledUL>
       </div>
-    </PortalNavStyle>
+    </NavigationStyle>
   );
 };
 

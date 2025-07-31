@@ -1,14 +1,14 @@
 import { useLoaderData } from 'react-router-dom';
-import { NewUserStyle, ImageStyle } from "./index.styled.js";
-import NewUserForm from './NewLoginForm/index.jsx';
+import { NewLoginStyle, ImageStyle } from "./index.styled.js";
+import NewLoginForm from './NewLoginForm/index.jsx';
 
-export default function NewUser() {
+export default function NewLogin() {
   const { pageImage } = useLoaderData();
 
   return (
-    <NewUserStyle>
+    <NewLoginStyle>
       <ImageStyle $pageImage={pageImage} />
-      <NewUserForm />
-    </NewUserStyle>
+      <NewLoginForm />
+    </NewLoginStyle>
   );
 };

@@ -1,4 +1,4 @@
-import Portal from '../pages/Portal/index.jsx';
+import Portal from '../pages/Portal/';
 import pageImage from '../assets/images/lab_access_image.jpeg';
 
 const contentData = {
@@ -12,5 +12,5 @@ export const portalRoute = {
   loader: () => ({
     pageImage,
     contentData
-  }),
+  })
 };

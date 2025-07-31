@@ -1,16 +1,15 @@
-import { Outlet } from 'react-router';
-import { useLoaderData } from 'react-router';
+import { Outlet, useLoaderData } from 'react-router';
 import { StyledRoot } from './index.styled.js';
-import Header from '../PortalNav/index.jsx';
-import Footer from './Footer/Footer.jsx';
+import Navigation from './components/Navigation/index.jsx';
+import Footer from './components/Footer';
 
-export default function PublicHome() {
+function PublicHome() {
   const { GithubIcon, LinkedInIcon } = useLoaderData();
 
   return (
     <StyledRoot>
-      <div className="header">
-        <Header />
+      <div className="navigation">
+        <Navigation />
       </div>
       <div className="content">
         <Outlet />
@@ -21,3 +20,5 @@ export default function PublicHome() {
     </StyledRoot>
   );
 };
+
+export default PublicHome;

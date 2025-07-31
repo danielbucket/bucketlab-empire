@@ -4,7 +4,7 @@ import { newLoginRoute } from './newLogin.route.jsx';
 import ErrorPage from '../pages/ErrorPage/index.jsx';
 
 export const rootRoute = {
-  path: '/portal',
+  path: '/auth',
   element: <Root />,
   errorElement: <ErrorPage />,
   children: [

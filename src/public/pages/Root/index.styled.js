@@ -5,7 +5,7 @@ export const StyledRoot = styled.div`
   flex-direction: column;
   height: 100vh;
 
-  .header {
+  .navigation {
     width: 100%;
     height: 10rem;
   }

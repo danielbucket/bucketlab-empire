@@ -1,8 +1,8 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { RouterProvider } from 'react-router';
-import router from './router.js';
+import Routes from './router.jsx';
 import { GlobalStyle } from './global.style.js';
+import AuthProvider from './providers/AuthProvider.jsx';
 
 const root = document.getElementById('root');
 
@@ -12,7 +12,9 @@ if (!root) {
 
 createRoot(root).render(
   <StrictMode>
-    <GlobalStyle />
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <GlobalStyle />
+      <Routes />
+    </AuthProvider>
   </StrictMode>
 );

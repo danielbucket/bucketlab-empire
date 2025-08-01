@@ -5,6 +5,7 @@ import EmailError from '../EmailError/index.jsx';
 import { FormStyle, FormContainerStyle } from './index.style.js';
 
 const apiUrl = import.meta.env.VITE_API_URL;
+console.log('API URL:', apiUrl);
 
 function NewLoginForm() {
   const [error, setError] = useState(null);
@@ -52,8 +53,6 @@ function NewLoginForm() {
   
   return (
     <FormContainerStyle>
-      {error?.data.email && <EmailError email={error.data.email} />}
-      {message && <EmailError email={error.data.email} />}
       <FormStyle onSubmit={(handleSubmit((values) => {
         submitForm(values)
       }))}>

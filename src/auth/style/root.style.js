@@ -3,7 +3,9 @@ import styled from "styled-components";
 export const PageLayout = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  align-items: center;
+  justify-content: start;
+  height: 100%;
   background-color: var(--ac-sand);
   color: var(--ac-brown);
   font-family: 'Roboto', sans-serif;

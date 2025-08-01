@@ -5,13 +5,13 @@ export const PageLayout = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: start;
-  height: 100%;
+  height: 100vh;
   background-color: var(--ac-sand);
   color: var(--ac-brown);
   font-family: 'Roboto', sans-serif;
   font-size: 1.6rem;
   line-height: 1.5;
-  padding: 2rem;
+  // padding: 2rem;
 `;
 
 export const StyledImage = styled.div`

@@ -1,6 +1,6 @@
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import LoginForm from './LoginForm/index.jsx';
-import { LoginStyle, ImageStyle, ContentStyle } from './index.styled.js';
+import { LoginStyle, ContentStyle } from './index.styled.js';
   
 export default function Login() {
   const { pageImage } = useLoaderData();
@@ -12,18 +12,19 @@ export default function Login() {
   };
 
   return (
-    <LoginStyle>
-      <ImageStyle $pageImage={pageImage}>
-        <LoginForm />
-      </ImageStyle>
+    <LoginStyle $pageImage={pageImage}>
+      <LoginForm />
       <ContentStyle>
-          <div className='new-user'>
-            <p>Don't have an account?</p>
-            <button onClick={() => navigate('/auth/new-login')}>Make one here.</button>
-              <button onClick={handleClick}>
+        <div className="login-opts">
+          <button onClick={() => navigate('/auth/new-login')}>
+            <span>Join the BucketLab Empire.</span>
+          </button>
+        </div>
+        <div className="go-back-btn">
+          <button onClick={() => navigate('/portal')}>
             <span>Go Back</span>
           </button>
-          </div>
+        </div>
       </ContentStyle>
     </LoginStyle>
   );

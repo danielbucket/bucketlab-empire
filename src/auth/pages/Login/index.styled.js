@@ -1,21 +1,7 @@
 import { styled } from 'styled-components';
+import { AuthLayout } from '../../style/auth.style.js';
 
-export const LoginStyle = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: end;
-  height: 100vh;
-  width: 100%;
-
-  padding: 1rem;
-  border: 0.15rem solid var(--ac-brown);
-
-  background-image: url(${(props) => props.$pageImage});
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-`;
+export const LoginStyle = styled(AuthLayout)``;
 
 export const ContentStyle = styled.div`
   display: flex;
@@ -28,9 +14,8 @@ export const ContentStyle = styled.div`
   background-color: #007bff4d;
   box-shadow: 0 0 0.25rem 0.25rem var(--special-blue);
 
-  
-  margin-top: 0.5rem;
-  width: 100%;
+  margin-bottom: 0.5rem;
+  width: 95%;
   height: 4rem;
 
     span {

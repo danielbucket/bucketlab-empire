@@ -3,9 +3,11 @@ import { styled } from 'styled-components';
 export const FormContainerStyle = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: end;
   height: 100%;
+  width: 100%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
 `;
 
 export const FormStyle = styled('form')`
@@ -14,7 +16,6 @@ export const FormStyle = styled('form')`
   justify-content: space-between;
   align-items: center;
   width: 90%;
-  gap: 1rem;
   margin: 0 auto;
   padding: 1rem;
   border: 0.1rem solid var(--special-blue);

@@ -1,4 +1,4 @@
 import styled from 'styled-components';
-import { PageLayout } from '../../style/root.style.js';
+import { AuthLayout } from '../../style/auth.style.js';
 
-export const RootLayout = styled(PageLayout)``;
+export const RootLayout = styled(AuthLayout)``;

@@ -18,7 +18,7 @@ export default function Main({ passportData }) {
             <p><strong>Passport Number:</strong> {passport.passport_number}</p>
           </div>
           <div className='header'>
-            <h2>You've made it this far, <span>{passport.first_name}</span>!</h2>
+            <h2>You&apos;ve made it this far, <span>{passport.first_name}</span>!</h2>
             <p>Coming soon to a Cubicle near you...</p>
             <p>In the works is a communication utility that will bridge the gap between you, the Traveler, and the BucketLab Empire.</p>
             <p>Stay tuned for updates!</p>

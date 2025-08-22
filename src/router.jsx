@@ -1,16 +1,16 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { useAuth } from './providers/authProvider.jsx'
-import { publicRouter } from './public/public.router.jsx';
-import { authRouter } from './auth/auth.router.jsx';
-import { laboratoryRouter } from './laboratory/laboratory.router.jsx';
+import { useAuth } from './hooks/useAuth.js';
+import { publicRoutes } from './public/public.router.jsx';
+import { authRoutes } from './auth/auth.router.jsx';
+import { laboratoryRoutes } from './laboratory/laboratory.router.jsx';
 
 export default function Routes() {
-  const { token } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   const router = createBrowserRouter([
-    {...publicRouter},
-    {...(!token ? authRouter : [])},
-    {...laboratoryRouter}
+    ...publicRoutes,
+    ...(!isAuthenticated ? authRoutes : []),
+    ...(isAuthenticated ? laboratoryRoutes : [])
   ]);
 
   return <RouterProvider router={router} />;

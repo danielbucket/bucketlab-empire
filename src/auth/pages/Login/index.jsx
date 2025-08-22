@@ -1,15 +1,10 @@
 import { useLoaderData, useNavigate } from 'react-router-dom';
-import LoginForm from './LoginForm/index.jsx';
+import LoginForm from './LoginForm';
 import { LoginStyle, ContentStyle } from './index.styled.js';
   
 export default function Login() {
   const { pageImage } = useLoaderData();
   const navigate = useNavigate();
-  const handleClick = () => {
-    // user data from NewLogin will be passed to this page,
-    // it will need to be removed (sanitized?) from state before navigating back.
-    navigate('/portal');
-  };
 
   return (
     <LoginStyle $pageImage={pageImage}>

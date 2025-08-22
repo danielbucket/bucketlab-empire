@@ -2,7 +2,7 @@ import { useLoaderData, useNavigate } from 'react-router-dom';
 import { PortalStyle, ImageStyle, ContentStyle } from './index.styled.js';
 
 export default function Portal() {
-  const { pageImage, contentData } = useLoaderData();
+  const { pageImage } = useLoaderData();
   const navigate = useNavigate();
 
   const handleClick = () => {

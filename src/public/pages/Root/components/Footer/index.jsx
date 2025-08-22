@@ -1,7 +1,6 @@
 import { StyledFooter, StyledLink } from './index.styled.js';
 
 export default function Footer({ GithubIcon, LinkedInIcon }) {
-
   return (
     <StyledFooter>
       <StyledLink to='https://github.com/danielbucket' target='_blank'>

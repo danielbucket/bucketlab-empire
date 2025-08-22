@@ -1,7 +1,7 @@
 import Cubicle from '../pages/Cubicle/Cubicle.jsx';
 
 export const cubicleRoute = {
-  // path: '/laboratory/cubicle',
+  path: '/laboratory/cubicle',
   element: <Cubicle />,
   loader: async () => {
     return {};

@@ -5,10 +5,13 @@ import ErrorPage from './pages/ErrorPage/index.jsx';
 // import { forgotPasswordRoute } from './routes/forgotPassword.route.jsx';
 // import { resetPasswordRoute } from './routes/resetPassword.route.jsx';
 
-export const authRouter = Object.assign({}, rootRoute, {
-  errorElement: <ErrorPage />,
-  children: [
-    { ...loginRoute, index: true },
-    { ...newLoginRoute }
-  ]
-});
+export const authRoutes = [
+  {
+    ...rootRoute,
+    errorElement: <ErrorPage />,
+    children: [
+      { ...loginRoute, index: true },
+      { ...newLoginRoute }
+    ]
+  }
+];

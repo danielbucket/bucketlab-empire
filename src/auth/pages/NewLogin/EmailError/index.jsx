@@ -5,7 +5,7 @@ export default function EmailError ({ email }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/homelab/login', {
+    navigate('/auth/login', {
       state: { isNew: false, email }
     });
   };

@@ -11,6 +11,7 @@ export default function LabNav() {
           <CustomLink to='/laboratory/messages'>Messages</CustomLink>
           <CustomLink to='/laboratory/profile'>Profile</CustomLink>
           <CustomLink to='/laboratory/watchlist'>Watchlist</CustomLink>
+          <CustomLink to='/laboratory/HomestarRunner'>Homestar Runner</CustomLink>
         </StyledUL>
       </div>
     </NavContainer>

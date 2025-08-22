@@ -13,7 +13,7 @@ export default function Root() {
     if (state?.status === 'success' && state?.traveler) {
       setTraveler(state.traveler);
     }
-  }, []);
+  }, [state?.status, state?.traveler]);
   
   return (
     <StyledRoot>

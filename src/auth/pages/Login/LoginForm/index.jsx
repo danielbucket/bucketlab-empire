@@ -3,8 +3,11 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useAuth } from '../../../../hooks/useAuth.js';
 import { FormStyle } from './index.styled.js';
+import { jwtDecode } from "jwt-decode";
 
-const apiUrl = import.meta.env.DEV ? import.meta.env.VITE_DEV_API_URL : import.meta.env.VITE_PROD_API_URL;
+const apiUrl = import.meta.env.DEV
+  ? import.meta.env.VITE_DEV_API_URL
+  : import.meta.env.VITE_PROD_API_URL;
 
 // Validation rules constants
 const VALIDATION_RULES = {
@@ -103,6 +106,7 @@ export default function LoginForm() {
     }));
 
     try {
+      console.log('apiUrl: ', apiUrl);
       const response = await fetch(`${apiUrl}/auth/accounts/login`, {
         method: 'POST',
         headers: {
@@ -119,9 +123,11 @@ export default function LoginForm() {
       }
 
       // Validate and update auth context with token and user data
-      const { token } = data.account;
+      const { token } = data;
       if (token) {
         setToken(token);
+        const decodedToken = jwtDecode(token);
+        setUserData(decodedToken.account);
       } else {
         console.error('No token received from server');
         setFormState(prev => ({
@@ -130,10 +136,6 @@ export default function LoginForm() {
           messageType: MESSAGE_TYPES.ERROR
         }));
         return;
-      }
-
-      if (data.user || data.traveler) {
-        setUserData(data.user || data.traveler);
       }
 
       // Clear form state before navigation

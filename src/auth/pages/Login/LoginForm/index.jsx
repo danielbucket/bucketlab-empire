@@ -1,37 +1,16 @@
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useAuth } from '../../../../hooks/useAuth.js';
 import { FormStyle } from './index.styled.js';
 import { jwtDecode } from "jwt-decode";
+import { VALIDATION_RULES, MESSAGE_TYPES } from "./vars.js";
 
 const apiURL = import.meta.env.VITE_API_URL || (
   import.meta.env.DEV
     ? 'https://dev.bucketlab.io/auth/accounts/login'
     : 'https://api.bucketlab.io/auth/accounts/login'
 );
-
-// Validation rules constants
-const VALIDATION_RULES = {
-  email: {
-    required: 'An email is required',
-    pattern: {
-      value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-      message: 'Please enter a valid email.'
-    }
-  },
-  password: {
-    required: 'Password is required.'
-  }
-};
-
-// Message types
-const MESSAGE_TYPES = {
-  SUCCESS: 'success',
-  ERROR: 'error',
-  INFO: 'info'
-};
-
 
 
 export default function LoginForm() {
@@ -122,9 +101,16 @@ export default function LoginForm() {
       const { token } = data.account;
       if (token) {
         setToken(token);
-        // Adjust this if your JWT payload structure is different
         const decoded = jwtDecode(token);
-        setUserData(decoded.account || decoded.user || decoded);
+        if (!decoded) {
+          setFormState(prev => ({
+            ...prev,
+            message: 'Authentication failed. No account data found in token.',
+            messageType: MESSAGE_TYPES.ERROR
+          }));
+          return;
+        }
+        setUserData(decoded);
       } else {
         setFormState(prev => ({
           ...prev,
@@ -154,7 +140,8 @@ export default function LoginForm() {
     }
   }, [setToken, setUserData, handleApiError]);
 
-  // Guard: don't render if authenticated
+  // Guard: don't render if authenticated.
+  // This is to prevent race conditions that might occur when isAuthenticated changes.
   if (isAuthenticated) return null;
 
   const FormField = ({ label, name, type = 'text', validation, placeholder, defaultValue }) => (

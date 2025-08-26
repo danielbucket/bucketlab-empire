@@ -1,14 +1,20 @@
 import Cubicle from '../pages/Cubicle/Cubicle.jsx';
 
+let devMode = 'dev';
+if (import.meta.env.DEV) {
+  devMode = 'api';
+}
+const API_BASE_URL = `https://${devMode}.bucketlab.io/auth/accounts`;
+
 export const cubicleRoute = {
   path: '/laboratory/cubicle',
   element: <Cubicle />,
-loader: async () => {
+  loader: async () => {
     const accountData = JSON.parse(localStorage.getItem('accountData'));
     const { id } = accountData;
 
     try {
-      const response = await fetch(`https://dev.bucketlab.io/auth/accounts/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/${id}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }

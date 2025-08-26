@@ -1,11 +1,14 @@
-import { useLocation } from 'react-router-dom';
+import { useState } from 'react';
 import { CubicleLayout, StyledCubicle } from './cubicle.styled';
 import Main from '../Main/Main';
 
 export default function Cubicle() {
-  const location = useLocation();
+  const [accountData, setAccountData] = useState(() => {
+    const storedData = localStorage.getItem('accountData');
+    return storedData ? JSON.parse(storedData) : null;
+  });
 
-  const tempPassportData = location.state ? location.state.passportData : {
+  const tempPassportData = accountData || {
     passport: {
       first_name: 'Shit For Brains',
       last_name: 'Dum Dum',

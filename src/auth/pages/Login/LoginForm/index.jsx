@@ -1,13 +1,15 @@
 import { useForm } from "react-hook-form";
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useAuth } from '../../../../hooks/useAuth.js';
 import { FormStyle } from './index.styled.js';
 import { jwtDecode } from "jwt-decode";
 
-const apiUrl = import.meta.env.DEV
-  ? import.meta.env.VITE_DEV_API_URL
-  : import.meta.env.VITE_PROD_API_URL;
+const apiURL = import.meta.env.VITE_API_URL || (
+  import.meta.env.DEV
+    ? 'https://dev.bucketlab.io/auth/accounts/login'
+    : 'https://api.bucketlab.io/auth/accounts/login'
+);
 
 // Validation rules constants
 const VALIDATION_RULES = {
@@ -30,7 +32,10 @@ const MESSAGE_TYPES = {
   INFO: 'info'
 };
 
+
+
 export default function LoginForm() {
+  const { isAuthenticated, setToken, setUserData } = useAuth();
   const [formState, setFormState] = useState({
     isLoading: false,
     message: '',
@@ -45,14 +50,10 @@ export default function LoginForm() {
     formState: { errors }
   } = useForm();
   
-  const navigate = useNavigate();
   const location = useLocation();
-  const { setToken, setUserData } = useAuth();
 
   // Memoized default email from location state
-  const defaultEmail = useMemo(() => {
-    return location.state?.email || '';
-  }, [location.state?.email]);
+  const defaultEmail = useMemo(() => location.state?.email || '', [location.state?.email]);
 
   // Handle location state messages
   useEffect(() => {
@@ -73,7 +74,6 @@ export default function LoginForm() {
     }
   }, [location.state, setValue]);
 
-  // Handle API errors
   const handleApiError = useCallback((errorData) => {
     let message = 'Login failed. Please try again.';
     let messageType = MESSAGE_TYPES.ERROR;
@@ -106,12 +106,9 @@ export default function LoginForm() {
     }));
 
     try {
-      console.log('apiUrl: ', apiUrl);
-      const response = await fetch(`${apiUrl}/auth/accounts/login`, {
+      const response = await fetch(apiURL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values)
       });
 
@@ -122,14 +119,13 @@ export default function LoginForm() {
         return;
       }
 
-      // Validate and update auth context with token and user data
-      const { token } = data;
+      const { token } = data.account;
       if (token) {
         setToken(token);
-        const decodedToken = jwtDecode(token);
-        setUserData(decodedToken.account);
+        // Adjust this if your JWT payload structure is different
+        const decoded = jwtDecode(token);
+        setUserData(decoded.account || decoded.user || decoded);
       } else {
-        console.error('No token received from server');
         setFormState(prev => ({
           ...prev,
           message: 'Authentication failed. No token received.',
@@ -137,30 +133,13 @@ export default function LoginForm() {
         }));
         return;
       }
-
-      // Clear form state before navigation
-      setFormState({
-        isLoading: false,
-        message: '',
-        messageType: null,
-        error: null
-      });
-
-      // Navigate to intended destination or default to laboratory
-      const redirectTo = location.state?.from || '/laboratory/cubicle';
-      navigate(redirectTo, { replace: true });
     } catch (err) {
-      console.error('Login network error:', err);
-      
-      // Handle specific error types
       let errorMessage = 'Network error. Please check your connection and try again.';
-      
       if (err.name === 'TypeError' && err.message.includes('fetch')) {
         errorMessage = 'Unable to connect to the server. Please check your internet connection.';
       } else if (err.message.includes('CORS')) {
         errorMessage = 'Server configuration error. Please contact support if this persists.';
       }
-      
       setFormState(prev => ({
         ...prev,
         message: errorMessage,
@@ -173,9 +152,11 @@ export default function LoginForm() {
         isLoading: false
       }));
     }
-  }, [setToken, setUserData, navigate, handleApiError, location.state?.from]);
+  }, [setToken, setUserData, handleApiError]);
 
-  // Reusable form field component for consistency
+  // Guard: don't render if authenticated
+  if (isAuthenticated) return null;
+
   const FormField = ({ label, name, type = 'text', validation, placeholder, defaultValue }) => (
     <div className='form-field'>
       <div>
@@ -201,7 +182,6 @@ export default function LoginForm() {
           <p>{formState.message}</p>
         </div>
       )}
-      
       <div className='fields-container'>
         <FormField 
           label="Email"
@@ -211,7 +191,6 @@ export default function LoginForm() {
           placeholder="Email"
           defaultValue={defaultEmail}
         />
-        
         <FormField 
           label="Password"
           name="password"
@@ -220,7 +199,6 @@ export default function LoginForm() {
           placeholder="Password"
         />
       </div>
-      
       <div className='submit-btn'>
         <button 
           type="submit" 
@@ -232,4 +210,4 @@ export default function LoginForm() {
       </div>
     </FormStyle>
   );
-};
+}

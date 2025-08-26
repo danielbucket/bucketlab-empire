@@ -1,10 +1,16 @@
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useLoaderData, useNavigate, Navigate } from 'react-router-dom';
 import LoginForm from './LoginForm';
 import { LoginStyle, ContentStyle } from './index.styled.js';
-  
+import { useAuth } from '../../../hooks/useAuth.js';
+
 export default function Login() {
   const { pageImage } = useLoaderData();
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+
+  if (isAuthenticated) {
+    return <Navigate to="/laboratory/cubicle" replace />;
+  }
 
   return (
     <LoginStyle $pageImage={pageImage}>

@@ -6,10 +6,11 @@ import { laboratoryRoutes } from './laboratory/laboratory.router.jsx';
 
 export default function Routes() {
   const { isAuthenticated } = useAuth();
+  console.log('Routes rendered, isAuthenticated:', isAuthenticated);
 
   const router = createBrowserRouter([
     ...publicRoutes,
-    ...(!isAuthenticated ? authRoutes : []),
+    ...authRoutes,
     ...(isAuthenticated ? laboratoryRoutes : [])
   ]);
 

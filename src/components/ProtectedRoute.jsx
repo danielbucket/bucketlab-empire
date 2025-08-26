@@ -3,7 +3,6 @@ import { useAuth } from '../hooks/useAuth.js';
 
 export default function ProtectedRoute({ children }) {
   const { isAuthenticated, token } = useAuth();
-  console.log('ProtectedRoute rendered', { isAuthenticated, token });
   const location = useLocation();
 
   // If not authenticated, redirect to login with current location

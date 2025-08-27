@@ -6,7 +6,9 @@ import { useAuth } from '../../../hooks/useAuth.js';
 export default function Login() {
   const { pageImage } = useLoaderData();
   const navigate = useNavigate();
+  console.log('Login page rendered');
   const { isAuthenticated } = useAuth();
+  console.log('isAuthenticated: ', isAuthenticated);
 
   if (isAuthenticated) {
     return <Navigate to="/laboratory/cubicle" replace />;

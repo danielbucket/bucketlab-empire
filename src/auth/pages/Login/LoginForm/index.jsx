@@ -6,15 +6,21 @@ import { FormStyle } from './index.styled.js';
 import { jwtDecode } from "jwt-decode";
 import { VALIDATION_RULES, MESSAGE_TYPES } from "./vars.js";
 
-const apiURL = import.meta.env.VITE_API_URL || (
-  import.meta.env.DEV
-    ? 'https://dev.bucketlab.io/auth/accounts/login'
-    : 'https://api.bucketlab.io/auth/accounts/login'
-);
-
+let API_LOGIN_URL = 'https://api.bucketlab.io/auth/accounts/login';
+if (import.meta.env.DEV) {
+  API_LOGIN_URL = 'https://dev.bucketlab.io/auth/accounts/login';
+}
 
 export default function LoginForm() {
   const { isAuthenticated, setToken, setUserData } = useAuth();
+  const [defaultEmail, setDefaultEmail] = useState(() => {
+    const storedAccount = localStorage.getItem('accountData');
+    if (storedAccount) {
+      const { email } = JSON.parse(storedAccount);
+      return email || '';
+    }
+    return '';
+  });
   const [formState, setFormState] = useState({
     isLoading: false,
     message: '',
@@ -28,30 +34,6 @@ export default function LoginForm() {
     setValue,
     formState: { errors }
   } = useForm();
-  
-  const location = useLocation();
-
-  // Memoized default email from location state
-  const defaultEmail = useMemo(() => location.state?.email || '', [location.state?.email]);
-
-  // Handle location state messages
-  useEffect(() => {
-    if (location.state?.isNew && location.state?.email) {
-      setFormState(prev => ({
-        ...prev,
-        message: `Account created successfully for ${location.state.email}. Please login.`,
-        messageType: MESSAGE_TYPES.SUCCESS
-      }));
-      setValue('email', location.state.email);
-    } else if (location.state?.email && !location.state?.isNew) {
-      setFormState(prev => ({
-        ...prev,
-        message: `Account with ${location.state.email} already exists. Please login.`,
-        messageType: MESSAGE_TYPES.INFO
-      }));
-      setValue('email', location.state.email);
-    }
-  }, [location.state, setValue]);
 
   const handleApiError = useCallback((errorData) => {
     let message = 'Login failed. Please try again.';
@@ -85,10 +67,10 @@ export default function LoginForm() {
     }));
 
     try {
-      const response = await fetch(apiURL, {
+      const response = await fetch(API_LOGIN_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values)
+        body: JSON.stringify(values),
       });
 
       const data = await response.json();

@@ -8,7 +8,7 @@ export default function ProtectedRoute({ children }) {
   // If not authenticated, redirect to login with current location
   if (!isAuthenticated || !token) {
     return <Navigate 
-      to="/auth/login" 
+      to="/auth/login"
       state={{ from: location.pathname }}
       replace 
     />;

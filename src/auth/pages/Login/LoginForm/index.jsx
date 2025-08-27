@@ -1,33 +1,26 @@
-import { useForm } from "react-hook-form";
-import { useNavigate, useLocation } from 'react-router-dom';
+import { set, useForm } from "react-hook-form";
+import { useLocation } from 'react-router-dom';
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useAuth } from '../../../../hooks/useAuth.js';
 import { FormStyle } from './index.styled.js';
+import { jwtDecode } from "jwt-decode";
+import { VALIDATION_RULES, MESSAGE_TYPES } from "./vars.js";
 
-const apiUrl = import.meta.env.DEV ? import.meta.env.VITE_DEV_API_URL : import.meta.env.VITE_PROD_API_URL;
-
-// Validation rules constants
-const VALIDATION_RULES = {
-  email: {
-    required: 'An email is required',
-    pattern: {
-      value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-      message: 'Please enter a valid email.'
-    }
-  },
-  password: {
-    required: 'Password is required.'
-  }
-};
-
-// Message types
-const MESSAGE_TYPES = {
-  SUCCESS: 'success',
-  ERROR: 'error',
-  INFO: 'info'
-};
+let API_LOGIN_URL = 'https://api.bucketlab.io/auth/accounts/login';
+if (import.meta.env.DEV) {
+  API_LOGIN_URL = 'https://dev.bucketlab.io/auth/accounts/login';
+}
 
 export default function LoginForm() {
+  const { isAuthenticated, setToken, setUserData } = useAuth();
+  const [defaultEmail, setDefaultEmail] = useState(() => {
+    const storedAccount = localStorage.getItem('accountData');
+    if (storedAccount) {
+      const { email } = JSON.parse(storedAccount);
+      return email || '';
+    }
+    return '';
+  });
   const [formState, setFormState] = useState({
     isLoading: false,
     message: '',
@@ -41,36 +34,7 @@ export default function LoginForm() {
     setValue,
     formState: { errors }
   } = useForm();
-  
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { setToken, setUserData } = useAuth();
 
-  // Memoized default email from location state
-  const defaultEmail = useMemo(() => {
-    return location.state?.email || '';
-  }, [location.state?.email]);
-
-  // Handle location state messages
-  useEffect(() => {
-    if (location.state?.isNew && location.state?.email) {
-      setFormState(prev => ({
-        ...prev,
-        message: `Account created successfully for ${location.state.email}. Please login.`,
-        messageType: MESSAGE_TYPES.SUCCESS
-      }));
-      setValue('email', location.state.email);
-    } else if (location.state?.email && !location.state?.isNew) {
-      setFormState(prev => ({
-        ...prev,
-        message: `Account with ${location.state.email} already exists. Please login.`,
-        messageType: MESSAGE_TYPES.INFO
-      }));
-      setValue('email', location.state.email);
-    }
-  }, [location.state, setValue]);
-
-  // Handle API errors
   const handleApiError = useCallback((errorData) => {
     let message = 'Login failed. Please try again.';
     let messageType = MESSAGE_TYPES.ERROR;
@@ -103,12 +67,10 @@ export default function LoginForm() {
     }));
 
     try {
-      const response = await fetch(`${apiUrl}/auth/accounts/login`, {
+      const response = await fetch(API_LOGIN_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(values)
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values),
       });
 
       const data = await response.json();
@@ -118,12 +80,20 @@ export default function LoginForm() {
         return;
       }
 
-      // Validate and update auth context with token and user data
       const { token } = data.account;
       if (token) {
         setToken(token);
+        const decoded = jwtDecode(token);
+        if (!decoded) {
+          setFormState(prev => ({
+            ...prev,
+            message: 'Authentication failed. No account data found in token.',
+            messageType: MESSAGE_TYPES.ERROR
+          }));
+          return;
+        }
+        setUserData(decoded);
       } else {
-        console.error('No token received from server');
         setFormState(prev => ({
           ...prev,
           message: 'Authentication failed. No token received.',
@@ -131,34 +101,13 @@ export default function LoginForm() {
         }));
         return;
       }
-
-      if (data.user || data.traveler) {
-        setUserData(data.user || data.traveler);
-      }
-
-      // Clear form state before navigation
-      setFormState({
-        isLoading: false,
-        message: '',
-        messageType: null,
-        error: null
-      });
-
-      // Navigate to intended destination or default to laboratory
-      const redirectTo = location.state?.from || '/laboratory/cubicle';
-      navigate(redirectTo, { replace: true });
     } catch (err) {
-      console.error('Login network error:', err);
-      
-      // Handle specific error types
       let errorMessage = 'Network error. Please check your connection and try again.';
-      
       if (err.name === 'TypeError' && err.message.includes('fetch')) {
         errorMessage = 'Unable to connect to the server. Please check your internet connection.';
       } else if (err.message.includes('CORS')) {
         errorMessage = 'Server configuration error. Please contact support if this persists.';
       }
-      
       setFormState(prev => ({
         ...prev,
         message: errorMessage,
@@ -171,9 +120,12 @@ export default function LoginForm() {
         isLoading: false
       }));
     }
-  }, [setToken, setUserData, navigate, handleApiError, location.state?.from]);
+  }, [setToken, setUserData, handleApiError]);
 
-  // Reusable form field component for consistency
+  // Guard: don't render if authenticated.
+  // This is to prevent race conditions that might occur when isAuthenticated changes.
+  if (isAuthenticated) return null;
+
   const FormField = ({ label, name, type = 'text', validation, placeholder, defaultValue }) => (
     <div className='form-field'>
       <div>
@@ -199,7 +151,6 @@ export default function LoginForm() {
           <p>{formState.message}</p>
         </div>
       )}
-      
       <div className='fields-container'>
         <FormField 
           label="Email"
@@ -209,7 +160,6 @@ export default function LoginForm() {
           placeholder="Email"
           defaultValue={defaultEmail}
         />
-        
         <FormField 
           label="Password"
           name="password"
@@ -218,7 +168,6 @@ export default function LoginForm() {
           placeholder="Password"
         />
       </div>
-      
       <div className='submit-btn'>
         <button 
           type="submit" 
@@ -230,4 +179,4 @@ export default function LoginForm() {
       </div>
     </FormStyle>
   );
-};
+}

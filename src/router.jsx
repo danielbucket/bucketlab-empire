@@ -9,7 +9,7 @@ export default function Routes() {
 
   const router = createBrowserRouter([
     ...publicRoutes,
-    ...(!isAuthenticated ? authRoutes : []),
+    ...authRoutes,
     ...(isAuthenticated ? laboratoryRoutes : [])
   ]);
 

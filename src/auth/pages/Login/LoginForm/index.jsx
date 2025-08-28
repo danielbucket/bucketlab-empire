@@ -83,16 +83,17 @@ export default function LoginForm() {
       const { token } = data.account;
       if (token) {
         setToken(token);
-        const decoded = jwtDecode(token);
-        if (!decoded) {
+
+        try {
+          const decoded = jwtDecode(token);
+          setUserData(decoded);
+        } catch (err) {
           setFormState(prev => ({
             ...prev,
-            message: 'Authentication failed. No account data found in token.',
+            message: 'Login succeeded, but failed to decode token.',
             messageType: MESSAGE_TYPES.ERROR
           }));
-          return;
         }
-        setUserData(decoded);
       } else {
         setFormState(prev => ({
           ...prev,

@@ -1,12 +1,12 @@
 import { StyledMain } from './main.styled';
-import { Link } from 'react-router-dom';
 
-export default function Main({ accountData }) {
+export default function Main({ email, permissions, first_name, last_name }) {
+
   return (
     <StyledMain>
       <h1>Welcome to your Laboratory Main Page</h1>
       <p>Your account data:</p>
-      <pre>{JSON.stringify(accountData, null, 2)}</pre>
+      <pre>{JSON.stringify({ first_name, last_name, email, permissions }, null, 2)}</pre>
     </StyledMain>
   );
 };

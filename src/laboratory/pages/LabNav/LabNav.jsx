@@ -6,7 +6,7 @@ export default function LabNav() {
       <div className='title'>
         <SiteTitleLink to='/'>bucketlab.io</SiteTitleLink>
       </div>
-      <div className='list'>
+      <div className='nav-list'>
         <StyledUL>
           <CustomLink to='/laboratory/messages'>Messages</CustomLink>
           <CustomLink to='/laboratory/profile'>Profile</CustomLink>

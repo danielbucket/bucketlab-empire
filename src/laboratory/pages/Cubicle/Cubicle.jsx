@@ -1,16 +1,17 @@
 import { CubicleLayout, StyledCubicle } from './cubicle.styled';
-import { useLoaderData } from 'react-router-dom';
 import Main from '../Main/Main';
 import Logout from '../Logout/Logout';
+import { useAccount } from '../../../hooks/useAccount';
 
 export default function Cubicle() {
-  const { doc } = useLoaderData().data;
+  const { email, permissions, first_name, last_name } = useAccount().accountData;
 
+  const mainProps = { email, permissions, first_name, last_name };
   return (
     <CubicleLayout>
       <StyledCubicle>
         <Logout />
-        <Main accountData={doc} />
+        <Main {...mainProps} />
       </StyledCubicle>
     </CubicleLayout>
   );

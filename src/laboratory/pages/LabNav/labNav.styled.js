@@ -14,9 +14,13 @@ export const NavContainer = styled.nav`
 
   .title {
     height: 6rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
   }
-    
-  .list {
+
+  .nav-list {
     height: 4rem;
       
     & ul li.active {
@@ -51,6 +55,10 @@ export const StyledUL = styled.ul`
 `;
 
 export const SiteTitleLink = styled(StyledLink)`
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: clamp(5rem, 2.75rem, 8rem);
   font-family: Laila_Med;
   line-height: 1;

@@ -7,7 +7,6 @@ import { laboratoryRoutes } from './laboratory/laboratory.router.jsx';
 export default function Routes() {
 const { isAuthenticated } = useAuth();
 
-
 const catchAllRoute = {
   path: '*',
   element: isAuthenticated

@@ -1,6 +1,5 @@
 import { set, useForm } from "react-hook-form";
-import { useLocation } from 'react-router-dom';
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useCallback } from "react";
 import { useAuth } from '../../../../hooks/useAuth.js';
 import { FormStyle } from './index.styled.js';
 import { jwtDecode } from "jwt-decode";
@@ -79,21 +78,10 @@ export default function LoginForm() {
         handleApiError(data);
         return;
       }
-
-      const { token } = data.account;
+      const { token } = data.accountData;
       if (token) {
         setToken(token);
-
-        try {
-          const decoded = jwtDecode(token);
-          setAccountData(decoded);
-        } catch (err) {
-          setFormState(prev => ({
-            ...prev,
-            message: 'Login succeeded, but failed to decode token.',
-            messageType: MESSAGE_TYPES.ERROR
-          }));
-        }
+        setAccountData(token);
       } else {
         setFormState(prev => ({
           ...prev,

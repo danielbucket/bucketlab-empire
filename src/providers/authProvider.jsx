@@ -1,7 +1,12 @@
 // import axios from 'axios';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useCallback } from 'react';
 import { AuthContext } from '../context/AuthContext.js';
 import { jwtDecode } from "jwt-decode";
+
+let API_URL = 'https://api.bucketlab.io';
+if (import.meta.env.DEV) {
+  API_URL = 'https://dev.bucketlab.io';
+}
 
 // JWT Token validation helper
 const isValidJWT = (token) => {
@@ -20,22 +25,28 @@ const isValidJWT = (token) => {
   }
 };
 
+
 function AuthProvider({ children }) {
   const [token, setToken_] = useState(() => {
     const storedToken = localStorage.getItem('sessionToken');
     return isValidJWT(storedToken) ? storedToken : null;
   });
 
-  const [account, setAccount] = useState(() => {
-    // Try to restore account data from localStorage
+  const [account, setAccount_] = useState(() => {
     const storedAccount = localStorage.getItem('accountData');
-    try {
-      return storedAccount ? JSON.parse(storedAccount) : null;
-    } catch {
-      localStorage.removeItem('accountData');
-      return null;
-    }
+    return storedAccount ? JSON.parse(storedAccount) : null;
   });
+
+  const setAccount = (accountData) => {
+    if (accountData) {
+      localStorage.setItem('accountData', JSON.stringify(accountData));
+      setAccount_(accountData);
+    } else {
+      console.warn('Attempted to set invalid account data');
+      localStorage.removeItem('accountData');
+      setAccount_(null);
+    }
+  };
 
   const setToken = (newToken) => {
     if (newToken && isValidJWT(newToken)) {
@@ -48,21 +59,12 @@ function AuthProvider({ children }) {
     }
   };
 
-  const setAccountData = (accountData) => {
-    setAccount(accountData);
-    if (accountData) {
-      localStorage.setItem('accountData', JSON.stringify(accountData));
-    } else {
-      localStorage.removeItem('accountData');
-    }
-  };
-
-  const logout = () => {
+  const logout = useCallback(() => {
     setToken_(null);
-    setAccount(null);
+    setAccount_(null);
     localStorage.removeItem('sessionToken');
     localStorage.removeItem('accountData');
-  };
+  }, []);
 
   useEffect(() => {
     if (token && isValidJWT(token)) {
@@ -87,16 +89,16 @@ function AuthProvider({ children }) {
       localStorage.removeItem('sessionToken');
       if (token) setToken_(null);
     }
-  }, [token]);
+  }, [token, logout]);
 
   const authContextValue = useMemo(() => ({
     token, 
     account,
-    setToken, 
-    setAccountData,
+    setToken,
+    setAccount,
     logout,
     isAuthenticated: token && isValidJWT(token)
-  }), [token, account]);
+  }), [token, account, logout]);
 
   return (
     <AuthContext.Provider value={authContextValue}>

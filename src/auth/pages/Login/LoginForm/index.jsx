@@ -12,7 +12,7 @@ if (import.meta.env.DEV) {
 }
 
 export default function LoginForm() {
-  const { isAuthenticated, setToken, setUserData } = useAuth();
+  const { isAuthenticated, setToken, setAccountData } = useAuth();
   const [defaultEmail, setDefaultEmail] = useState(() => {
     const storedAccount = localStorage.getItem('accountData');
     if (storedAccount) {
@@ -86,7 +86,7 @@ export default function LoginForm() {
 
         try {
           const decoded = jwtDecode(token);
-          setUserData(decoded);
+          setAccountData(decoded);
         } catch (err) {
           setFormState(prev => ({
             ...prev,
@@ -121,7 +121,7 @@ export default function LoginForm() {
         isLoading: false
       }));
     }
-  }, [setToken, setUserData, handleApiError]);
+  }, [setToken, setAccountData, handleApiError]);
 
   // Guard: don't render if authenticated.
   // This is to prevent race conditions that might occur when isAuthenticated changes.

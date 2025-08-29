@@ -26,11 +26,11 @@ function AuthProvider({ children }) {
     return isValidJWT(storedToken) ? storedToken : null;
   });
 
-  const [user, setUser] = useState(() => {
-    // Try to restore user data from localStorage
-    const storedUser = localStorage.getItem('accountData');
+  const [account, setAccount] = useState(() => {
+    // Try to restore account data from localStorage
+    const storedAccount = localStorage.getItem('accountData');
     try {
-      return storedUser ? JSON.parse(storedUser) : null;
+      return storedAccount ? JSON.parse(storedAccount) : null;
     } catch {
       localStorage.removeItem('accountData');
       return null;
@@ -48,10 +48,10 @@ function AuthProvider({ children }) {
     }
   };
 
-  const setUserData = (userData) => {
-    setUser(userData);
-    if (userData) {
-      localStorage.setItem('accountData', JSON.stringify(userData));
+  const setAccountData = (accountData) => {
+    setAccount(accountData);
+    if (accountData) {
+      localStorage.setItem('accountData', JSON.stringify(accountData));
     } else {
       localStorage.removeItem('accountData');
     }
@@ -59,7 +59,7 @@ function AuthProvider({ children }) {
 
   const logout = () => {
     setToken_(null);
-    setUser(null);
+    setAccount(null);
     localStorage.removeItem('sessionToken');
     localStorage.removeItem('accountData');
   };
@@ -91,12 +91,12 @@ function AuthProvider({ children }) {
 
   const authContextValue = useMemo(() => ({
     token, 
-    user,
+    account,
     setToken, 
-    setUserData,
+    setAccountData,
     logout,
     isAuthenticated: token && isValidJWT(token)
-  }), [token, user]);
+  }), [token, account]);
 
   return (
     <AuthContext.Provider value={authContextValue}>

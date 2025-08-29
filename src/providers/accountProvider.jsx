@@ -33,8 +33,18 @@ function AccountProvider({ children }) {
     return isValidJWT(sessionToken) ? sessionToken : null;
   });
 
+  //check for a cached account data
+  useEffect(() => {
+    const cachedData = localStorage.getItem('accountData');
+    if (cachedData) {
+      setAccountData(JSON.parse(cachedData));
+    }
+  }, []);
+
   useEffect(() => {
     const fetchAccountData = async () => {
+      if (!token || !isValidJWT(token)) return;
+
       const response = await fetch(ACCOUNT_URL, {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -46,7 +56,7 @@ function AccountProvider({ children }) {
         setAccountData(data);
       }
     };
-    
+
     if (token && isValidJWT(token)) {
       fetchAccountData();
     }

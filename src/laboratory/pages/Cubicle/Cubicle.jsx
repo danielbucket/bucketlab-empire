@@ -4,7 +4,7 @@ import Logout from '../Logout/Logout';
 import { useAccount } from '../../../hooks/useAccount';
 
 export default function Cubicle() {
-  const accountData = useAccount().accountData;
+  const { accountData } = useAccount();
 
   return (
     <CubicleLayout>

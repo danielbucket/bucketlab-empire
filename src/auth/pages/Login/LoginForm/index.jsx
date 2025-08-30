@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { useAuth } from '../../../../hooks/useAuth.js';
 import { FormStyle } from './index.styled.js';
-import { useLocation } from "react-router-dom";
+import { useLocation, Navigate } from "react-router-dom";
 import { VALIDATION_RULES, MESSAGE_TYPES } from "./vars.js";
 
 // API URL based on environment
@@ -15,6 +15,13 @@ export default function LoginForm() {
   const { isAuthenticated, setToken, setAccountData } = useAuth();
 
   const [defaultEmail, setDefaultEmail] = useState(() => location.state?.email || '');
+
+  // Sync defaultEmail with location state
+  useEffect(() => {
+    if (location.state?.email) {
+      setDefaultEmail(location.state.email);
+    }
+  }, [location.state?.email]);
   const [formState, setFormState] = useState({
     isLoading: false,
     message: '',
@@ -53,7 +60,15 @@ export default function LoginForm() {
     }));
   }, []);
 
+  // Prevent state updates after unmount
+  const isMounted = useRef(true);
+  useEffect(() => {
+    isMounted.current = true;
+    return () => { isMounted.current = false; };
+  }, []);
+
   const onSubmit = useCallback(async (values) => {
+    if (!isMounted.current) return;
     setFormState(prev => ({
       ...prev,
       isLoading: true,
@@ -71,20 +86,24 @@ export default function LoginForm() {
       const data = await response.json();
 
       if (!response.ok || data.status !== 'success') {
-        handleApiError(data);
+        if (isMounted.current) handleApiError(data);
         return;
       }
 
       const { token } = data.accountData;
       if (token) {
-        setToken(token);
-        setAccountData(token);
+        if (isMounted.current) {
+          setToken(token);
+          setAccountData(token);
+        }
       } else {
-        setFormState(prev => ({
-          ...prev,
-          message: 'Authentication failed. No token received.',
-          messageType: MESSAGE_TYPES.ERROR
-        }));
+        if (isMounted.current) {
+          setFormState(prev => ({
+            ...prev,
+            message: 'Authentication failed. No token received.',
+            messageType: MESSAGE_TYPES.ERROR
+          }));
+        }
         return;
       }
     } catch (err) {
@@ -94,23 +113,26 @@ export default function LoginForm() {
       } else if (err.message.includes('CORS')) {
         errorMessage = 'Server configuration error. Please contact support if this persists.';
       }
-      setFormState(prev => ({
-        ...prev,
-        message: errorMessage,
-        messageType: MESSAGE_TYPES.ERROR,
-        error: { message: err.message }
-      }));
+      if (isMounted.current) {
+        setFormState(prev => ({
+          ...prev,
+          message: errorMessage,
+          messageType: MESSAGE_TYPES.ERROR,
+          error: { message: err.message }
+        }));
+      }
     } finally {
-      setFormState(prev => ({
-        ...prev,
-        isLoading: false
-      }));
+      if (isMounted.current) {
+        setFormState(prev => ({
+          ...prev,
+          isLoading: false
+        }));
+      }
     }
   }, [setToken, setAccountData, handleApiError]);
 
-  // Guard: don't render if authenticated.
-  // This is to prevent race conditions that might occur when isAuthenticated changes.
-  if (isAuthenticated) return null;
+  // Use redirect instead of null render to prevent abrupt unmounts
+  if (isAuthenticated) return <Navigate to="/laboratory/cubicle" replace />;
 
   const FormField = ({ label, name, type = 'text', validation, placeholder, defaultValue }) => (
     <div className='form-field'>

@@ -1,25 +1,20 @@
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useState, useCallback } from "react";
 import { useAuth } from '../../../../hooks/useAuth.js';
 import { FormStyle } from './index.styled.js';
-import { jwtDecode } from "jwt-decode";
+import { useLocation } from "react-router-dom";
 import { VALIDATION_RULES, MESSAGE_TYPES } from "./vars.js";
 
-let API_LOGIN_URL = 'https://api.bucketlab.io/auth/accounts/login';
-if (import.meta.env.DEV) {
-  API_LOGIN_URL = 'https://dev.bucketlab.io/auth/accounts/login';
-}
+// API URL based on environment
+const API_URL = import.meta.env.DEV
+  ? 'https://dev.bucketlab.io/auth/accounts'
+  : 'https://api.bucketlab.io/auth/accounts';
 
 export default function LoginForm() {
+  const location = useLocation();
   const { isAuthenticated, setToken, setAccountData } = useAuth();
-  const [defaultEmail, setDefaultEmail] = useState(() => {
-    const storedAccount = localStorage.getItem('accountData');
-    if (storedAccount) {
-      const { email } = JSON.parse(storedAccount);
-      return email || '';
-    }
-    return '';
-  });
+
+  const [defaultEmail, setDefaultEmail] = useState(() => location.state?.email || '');
   const [formState, setFormState] = useState({
     isLoading: false,
     message: '',
@@ -30,7 +25,6 @@ export default function LoginForm() {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors }
   } = useForm();
 
@@ -38,10 +32,13 @@ export default function LoginForm() {
     let message = 'Login failed. Please try again.';
     let messageType = MESSAGE_TYPES.ERROR;
 
+    // Show specific error messages for wrong password or email
     if (errorData?.fail_type === 'invalid_password') {
-      message = errorData.message || 'Invalid password. Please try again.';
+      message = 'Incorrect password. Please try again.';
     } else if (errorData?.fail_type === 'user_not_found') {
-      message = 'No account found with this email. Please check your email or create an account.';
+      message = 'No account found with this email. Please check your email or sign up.';
+    } else if (errorData?.fail_type === 'invalid_email') {
+      message = 'Invalid email format. Please check your email.';
     } else if (errorData?.fail_type === 'server_error') {
       message = 'Server error occurred. Please try again later.';
     } else if (errorData?.message) {
@@ -66,18 +63,18 @@ export default function LoginForm() {
     }));
 
     try {
-      const response = await fetch(API_LOGIN_URL, {
+      const response = await fetch(`${API_URL}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values),
       });
-
       const data = await response.json();
 
       if (!response.ok || data.status !== 'success') {
         handleApiError(data);
         return;
       }
+
       const { token } = data.accountData;
       if (token) {
         setToken(token);

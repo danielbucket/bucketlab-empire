@@ -31,8 +31,27 @@ const NewLoginForm = () => {
         body: JSON.stringify(values)
       });
       const data = await response.json();
+
       if (!response.ok || data.status !== 'success') {
-        setError(data.message || 'Registration failed. Please try again.');
+        // Handle common registration errors
+        let errorMsg = 'Registration failed. Please try again.';
+        if (data?.fail_type === 'email_exists') {
+          errorMsg = 'An account with this email already exists.';
+        } else if (data?.fail_type === 'invalid_email') {
+          errorMsg = 'Invalid email format. Please check your email.';
+        } else if (data?.fail_type === 'weak_password') {
+          errorMsg = 'Password is too weak. Please choose a stronger password.';
+        } else if (data?.fail_type === 'missing_fields') {
+          errorMsg = 'Please fill in all required fields.';
+        } else if (data?.message) {
+          errorMsg = data.message;
+        }
+        // Optionally handle field-specific errors
+        if (data?.field_errors) {
+          errorMsg += ' ' + Object.values(data.field_errors).join(' ');
+        }
+        setError(errorMsg);
+        console.error('Registration error:', data);
         return;
       }
       if (data.token) setToken(data.token);
@@ -51,6 +70,7 @@ const NewLoginForm = () => {
         errorMessage = 'Server configuration error. Please contact support if this persists.';
       }
       setError(errorMessage);
+      console.error('Unexpected registration error:', err);
     } finally {
       setIsLoading(false);
     }

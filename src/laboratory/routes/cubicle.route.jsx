@@ -12,13 +12,18 @@ export const cubicleRoute = {
   loader: async () => {
     const token = localStorage.getItem('sessionToken');
     const account = jwtDecode(token);
-    const response = await fetch(`${API_URL}/auth/accounts/${account.id}`);
 
+    const response = await fetch(`${API_URL}/auth/accounts/${account.id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+      });
     if (!response.ok) {
       localStorage.removeItem('sessionToken');
       localStorage.removeItem('accountData');
       return null;
     }
+
     const data = await response.json();
     localStorage.setItem('accountData', JSON.stringify(data));
     return data;

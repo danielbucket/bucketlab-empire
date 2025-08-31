@@ -4,7 +4,7 @@ export default function LabNav() {
   return (
     <NavContainer>
       <div className='title'>
-        <SiteTitleLink to='/'>bucketlab.io</SiteTitleLink>
+        <SiteTitleLink to='/laboratory/cubicle'>bucketlab.io</SiteTitleLink>
       </div>
       <div className='nav-list'>
         <StyledUL>

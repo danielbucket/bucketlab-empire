@@ -1,13 +1,13 @@
 import { LaboratoryStyle } from './laboratory.styled';
 import { useLoaderData } from 'react-router-dom';
-import Main from '../Main/Main';
+import Cubicle from '../Cubicle/Cubicle';
 
 export default function Laboratory() {
   const { data } = useLoaderData();
 
   return (
-      <LaboratoryStyle>
-        <Main account={data} />
-      </LaboratoryStyle>
+    <LaboratoryStyle>
+      <Cubicle account={data} />
+    </LaboratoryStyle>
   );
 };

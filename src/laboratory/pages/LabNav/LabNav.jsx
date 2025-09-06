@@ -6,14 +6,13 @@ export default function LabNav() {
     <NavContainer>
       <Logout />
       <div className='title'>
-        <SiteTitleLink to='/laboratory/cubicle'>bucketlab.io</SiteTitleLink>
+        <SiteTitleLink to='/laboratory'>bucketlab.io</SiteTitleLink>
       </div>
       <div className='nav-list'>
         <StyledUL>
           <CustomLink to='/laboratory/messages'>Messages</CustomLink>
           <CustomLink to='/laboratory/profile'>Profile</CustomLink>
           <CustomLink to='/laboratory/watchlist'>Watchlist</CustomLink>
-          <CustomLink to='/laboratory/HomestarRunner'>Homestar Runner</CustomLink>
         </StyledUL>
       </div>
     </NavContainer>

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { LaboratoryLayout } from '../../style/laboratory.style.js';
+import { LaboratoryLayout } from '../../style/laboratoryRoute.style.js';
 
 export const ProfileLayout = styled(LaboratoryLayout)`
 	background: linear-gradient(135deg, #232526 0%, #414345 100%);

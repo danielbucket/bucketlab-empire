@@ -2,8 +2,8 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
 export const StyledFooter = styled.footer`
-  display: flex;
   height: 6rem;
+  display: flex;
   gap: 3rem;
   box-shadow: 0 0 .5rem .25rem #0e66f0eb;
   align-items: center;

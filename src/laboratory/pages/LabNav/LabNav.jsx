@@ -1,8 +1,10 @@
 import { NavContainer, StyledLink, SiteTitleLink, StyledUL } from './labNav.styled.js';
+import Logout from '../Logout/Logout';
 
 export default function LabNav() {
   return (
     <NavContainer>
+      <Logout />
       <div className='title'>
         <SiteTitleLink to='/laboratory/cubicle'>bucketlab.io</SiteTitleLink>
       </div>

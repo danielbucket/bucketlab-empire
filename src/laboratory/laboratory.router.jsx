@@ -1,5 +1,5 @@
 import { rootRoute } from './routes/root.route.jsx';
-import { cubicleRoute } from './routes/laboratory.route.jsx';
+import { laboratoryRoute } from './routes/laboratory.route.jsx';
 import { profileRoute } from './routes/profile.route.jsx';
 import { watchlistRoute } from './routes/watchlist.route.jsx';
 import { messagesRoute } from './routes/messages.route.jsx';
@@ -13,7 +13,7 @@ export const laboratoryRoutes = [
     element: <ProtectedRoute>{rootRoute.element}</ProtectedRoute>,
     errorElement: <LaboratoryError />,
     children: [
-      { ...cubicleRoute, index: true },
+      { ...laboratoryRoute, index: true },
       profileRoute,
       watchlistRoute,
       messagesRoute,

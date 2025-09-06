@@ -132,7 +132,7 @@ export default function LoginForm() {
   }, [setToken, setAccountData, handleApiError]);
 
   // Use redirect instead of null render to prevent abrupt unmounts
-  if (isAuthenticated) return <Navigate to="/laboratory/cubicle" replace />;
+  if (isAuthenticated) return <Navigate to="/laboratory" replace />;
 
   const FormField = ({ label, name, type = 'text', validation, placeholder, defaultValue }) => (
     <div className='form-field'>

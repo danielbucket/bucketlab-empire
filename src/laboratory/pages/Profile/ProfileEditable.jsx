@@ -15,6 +15,7 @@ export default function Profile() {
   useEffect(() => {
     resetFormData(data);
   }, [data]);
+  
   const [createdAt, setCreatedAt] = useState(() => data.created_at ? new Date(data.created_at).toLocaleDateString() : '');
   const [showModal, setShowModal] = useState(false);
   const [nextLocation, setNextLocation] = useState(null);
@@ -32,6 +33,7 @@ export default function Profile() {
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [missingFields, setMissingFields] = useState([]);
 
   const resetFormData = () => {
     setFormData({
@@ -69,87 +71,84 @@ export default function Profile() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+    // Cancel navigation handler for modal
+  const handleCancelNavigation = () => {
+    setShowModal(false);
+    setNextLocation(null);
+  };
+
   // Save handler
   const handleSave = async () => {
     if (isSaving) return;
+
     setError(null);
     setSuccess(null);
-
-    //validate that first_name, last_name, email are not empty
-    if (!formData.first_name || !formData.last_name || !formData.email) {
+    setMissingFields([]);
+    const required = ['first_name', 'last_name', 'email'];
+    const missing = required.filter(f => !formData[f]);
+    setMissingFields(missing);
+    if (missing.length > 0) {
       setError('Please fill in all required fields.');
       return;
     }
-
     setIsSaving(true);
 
-    const token = localStorage.getItem('sessionToken');
-    const account = jwtDecode(token);
+    try {
+      const token = localStorage.getItem('sessionToken');
+      const account = jwtDecode(token);
 
-    const response = await fetch(`${API_URL}/auth/accounts/${account.id}`, {
-      method: 'PATCH',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    });
+      const response = await fetch(`${API_URL}/auth/accounts/${account.id}`, {
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
 
-    if (!response.ok) {
-      setIsSaving(true);
-      setError(null);
-      setSuccess(null);
-
-      try {
-        const token = localStorage.getItem('sessionToken');
-        const account = jwtDecode(token);
-        const response = await fetch(`${API_URL}/auth/accounts/${account.id}`, {
-          method: 'PATCH',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(formData)
-        });
-
-        if (!response.ok) {
-          let errorMsg = 'Failed to save profile.';
-          try {
-            const data = await response.json();
-            if (data && data.message) errorMsg = data.message;
-          } catch {
-            setError('An error occurred while saving. Please try again.');
-          }
-          setError(errorMsg);
-          setIsSaving(false);
-          return;
+      if (!response.ok) {
+        let errorMsg = 'Failed to save profile.';
+        
+        try {
+          const data = await response.json();
+          if (data && data.message) errorMsg = data.message;
+        } catch {
+          setError('An error occurred while saving. Please try again.');
         }
         
-        // Simulate network delay (remove in production)
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        
-        setIsDirty(false);
+        setError(errorMsg);
         setIsSaving(false);
-        setShowModal(false);
-        setSuccess('Profile updated successfully.');
-
-        if (nextLocation) {
-          if (nextLocation.startsWith('/')) {
-            navigate(nextLocation);
-          } else {
-            window.location.href = nextLocation;
-          }
-        }
-      } catch (err) {
-        setError(`An error occurred while saving. Please try again. ${err}`);
-        setIsSaving(false);
+        return;
       }
-    };
+
+      // Simulate network delay (remove in production)
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      setIsDirty(false);
+      setIsSaving(false);
+      setShowModal(false);
+      setSuccess('Profile updated successfully.');
+
+      if (nextLocation) {
+        const dest = nextLocation;
+        setNextLocation(null);
+        if (dest.startsWith('/')) {
+          navigate(dest);
+        } else {
+          window.location.href = dest;
+        }
+      }
+    } catch (err) {
+      setError(`An error occurred while saving. Please try again. ${err}`);
+      setIsSaving(false);
+    }
   };
 
   const handleDiscardChanges = () => {
     resetFormData();
     setIsDirty(false);
+    setMissingFields([]);
+    setError(null);
   };
 
   return (
@@ -170,15 +169,39 @@ export default function Profile() {
       <form>
         <label>
           First Name:
-          <input name="first_name" value={formData.first_name || ''} onChange={handleChange} />
+          <input
+            name="first_name"
+            value={formData.first_name || ''}
+            onChange={handleChange}
+            style={missingFields.includes('first_name') ? { border: '1px solid #ff0055' } : {}}
+          />
+          {missingFields.includes('first_name') && (
+            <span style={{ color: '#ff0055', fontSize: '0.9em' }}>First name is required.</span>
+          )}
         </label>
         <label>
           Last Name:
-          <input name="last_name" value={formData.last_name || ''} onChange={handleChange} />
+          <input
+            name="last_name"
+            value={formData.last_name || ''}
+            onChange={handleChange}
+            style={missingFields.includes('last_name') ? { border: '1px solid #ff0055' } : {}}
+          />
+          {missingFields.includes('last_name') && (
+            <span style={{ color: '#ff0055', fontSize: '0.9em' }}>Last name is required.</span>
+          )}
         </label>
         <label>
           Email:
-          <input name="email" value={formData.email || ''} onChange={handleChange} />
+          <input
+            name="email"
+            value={formData.email || ''}
+            onChange={handleChange}
+            style={missingFields.includes('email') ? { border: '1px solid #ff0055' } : {}}
+          />
+          {missingFields.includes('email') && (
+            <span style={{ color: '#ff0055', fontSize: '0.9em' }}>Email is required.</span>
+          )}
         </label>
         <label>
           Website:

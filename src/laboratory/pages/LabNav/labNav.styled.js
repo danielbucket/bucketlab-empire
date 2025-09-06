@@ -2,10 +2,10 @@ import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
 export const NavContainer = styled.nav`
+  height: 10rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 10rem;
   padding: 0.75rem 0.25rem;
   margin-bottom: 0.5rem;
   font-family: Ubuntu_Reg;

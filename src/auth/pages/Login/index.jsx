@@ -9,7 +9,7 @@ export default function Login() {
   const { isAuthenticated } = useAuth();
 
   if (isAuthenticated) {
-    return <Navigate to="/laboratory/cubicle" replace />;
+    return <Navigate to="/laboratory" replace />;
   }
 
   return (

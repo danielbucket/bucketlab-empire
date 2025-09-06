@@ -1,4 +1,4 @@
-import { LogoutButton } from './logout.styled';
+import { LogoutButton, LogoutIcon } from './logout.styled';
 import { useAuth } from '../../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,9 +11,10 @@ export default function Logout() {
     navigate('/auth/login', { replace: true });
   };
 
-  return (
+   return (
     <LogoutButton onClick={handleLogout}>
-      Logout
+      <LogoutIcon />
+      <span>Logout</span>
     </LogoutButton>
   );
 };

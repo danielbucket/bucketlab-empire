@@ -34,6 +34,10 @@ export default function Profile() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [missingFields, setMissingFields] = useState([]);
+  // State for delete account modal
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deletePassword, setDeletePassword] = useState('');
+  const [deleteError, setDeleteError] = useState(null);
 
   const resetFormData = () => {
     setFormData({
@@ -151,6 +155,61 @@ export default function Profile() {
     setError(null);
   };
 
+  // Show delete modal
+  const handleDeleteAccount = () => {
+    setShowDeleteModal(true);
+    setDeletePassword('');
+    setDeleteError(null);
+  };
+
+  // Confirm delete with password
+  const handleConfirmDelete = async () => {
+    if (isSaving) return;
+    setDeleteError(null);
+    if (!deletePassword) {
+      setDeleteError('Password is required.');
+      return;
+    }
+    setIsSaving(true);
+    try {
+      const token = localStorage.getItem('sessionToken');
+      const account = jwtDecode(token);
+      const response = await fetch(`${API_URL}/auth/accounts/${account.id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ password: deletePassword })
+      });
+      if (!response.ok) {
+        let errorMsg = 'Failed to delete account.';
+        try {
+          const data = await response.json();
+          if (data && data.message) errorMsg = data.message;
+        } catch {}
+        setDeleteError(errorMsg);
+        setIsSaving(false);
+        return;
+      }
+      // Simulate network delay (remove in production)
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      localStorage.removeItem('sessionToken');
+      localStorage.removeItem('accountData');
+      window.location.href = '/';
+    } catch (err) {
+      setDeleteError(`An error occurred while deleting. Please try again. ${err}`);
+      setIsSaving(false);
+    }
+  };
+
+  // Cancel delete modal
+  const handleCancelDelete = () => {
+    setShowDeleteModal(false);
+    setDeletePassword('');
+    setDeleteError(null);
+  };
+
   return (
     <ProfileLayout>
       <p>
@@ -218,7 +277,10 @@ export default function Profile() {
         <button type="button" onClick={handleSave} disabled={!isDirty || isSaving}>
           {isSaving ? 'Saving...' : 'Save'}
         </button>
-        <button type="button" onClick={handleDiscardChanges} disabled={isSaving}>Discard</button>
+        <button type="button" onClick={handleDiscardChanges} disabled={isSaving}>Discard Changes</button>
+        <button type="button" onClick={handleDeleteAccount} disabled={isSaving} style={{ marginLeft: 'auto', color: '#ff0055' }}>
+          Delete Account
+        </button>
       </form>
       {showModal && (
         <div className="modal-overlay">
@@ -226,6 +288,28 @@ export default function Profile() {
             <p>You have unsaved changes. Please save before leaving.</p>
             <button type="button" onClick={handleSave} disabled={isSaving}>Save & Continue</button>
             <button type="button" onClick={handleCancelNavigation} disabled={isSaving}>Cancel</button>
+          </div>
+        </div>
+      )}
+
+      {showDeleteModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Confirm Account Deletion</h3>
+            <p>This action cannot be undone. Please enter your password to confirm:</p>
+            <input
+              type="password"
+              value={deletePassword}
+              onChange={e => setDeletePassword(e.target.value)}
+              placeholder="Password"
+              disabled={isSaving}
+              style={{ width: '100%', marginBottom: '0.5rem' }}
+            />
+            {deleteError && <div style={{ color: '#ff0055', marginBottom: '0.5rem' }}>{deleteError}</div>}
+            <button type="button" onClick={handleConfirmDelete} disabled={isSaving || !deletePassword} style={{ color: '#ff0055', marginRight: '1rem' }}>
+              {isSaving ? 'Deleting...' : 'Delete Account'}
+            </button>
+            <button type="button" onClick={handleCancelDelete} disabled={isSaving}>Cancel</button>
           </div>
         </div>
       )}

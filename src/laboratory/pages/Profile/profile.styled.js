@@ -25,6 +25,7 @@ export const ProfileLayout = styled(LaboratoryLayout)`
 	form {
 		display: flex;
 		flex-direction: column;
+		width: 98%;
 		gap: 1.5rem;
 		background: rgba(35,37,38,0.85);
 		border-radius: 12px;

@@ -1,5 +1,5 @@
 import Profile from '../pages/Profile/Profile.jsx';
-import ProfileEditable from '../pages/Profile/ProfileEditable.jsx';
+import ProfileEditable from '../pages/Profile/Profile.jsx';
 import { jwtDecode } from 'jwt-decode'; 
 
 let API_URL = 'https://api.bucketlab.io';

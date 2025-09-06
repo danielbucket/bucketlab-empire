@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { LaboratoryLayout } from '../../style/laboratoryRoute.style.js';
+import { LaboratoryRouteLayout } from '../../style/laboratoryRoute.style.js';
 
-export const LaboratoryErrorLayout = styled(LaboratoryLayout)`
+export const LaboratoryErrorLayout = styled(LaboratoryRouteLayout)`
   display: flex;
   flex-direction: column;
   align-items: center;

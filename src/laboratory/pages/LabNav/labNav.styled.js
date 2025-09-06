@@ -13,7 +13,7 @@ export const NavContainer = styled.nav`
   background-color: var(--special-blue);
 
   .title {
-    height: 6rem;
+    height: 5rem;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -59,7 +59,8 @@ export const SiteTitleLink = styled(StyledLink)`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: clamp(5rem, 2.75rem, 8rem);
+  // font-size: clamp(2.5rem, 2.25rem, 8rem);
+  font-size: 2.25rem;
   font-family: Laila_Med;
   line-height: 1;
   padding: 0;

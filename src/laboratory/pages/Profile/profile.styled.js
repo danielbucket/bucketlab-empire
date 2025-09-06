@@ -90,6 +90,8 @@ export const ProfileLayout = styled(LaboratoryLayout)`
 		z-index: 9999;
 	}
 	.modal-content {
+		display: flex;
+		flex-direction: column;
 		background: #232526;
 		color: #00ffe7;
 		border-radius: 12px;

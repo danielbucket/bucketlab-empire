@@ -2,11 +2,19 @@ import { useState, useEffect } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { ProfileLayout } from './profile.styled.js';
+import { useNavigate } from 'react-router-dom';
 
 const API_URL = import.meta.env.DEV ? 'https://dev.bucketlab.io' : 'https://api.bucketlab.io';
 
 export default function Profile() {
+  // Get initial data from the loader
   const { data } = useLoaderData();
+  const navigate = useNavigate();
+
+  // Set initial form data
+  useEffect(() => {
+    resetFormData(data);
+  }, [data]);
   const [createdAt, setCreatedAt] = useState(() => data.created_at ? new Date(data.created_at).toLocaleDateString() : '');
   const [showModal, setShowModal] = useState(false);
   const [nextLocation, setNextLocation] = useState(null);
@@ -22,32 +30,34 @@ export default function Profile() {
   });
   const [isDirty, setIsDirty] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
-  // Prevent navigation if unsaved changes
-  useEffect(() => {
-    const handleBeforeUnload = (e) => {
-      if (isDirty) {
-        e.preventDefault();
-        e.returnValue = '';
-      }
-    };
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
-  }, [isDirty]);
+  const resetFormData = () => {
+    setFormData({
+      first_name: data.first_name || '',
+      last_name: data.last_name || '',
+      email: data.email || '',
+      website: data.website || '',
+      phone: data.phone || '',
+      company: data.company || ''
+    });
+  };
 
   // Listen for location changes to warn about unsaved changes
   useEffect(() => {
-    const handleNavigation = (event) => {
+    const handleNavigation = (e) => {
       if (isDirty) {
-        event.preventDefault();
+        e.preventDefault();
         setShowModal(true);
-        setNextLocation(event.target.href);
+        setNextLocation(e.target.href);
       }
     };
 
     // Attach click handler to all links in the profile page
     const links = document.querySelectorAll('a');
     links.forEach(link => link.addEventListener('click', handleNavigation));
+    
     return () => {
       links.forEach(link => link.removeEventListener('click', handleNavigation));
     };
@@ -61,11 +71,21 @@ export default function Profile() {
 
   // Save handler
   const handleSave = async () => {
+    if (isSaving) return;
+    setError(null);
+    setSuccess(null);
+
+    //validate that first_name, last_name, email are not empty
+    if (!formData.first_name || !formData.last_name || !formData.email) {
+      setError('Please fill in all required fields.');
+      return;
+    }
+
     setIsSaving(true);
-    // Replace with your API call
+
     const token = localStorage.getItem('sessionToken');
     const account = jwtDecode(token);
-    console.log('formData: ', formData);
+
     const response = await fetch(`${API_URL}/auth/accounts/${account.id}`, {
       method: 'PATCH',
       headers: {
@@ -76,33 +96,77 @@ export default function Profile() {
     });
 
     if (!response.ok) {
-      console.error('Failed to save profile:', response.statusText);
-      setIsSaving(false);
-      return;
-    }
+      setIsSaving(true);
+      setError(null);
+      setSuccess(null);
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setIsDirty(false);
-    setIsSaving(false);
-    setShowModal(false);
-    if (nextLocation) {
-      window.location.href = nextLocation;
-    }
-    // Optionally show a success message
+      try {
+        const token = localStorage.getItem('sessionToken');
+        const account = jwtDecode(token);
+        const response = await fetch(`${API_URL}/auth/accounts/${account.id}`, {
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        });
+
+        if (!response.ok) {
+          let errorMsg = 'Failed to save profile.';
+          try {
+            const data = await response.json();
+            if (data && data.message) errorMsg = data.message;
+          } catch {
+            setError('An error occurred while saving. Please try again.');
+          }
+          setError(errorMsg);
+          setIsSaving(false);
+          return;
+        }
+        
+        // Simulate network delay (remove in production)
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        
+        setIsDirty(false);
+        setIsSaving(false);
+        setShowModal(false);
+        setSuccess('Profile updated successfully.');
+
+        if (nextLocation) {
+          if (nextLocation.startsWith('/')) {
+            navigate(nextLocation);
+          } else {
+            window.location.href = nextLocation;
+          }
+        }
+      } catch (err) {
+        setError(`An error occurred while saving. Please try again. ${err}`);
+        setIsSaving(false);
+      }
+    };
   };
 
-  // Cancel navigation handler
-  const handleCancelNavigation = () => {
-    setShowModal(false);
-    setNextLocation(null);
+  const handleDiscardChanges = () => {
+    resetFormData();
+    setIsDirty(false);
   };
 
   return (
     <ProfileLayout>
-      <h1>Profile of {formData.first_name} {formData.last_name}</h1>
       <p>
-        Member since: {createdAt ? new Date(createdAt).toLocaleDateString() : ''}
+        Member since: {createdAt ? createdAt : ''}
       </p>
+      {error && (
+        <div className="error-message" style={{ color: '#ff0055', marginBottom: '1rem' }}>
+          {error}
+        </div>
+      )}
+      {success && (
+        <div className="success-message" style={{ color: '#00ffe7', marginBottom: '1rem' }}>
+          {success}
+        </div>
+      )}
       <form>
         <label>
           First Name:
@@ -131,13 +195,14 @@ export default function Profile() {
         <button type="button" onClick={handleSave} disabled={!isDirty || isSaving}>
           {isSaving ? 'Saving...' : 'Save'}
         </button>
+        <button type="button" onClick={handleDiscardChanges} disabled={isSaving}>Discard</button>
       </form>
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-content">
             <p>You have unsaved changes. Please save before leaving.</p>
-            <button onClick={handleSave} disabled={isSaving}>Save & Continue</button>
-            <button onClick={handleCancelNavigation} disabled={isSaving}>Cancel</button>
+            <button type="button" onClick={handleSave} disabled={isSaving}>Save & Continue</button>
+            <button type="button" onClick={handleCancelNavigation} disabled={isSaving}>Cancel</button>
           </div>
         </div>
       )}

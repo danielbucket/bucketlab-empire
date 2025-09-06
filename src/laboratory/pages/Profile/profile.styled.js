@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { LaboratoryLayout } from '../../style/laboratoryRoute.style.js';
+import { LaboratoryRouteLayout } from '../../style/laboratoryRoute.style.js';
 
-export const ProfileLayout = styled(LaboratoryLayout)`
+export const ProfileLayout = styled(LaboratoryRouteLayout)`
 	background: linear-gradient(135deg, #232526 0%, #414345 100%);
 	color: #00ffe7;
 	font-family: 'Fira Mono', 'Roboto Mono', 'Menlo', monospace;
@@ -9,6 +9,7 @@ export const ProfileLayout = styled(LaboratoryLayout)`
 	border-radius: 16px;
 	padding: 2rem 3rem;
 	margin: 2rem auto;
+	width: 90%;
 	max-width: 600px;
   
 	h1 {

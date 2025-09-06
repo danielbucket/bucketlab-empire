@@ -1,4 +1,4 @@
 import styled from 'styled-components';
-import { LaboratoryLayout } from '../../style/laboratoryRoute.style.js';
+import { LaboratoryRouteLayout } from '../../style/laboratoryRoute.style.js';
 
-export const HomestarRunnerLayout = styled(LaboratoryLayout)``;
+export const HomestarRunnerLayout = styled(LaboratoryRouteLayout)``;

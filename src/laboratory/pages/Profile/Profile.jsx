@@ -3,8 +3,11 @@ import { useLoaderData } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { ProfileLayout } from './profile.styled.js';
 import { useNavigate } from 'react-router-dom';
+import { ProfileImage } from './ProfileImage/ProfileImage.jsx';
 
-const API_URL = import.meta.env.DEV ? 'https://dev.bucketlab.io' : 'https://api.bucketlab.io';
+const API_URL = import.meta.env.DEV
+  ? 'https://dev.bucketlab.io'
+  : 'https://api.bucketlab.io';
 
 export default function Profile() {
   // Get initial data from the loader
@@ -212,6 +215,7 @@ export default function Profile() {
 
   return (
     <ProfileLayout>
+      <ProfileImage userId={data.id} initialImageUrl={data.profile_image || ''} />
       <p>
         Member since: {createdAt ? createdAt : ''}
       </p>

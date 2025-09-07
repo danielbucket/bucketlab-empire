@@ -1,9 +1,9 @@
 import { styled } from 'styled-components';
-import { AuthLayout } from '../../style/auth.style.js';
+import { AuthBaseStyle } from '../../style/auth.style.js';
 
-export const LoginStyle = styled(AuthLayout)``;
+export const LoginStyle = styled(AuthBaseStyle)``;
 
-export const ContentStyle = styled.div`
+export const NavStyle = styled.nav`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -18,17 +18,16 @@ export const ContentStyle = styled.div`
   width: 95%;
   height: 4rem;
 
-    span {
-      color: #ffd452b8;
-      font-family: Orbitron;
-      color: #EEE;
-      font-size: 1.2rem;
-    }
-
-    button:hover {
-      cursor: pointer;
-      color: var(--special-blue);
-      transition: color 0.3s ease-in-out;
-    }
+  span {
+    color: #ffd452b8;
+    font-family: Orbitron;
+    color: #EEE;
+    font-size: 1.2rem;
   }
-`;
+
+  button:hover {
+    cursor: pointer;
+    color: var(--special-blue);
+    transition: color 0.3s ease-in-out;
+  }
+}`;

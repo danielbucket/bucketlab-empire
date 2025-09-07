@@ -1,4 +1,4 @@
 import { styled } from 'styled-components';
-import { AuthLayout } from '../../style/auth.style.js';
+import { AuthBaseStyle } from '../../style/auth.style.js';
 
-export const NewLoginStyle = styled(AuthLayout)``;
+export const NewLoginStyle = styled(AuthBaseStyle)``;

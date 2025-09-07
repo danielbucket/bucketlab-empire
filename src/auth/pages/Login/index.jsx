@@ -1,6 +1,6 @@
 import { useLoaderData, useNavigate, Navigate } from 'react-router-dom';
 import LoginForm from './LoginForm';
-import { LoginStyle, ContentStyle } from './index.styled.js';
+import { LoginStyle, NavStyle } from './index.styled.js';
 import { useAuth } from '../../../hooks/useAuth.js';
 
 export default function Login() {
@@ -15,7 +15,7 @@ export default function Login() {
   return (
     <LoginStyle $pageImage={pageImage}>
       <LoginForm />
-      <ContentStyle>
+      <NavStyle>
         <div className="login-opts">
           <button onClick={() => navigate('/auth/new-login')}>
             <span>Join the BucketLab Empire.</span>
@@ -26,7 +26,7 @@ export default function Login() {
             <span>Go Back</span>
           </button>
         </div>
-      </ContentStyle>
+      </NavStyle>
     </LoginStyle>
   );
 };

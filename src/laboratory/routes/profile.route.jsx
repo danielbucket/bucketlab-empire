@@ -1,20 +1,19 @@
 import Profile from '../pages/Profile/Profile.jsx';
-import ProfileEditable from '../pages/Profile/Profile.jsx';
 import { jwtDecode } from 'jwt-decode'; 
 
-let API_URL = 'https://api.bucketlab.io';
+let API_URL = 'https://api.bucketlab.io/accounts/accnt';
 if (import.meta.env.DEV) {
-  API_URL = 'https://dev.bucketlab.io';
+  API_URL = 'https://dev.bucketlab.io/accounts/accnt';
 }
 
 export const profileRoute = {
   path: '/laboratory/profile',
-  element: <ProfileEditable />,
+  element: <Profile />,
   loader: async () => {
     const token = localStorage.getItem('sessionToken');
     const account = jwtDecode(token);
 
-    const response = await fetch(`${API_URL}/auth/accounts/${account.id}`, {
+    const response = await fetch(`${API_URL}/${account.id}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }

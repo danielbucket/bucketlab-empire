@@ -7,10 +7,8 @@ import { FormStyle, FormContainerStyle } from './index.style.js';
 import { VALIDATION_RULES } from './validationRules.js';
 
 const API_URL = import.meta.env.DEV
-  ? 'https://dev.bucketlab.io'
-  : 'https://api.bucketlab.io';
-
-
+  ? 'https://dev.bucketlab.io/accounts/accnt'
+  : 'https://api.bucketlab.io/accounts/accnt';
 
 
 const NewLoginForm = () => {
@@ -25,7 +23,7 @@ const NewLoginForm = () => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch(`${API_URL}/auth/accounts`, {
+      const response = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values)

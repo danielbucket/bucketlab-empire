@@ -82,7 +82,6 @@ function AuthProvider({ children }) {
           }
         }
       } catch {
-        // If decoding fails, logout for safety
         logout();
       }
     } else {

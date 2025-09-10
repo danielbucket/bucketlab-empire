@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-import { ProfileLayout } from './profile.styled.js';
+import { ProfileLayout, FormError } from './profile.styled.js';
 import { useNavigate } from 'react-router-dom';
-import { ProfileImage } from './ProfileImage/ProfileImage.jsx';
+import Avatar from './Avatar';
 
 const API_URL = import.meta.env.DEV
-  ? 'https://dev.bucketlab.io'
-  : 'https://api.bucketlab.io';
+  ? 'https://dev.bucketlab.io/accounts/accnt'
+  : 'https://api.bucketlab.io/accounts/accnt';
 
 export default function Profile() {
   // Get initial data from the loader
@@ -78,13 +78,11 @@ export default function Profile() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-    // Cancel navigation handler for modal
   const handleCancelNavigation = () => {
     setShowModal(false);
     setNextLocation(null);
   };
 
-  // Save handler
   const handleSave = async () => {
     if (isSaving) return;
 
@@ -104,7 +102,7 @@ export default function Profile() {
       const token = localStorage.getItem('sessionToken');
       const account = jwtDecode(token);
 
-      const response = await fetch(`${API_URL}/auth/accounts/${account.id}`, {
+      const response = await fetch(`${API_URL}/${account.id}`, {
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -158,14 +156,12 @@ export default function Profile() {
     setError(null);
   };
 
-  // Show delete modal
   const handleDeleteAccount = () => {
     setShowDeleteModal(true);
     setDeletePassword('');
     setDeleteError(null);
   };
 
-  // Confirm delete with password
   const handleConfirmDelete = async () => {
     if (isSaving) return;
     setDeleteError(null);
@@ -177,7 +173,7 @@ export default function Profile() {
     try {
       const token = localStorage.getItem('sessionToken');
       const account = jwtDecode(token);
-      const response = await fetch(`${API_URL}/auth/accounts/${account.id}`, {
+      const response = await fetch(`${API_URL}/${account.id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -190,13 +186,17 @@ export default function Profile() {
         try {
           const data = await response.json();
           if (data && data.message) errorMsg = data.message;
-        } catch {}
+        } catch {
+          setDeleteError('An error occurred while deleting. Please try again.');
+        }
         setDeleteError(errorMsg);
         setIsSaving(false);
         return;
       }
+      
       // Simulate network delay (remove in production)
       await new Promise((resolve) => setTimeout(resolve, 500));
+      
       localStorage.removeItem('sessionToken');
       localStorage.removeItem('accountData');
       window.location.href = '/';
@@ -215,108 +215,106 @@ export default function Profile() {
 
   return (
     <ProfileLayout>
-      <ProfileImage userId={data.id} initialImageUrl={data.profile_image || ''} />
-      <p>
-        Member since: {createdAt ? createdAt : ''}
-      </p>
-      {error && (
-        <div className="error-message" style={{ color: '#ff0055', marginBottom: '1rem' }}>
-          {error}
-        </div>
-      )}
-      {success && (
-        <div className="success-message" style={{ color: '#00ffe7', marginBottom: '1rem' }}>
-          {success}
-        </div>
-      )}
-      <form>
-        <label>
-          First Name:
-          <input
-            name="first_name"
-            value={formData.first_name || ''}
-            onChange={handleChange}
-            style={missingFields.includes('first_name') ? { border: '1px solid #ff0055' } : {}}
-          />
-          {missingFields.includes('first_name') && (
-            <span style={{ color: '#ff0055', fontSize: '0.9em' }}>First name is required.</span>
-          )}
-        </label>
-        <label>
-          Last Name:
-          <input
-            name="last_name"
-            value={formData.last_name || ''}
-            onChange={handleChange}
-            style={missingFields.includes('last_name') ? { border: '1px solid #ff0055' } : {}}
-          />
-          {missingFields.includes('last_name') && (
-            <span style={{ color: '#ff0055', fontSize: '0.9em' }}>Last name is required.</span>
-          )}
-        </label>
-        <label>
-          Email:
-          <input
-            name="email"
-            value={formData.email || ''}
-            onChange={handleChange}
-            style={missingFields.includes('email') ? { border: '1px solid #ff0055' } : {}}
-          />
-          {missingFields.includes('email') && (
-            <span style={{ color: '#ff0055', fontSize: '0.9em' }}>Email is required.</span>
-          )}
-        </label>
-        <label>
-          Website:
-          <input name="website" value={formData.website || ''} onChange={handleChange} />
-        </label>
-        <label>
-          Phone:
-          <input name="phone" value={formData.phone || ''} onChange={handleChange} />
-        </label>
-        <label>
-          Company:
-          <input name="company" value={formData.company || ''} onChange={handleChange} />
-        </label>
-        <button type="button" onClick={handleSave} disabled={!isDirty || isSaving}>
-          {isSaving ? 'Saving...' : 'Save'}
-        </button>
-        <button type="button" onClick={handleDiscardChanges} disabled={isSaving}>Discard Changes</button>
-        <button type="button" onClick={handleDeleteAccount} disabled={isSaving} style={{ marginLeft: 'auto', color: '#ff0055' }}>
-          Delete Account
-        </button>
-      </form>
-      {showModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <p>You have unsaved changes. Please save before leaving.</p>
-            <button type="button" onClick={handleSave} disabled={isSaving}>Save & Continue</button>
-            <button type="button" onClick={handleCancelNavigation} disabled={isSaving}>Cancel</button>
-          </div>
-        </div>
-      )}
-
-      {showDeleteModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h3>Confirm Account Deletion</h3>
-            <p>This action cannot be undone. Please enter your password to confirm:</p>
+      <Avatar userId={data.id} initialImageUrl={data.profile_image || ''} />
+      <main>
+        <p>
+          Member since: {createdAt ? createdAt : ''}
+        </p>
+        {error && (
+          <div className="error-message">{error}</div>
+        )}
+        {success && (
+          <div className="success-message">{success}</div>
+        )}
+        <form>
+          <label>
+            First Name:
             <input
-              type="password"
-              value={deletePassword}
-              onChange={e => setDeletePassword(e.target.value)}
-              placeholder="Password"
-              disabled={isSaving}
-              style={{ width: '100%', marginBottom: '0.5rem' }}
+              name="first_name"
+              value={formData.first_name || ''}
+              onChange={handleChange}
+              style={missingFields.includes('first_name') ? { border: '1px solid #ff0055' } : {}}
             />
-            {deleteError && <div style={{ color: '#ff0055', marginBottom: '0.5rem' }}>{deleteError}</div>}
-            <button type="button" onClick={handleConfirmDelete} disabled={isSaving || !deletePassword} style={{ color: '#ff0055', marginRight: '1rem' }}>
-              {isSaving ? 'Deleting...' : 'Delete Account'}
-            </button>
-            <button type="button" onClick={handleCancelDelete} disabled={isSaving}>Cancel</button>
+            {missingFields.includes('first_name') && (
+              <FormError>First name is required.</FormError>
+            )}
+          </label>
+          <label>
+            Last Name:
+            <input
+              name="last_name"
+              value={formData.last_name || ''}
+              onChange={handleChange}
+              style={missingFields.includes('last_name') ? { border: '1px solid #ff0055' } : {}}
+            />
+            {missingFields.includes('last_name') && (
+              <FormError>Last name is required.</FormError>
+            )}
+          </label>
+          <label>
+            Email:
+            <input
+              name="email"
+              value={formData.email || ''}
+              onChange={handleChange}
+              style={missingFields.includes('email') ? { border: '1px solid #ff0055' } : {}}
+            />
+            {missingFields.includes('email') && (
+              <FormError>Email is required.</FormError>
+            )}
+          </label>
+          <label>
+            Website:
+            <input name="website" value={formData.website || ''} onChange={handleChange} />
+          </label>
+          <label>
+            Phone:
+            <input name="phone" value={formData.phone || ''} onChange={handleChange} />
+          </label>
+          <label>
+            Company:
+            <input name="company" value={formData.company || ''} onChange={handleChange} />
+          </label>
+          <button type="button" onClick={handleSave} disabled={!isDirty || isSaving}>
+            {isSaving ? 'Saving...' : 'Save'}
+          </button>
+          <button type="button" onClick={handleDiscardChanges} disabled={isSaving}>Discard Changes</button>
+          <button type="button" onClick={handleDeleteAccount} disabled={isSaving} className="delete-btn">
+            Delete Account
+          </button>
+        </form>
+        {showModal && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <p>You have unsaved changes. Please save before leaving.</p>
+              <button type="button" onClick={handleSave} disabled={isSaving} className="modal-save-btn">Save & Continue</button>
+              <button type="button" onClick={handleCancelNavigation} disabled={isSaving} className="modal-cancel-btn">Cancel</button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+
+        {showDeleteModal && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <h3>Confirm Account Deletion</h3>
+              <p>This action cannot be undone. Please enter your password to confirm:</p>
+              <input
+                type="password"
+                value={deletePassword}
+                onChange={e => setDeletePassword(e.target.value)}
+                placeholder="Password"
+                disabled={isSaving}
+                className="delete-password-input"
+              />
+              {deleteError && <div className="delete-error">{deleteError}</div>}
+              <button type="button" onClick={handleConfirmDelete} disabled={isSaving || !deletePassword} className="delete-confirm-btn">
+                {isSaving ? 'Deleting...' : 'Delete Account'}
+              </button>
+              <button type="button" onClick={handleCancelDelete} disabled={isSaving} className="delete-cancel-btn">Cancel</button>
+            </div>
+          </div>
+        )}
+      </main>
     </ProfileLayout>
   );
 }

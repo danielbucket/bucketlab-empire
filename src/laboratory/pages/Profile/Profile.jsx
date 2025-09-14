@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import Avatar from './Avatar';
 
 const API_URL = import.meta.env.DEV
-  ? 'https://dev.bucketlab.io/accounts/accnt'
-  : 'https://api.bucketlab.io/accounts/accnt';
+  ? 'https://dev.bucketlab.io/accounts/'
+  : 'https://api.bucketlab.io/accounts/';
 
 export default function Profile() {
   // Get initial data from the loader

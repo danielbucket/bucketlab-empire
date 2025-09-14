@@ -7,8 +7,8 @@ import { FormStyle, FormContainerStyle } from './index.style.js';
 import { VALIDATION_RULES } from './validationRules.js';
 
 const API_URL = import.meta.env.DEV
-  ? 'https://dev.bucketlab.io/accounts/accnt'
-  : 'https://api.bucketlab.io/accounts/accnt';
+  ? 'https://dev.bucketlab.io/accounts/'
+  : 'https://api.bucketlab.io/accounts/';
 
 
 const NewLoginForm = () => {

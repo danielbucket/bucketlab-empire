@@ -25,19 +25,8 @@ export const profileRoute = {
       return null;
     }
 
-    const avatarResponse = await fetch(`${API_URL}/avatar/${account.id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-
-    if (avatarResponse.ok) {
-      const blob = await avatarResponse.blob();
-      account.avatarUrl = URL.createObjectURL(blob);
-    }
-
     const data = await accountResponse.json();
     localStorage.setItem('accountData', JSON.stringify(data));
-    return { data, accountID: account.id, avatarUrl: account.avatarUrl || null};
+    return { data, accountID: account.id };
   }
 };

@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import Routes from './router.jsx';
 import { GlobalStyle } from './global.style.js';
 import AuthProvider from './providers/authProvider.jsx';
+import { AvatarProvider } from './providers/avatarProvider.jsx';
 
 const root = document.getElementById('root');
 
@@ -13,8 +14,10 @@ if (!root) {
 createRoot(root).render(
   <StrictMode>
     <AuthProvider>
-      <GlobalStyle />
-      <Routes />
+      <AvatarProvider>
+        <GlobalStyle />
+        <Routes />
+      </AvatarProvider>
     </AuthProvider>
   </StrictMode>
 );

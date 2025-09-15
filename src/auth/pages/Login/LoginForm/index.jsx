@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useAuth } from '../../../../hooks/useAuth.js';
+import { useAvatar } from '../../../../hooks/useAvatar.js';
 import { FormStyle } from './index.styled.js';
 import { useLocation, Navigate } from "react-router-dom";
 import { VALIDATION_RULES, MESSAGE_TYPES } from "./vars.js";
@@ -13,6 +14,7 @@ const API_URL = import.meta.env.DEV
 export default function LoginForm() {
   const location = useLocation();
   const { isAuthenticated, setToken, setAccountData } = useAuth();
+  const { setAvatarUrl } = useAvatar();
 
   const [defaultEmail, setDefaultEmail] = useState(() => location.state?.email || '');
 
@@ -90,11 +92,14 @@ export default function LoginForm() {
         return;
       }
 
-      const { token } = data.accountData;
+      const { token, avatarUrl } = data.accountData;
+      console.log('token received:', data.accountData);
+      
       if (token) {
         if (isMounted.current) {
           setToken(token);
           setAccountData(token);
+          avatarUrl && setAvatarUrl(avatarUrl);
         }
       } else {
         if (isMounted.current) {

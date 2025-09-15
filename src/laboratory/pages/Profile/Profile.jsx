@@ -3,7 +3,7 @@ import { useLoaderData } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { ProfileLayout, FormError } from './profile.styled.js';
 import { useNavigate } from 'react-router-dom';
-import Avatar from './Avatar';
+import Avatar from '../Avatar/index.jsx';
 
 const API_URL = import.meta.env.DEV
   ? 'https://dev.bucketlab.io/accounts/'
@@ -22,12 +22,15 @@ export default function Profile() {
   const [createdAt, setCreatedAt] = useState(() => data.created_at ? new Date(data.created_at).toLocaleDateString() : '');
   const [showModal, setShowModal] = useState(false);
   const [nextLocation, setNextLocation] = useState(null);
+  
   const [sessionData, setSessionData] = useState(() => {
     const token = localStorage.getItem('sessionToken');
     const account = token ? jwtDecode(token) : null;
-    const returnVal = { token, accountID: account?.id, avatarUrl: account?.avatarUrl || null };
+    const returnVal = { token, accountID: account?.id };
+
     return returnVal || {};
   });
+
   const [formData, setFormData] = useState(() => {
     return {
       first_name: data.first_name || '',
@@ -50,7 +53,6 @@ export default function Profile() {
 
   const resetFormData = () => {
     setFormData({
-      profile_avatar: data.profile_avatar || '',
       first_name: data.first_name || '',
       last_name: data.last_name || '',
       email: data.email || '',
@@ -217,7 +219,7 @@ export default function Profile() {
   
   return (
     <ProfileLayout>
-      <Avatar accountID={sessionData.accountID} avatarUrl={data.avatarUrl || ''} />
+      <Avatar />
       <p>Member since: {createdAt ? createdAt : ''}</p>
       <main>
         {error && (<div className="error-message status-message">{error}</div>)}

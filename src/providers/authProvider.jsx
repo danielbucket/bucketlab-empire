@@ -1,4 +1,3 @@
-// import axios from 'axios';
 import { useEffect, useMemo, useState, useCallback } from 'react';
 import { AuthContext } from '../context/AuthContext.js';
 import { jwtDecode } from "jwt-decode";
@@ -31,7 +30,6 @@ function AuthProvider({ children }) {
     const storedToken = localStorage.getItem('sessionToken');
     return isValidJWT(storedToken) ? storedToken : null;
   });
-
   const [account, setAccount_] = useState(() => {
     const storedAccount = localStorage.getItem('accountData');
     return storedAccount ? JSON.parse(storedAccount) : null;

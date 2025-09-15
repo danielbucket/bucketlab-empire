@@ -1,9 +1,9 @@
 import Laboratory from '../pages/Laboratory/Laboratory.jsx';
 import { jwtDecode } from 'jwt-decode';
 
-let API_URL = 'https://api.bucketlab.io/accounts/';
+let API_URL = 'https://api.bucketlab.io/accounts';
 if (import.meta.env.DEV) {
-  API_URL = 'https://dev.bucketlab.io/accounts/';
+  API_URL = 'https://dev.bucketlab.io/accounts';
 }
 
 export const laboratoryRoute = {

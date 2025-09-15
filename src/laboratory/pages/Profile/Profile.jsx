@@ -11,7 +11,7 @@ const API_URL = import.meta.env.DEV
 
 export default function Profile() {
   // Get initial data from the loader
-  const { data } = useLoaderData();
+  const { data } = useLoaderData().data;
   const navigate = useNavigate();
 
   // Set initial form data
@@ -22,6 +22,12 @@ export default function Profile() {
   const [createdAt, setCreatedAt] = useState(() => data.created_at ? new Date(data.created_at).toLocaleDateString() : '');
   const [showModal, setShowModal] = useState(false);
   const [nextLocation, setNextLocation] = useState(null);
+  const [sessionData, setSessionData] = useState(() => {
+    const token = localStorage.getItem('sessionToken');
+    const account = token ? jwtDecode(token) : null;
+    const returnVal = { token, accountID: account?.id, avatarUrl: account?.avatarUrl || null };
+    return returnVal || {};
+  });
   const [formData, setFormData] = useState(() => {
     return {
       first_name: data.first_name || '',
@@ -44,6 +50,7 @@ export default function Profile() {
 
   const resetFormData = () => {
     setFormData({
+      profile_avatar: data.profile_avatar || '',
       first_name: data.first_name || '',
       last_name: data.last_name || '',
       email: data.email || '',
@@ -99,13 +106,10 @@ export default function Profile() {
     setIsSaving(true);
 
     try {
-      const token = localStorage.getItem('sessionToken');
-      const account = jwtDecode(token);
-
-      const response = await fetch(`${API_URL}/${account.id}`, {
+      const response = await fetch(`${API_URL}/${sessionData.account.id}`, {
         method: 'PATCH',
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${sessionData.token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(formData)
@@ -171,12 +175,10 @@ export default function Profile() {
     }
     setIsSaving(true);
     try {
-      const token = localStorage.getItem('sessionToken');
-      const account = jwtDecode(token);
-      const response = await fetch(`${API_URL}/${account.id}`, {
+      const response = await fetch(`${API_URL}/${sessionData.accountID}`, {
         method: 'DELETE',
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${sessionData.token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ password: deletePassword })
@@ -212,20 +214,14 @@ export default function Profile() {
     setDeletePassword('');
     setDeleteError(null);
   };
-
+  
   return (
     <ProfileLayout>
-      <Avatar userId={data.id} initialImageUrl={data.profile_image || ''} />
+      <Avatar accountID={sessionData.accountID} avatarUrl={data.avatarUrl || ''} />
+      <p>Member since: {createdAt ? createdAt : ''}</p>
       <main>
-        <p>
-          Member since: {createdAt ? createdAt : ''}
-        </p>
-        {error && (
-          <div className="error-message">{error}</div>
-        )}
-        {success && (
-          <div className="success-message">{success}</div>
-        )}
+        {error && (<div className="error-message status-message">{error}</div>)}
+        {success && (<div className="success-message status-message">{success}</div>)}
         <form>
           <label>
             First Name:

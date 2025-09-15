@@ -7,8 +7,8 @@ import { VALIDATION_RULES, MESSAGE_TYPES } from "./vars.js";
 
 // API URL based on environment
 const API_URL = import.meta.env.DEV
-  ? 'https://dev.bucketlab.io/accounts/'
-  : 'https://api.bucketlab.io/accounts/';
+  ? 'https://dev.bucketlab.io/accounts'
+  : 'https://api.bucketlab.io/accounts';
 
 export default function LoginForm() {
   const location = useLocation();

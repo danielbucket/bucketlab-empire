@@ -19,10 +19,9 @@ export const NavStyle = styled.nav`
   height: 4rem;
 
   span {
-    color: #ffd452b8;
     font-family: Orbitron;
     color: #EEE;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
   }
 
   button:hover {

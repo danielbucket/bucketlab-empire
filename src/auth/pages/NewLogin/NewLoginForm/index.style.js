@@ -23,6 +23,22 @@ export const FormStyle = styled('form')`
   background-color: var(--special-blue-trans);
   box-shadow: 0 0 0.25rem 0.25rem var(--special-blue);
 
+  & .error-message {
+    width: 100%;
+    border: 0.1rem solid red;
+    background-color: var(--ac-orange);
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+
+    & p {
+      font-size: 1.5rem;
+      font-family: Ubuntu_Bold;
+      color: red;
+      text-align: center;
+    }
+  }
+  
   & .fields-container {
     flex-grow: 1;
     display: flex;
@@ -80,7 +96,7 @@ export const FormStyle = styled('form')`
     width: 98%;
     padding: 0 0.5rem;
 
-    & input[type='submit'] {
+    & button[type='submit'] {
       width: 100%;
       font-size: 2rem;
       font-family: Ubuntu_Reg;

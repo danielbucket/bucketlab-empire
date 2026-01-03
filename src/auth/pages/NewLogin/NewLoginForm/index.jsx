@@ -114,7 +114,7 @@ const NewLoginForm = () => {
           <button type="submit" disabled={isLoading}>
             {isLoading ? 'Creating Account...' : 'Submit'}
           </button>
-          <button type="button" onClick={handleCancel} disabled={isLoading}>
+          <button type="submit" onClick={handleCancel} disabled={isLoading}>
             Cancel
           </button>
         </div>

@@ -22,17 +22,20 @@ const NewLoginForm = () => {
   const submitForm = async (values) => {
     setIsLoading(true);
     setError(null);
+
     try {
       const response = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values)
       });
+
       const data = await response.json();
 
       if (!response.ok || data.status !== 'success') {
         // Handle common registration errors
         let errorMsg = 'Registration failed. Please try again.';
+        
         if (data?.fail_type === 'email_exists') {
           errorMsg = 'An account with this email already exists.';
         } else if (data?.fail_type === 'invalid_email') {

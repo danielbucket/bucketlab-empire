@@ -60,7 +60,7 @@ export const FormStyle = styled('form')`
   button,
   button[type='submit'] {
     width: 100%;
-    font-size: 1.15rem;
+    font-size: 2rem;
     font-family: Ubuntu_Reg, Arial, sans-serif;
     padding: 0.75rem;
     border: 1.5px solid var(--special-blue);
@@ -106,6 +106,7 @@ export const FormStyle = styled('form')`
     font-family: Ubuntu_Reg, Arial, sans-serif;
     box-sizing: border-box;
     text-align: center;
+    border: 10px solid red;
   }
   .message-container.error, .message-container.ERROR {
     background: #ff005511;

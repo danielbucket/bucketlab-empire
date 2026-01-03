@@ -18,7 +18,7 @@ export default function Login() {
       <NavStyle>
         <div className="login-opts">
           <button onClick={() => navigate('/auth/new-login')}>
-            <span>Join the BucketLab Empire.</span>
+            <span>Sign Up</span>
           </button>
         </div>
         <div className="go-back-btn">

@@ -81,6 +81,7 @@ export default function LoginForm() {
 
     try {
       const response = await fetch(`${API_URL}/login`, {
+      // const response = await fetch('api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values),
@@ -93,7 +94,6 @@ export default function LoginForm() {
       }
 
       const { token, avatarUrl } = data.accountData;
-      console.log('token received:', data.accountData);
       
       if (token) {
         if (isMounted.current) {
@@ -134,7 +134,7 @@ export default function LoginForm() {
         }));
       }
     }
-  }, [setToken, setAccountData, handleApiError]);
+  }, [setToken, setAccountData, setAvatarUrl, handleApiError]);
 
   // Use redirect instead of null render to prevent abrupt unmounts
   if (isAuthenticated) return <Navigate to="/laboratory" replace />;
@@ -165,31 +165,25 @@ export default function LoginForm() {
         </div>
       )}
       <div className='fields-container'>
-        <FormField 
-          label="Email"
+        <FormField label="Email"
           name="email"
           type="email"
           validation={VALIDATION_RULES.email}
           placeholder="Email"
-          defaultValue={defaultEmail}
-        />
-        <FormField 
-          label="Password"
+          defaultValue={defaultEmail} />
+        <FormField label="Password"
           name="password"
           type="password"
           validation={VALIDATION_RULES.password}
-          placeholder="Password"
-        />
+          placeholder="Password" />
       </div>
       <div className='submit-btn'>
-        <button 
-          type="submit" 
+        <button type="submit" 
           disabled={formState.isLoading}
-          className={formState.isLoading ? 'loading' : ''}
-        >
+          className={formState.isLoading ? 'loading' : ''}>
           {formState.isLoading ? 'Signing in...' : 'Login'}
         </button>
       </div>
     </FormStyle>
   );
-}
+};

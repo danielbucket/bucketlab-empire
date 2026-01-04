@@ -1,9 +1,10 @@
 import { useState, useCallback, useEffect } from 'react';
 import { AvatarContext } from '../context/AvatarContext.js';
 
-const API_URL = import.meta.env.DEV
-  ? 'https://dev.bucketlab.io/accounts'
-  : 'https://api.bucketlab.io/accounts';
+let API_URL = 'https://api.bucketlab.io';
+if (import.meta.env.DEV) {
+  API_URL = 'https://dev.bucketlab.io';
+};
 
 export function AvatarProvider({ children }) {
   const [avatarUrl, setAvatarUrl] = useState(null);
@@ -35,12 +36,13 @@ export function AvatarProvider({ children }) {
     setIsLoading(true);
     setError(null);
     
+    console.log('Fetching avatar for accountID:', accountID);
+
     try {
       const res = await fetch(`${API_URL}/avatar/${accountID}`);
       if (!res.ok) {
         if (res.status === 404) {
           // No avatar exists yet, not an error
-          console.log('No avatar found for account:', accountID);
           setAvatarUrl(null);
           setLastFetchedId(accountID);
           setIsLoading(false);
@@ -53,7 +55,6 @@ export function AvatarProvider({ children }) {
       
       // Only proceed if there's actual content
       if (!blob || blob.size === 0) {
-        console.log('Empty blob received for account:', accountID);
         setAvatarUrl(null);
         setLastFetchedId(accountID);
         setIsLoading(false);

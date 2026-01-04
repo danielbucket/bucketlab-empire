@@ -5,7 +5,7 @@ import { jwtDecode } from "jwt-decode";
 let API_URL = 'https://api.bucketlab.io';
 if (import.meta.env.DEV) {
   API_URL = 'https://dev.bucketlab.io';
-}
+};
 
 // JWT Token validation helper
 const isValidJWT = (token) => {

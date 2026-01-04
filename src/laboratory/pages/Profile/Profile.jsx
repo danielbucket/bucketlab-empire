@@ -101,14 +101,16 @@ export default function Profile() {
     const required = ['first_name', 'last_name', 'email'];
     const missing = required.filter(f => !formData[f]);
     setMissingFields(missing);
+
     if (missing.length > 0) {
       setError('Please fill in all required fields.');
       return;
     }
+
     setIsSaving(true);
 
     try {
-      const response = await fetch(`${API_URL}/${sessionData.account.id}`, {
+      const response = await fetch(`${API_URL}/${sessionData.accountID}`, {
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${sessionData.token}`,

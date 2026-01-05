@@ -2,14 +2,14 @@ import HomestarRunner from '../pages/HomestarRunner';
 import pageImage from '../assets/images/Homestar_Runner_logo.svg.png';
 
 export const homestarRunnerRoute = {
-  path: '/laboratory/HomestarRunner',
+  path: '/laboratory/homestar-runner',
   element: <HomestarRunner />,
   loader: async () => {
     return {
       pageImage,
       content: {
         title: 'Homestar Runner',
-        description: 'A tribute to the classic Homestar Runner web series.',
+        description: 'Promoting Homestar Runner awareness',
         videoUrl: 'https://youtube.com/embed/NWwEWcL5Df0'
       }
     };

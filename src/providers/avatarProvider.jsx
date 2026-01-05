@@ -109,7 +109,7 @@ export function AvatarProvider({ children }) {
   // Upload avatar to backend
   const uploadAvatar = useCallback(async (file, accountID) => {
     if (!file || !accountID) {
-      setError('Missing file or account ID');
+      setError('Missing file or account ID');``
       return false;
     }
     
@@ -122,6 +122,7 @@ export function AvatarProvider({ children }) {
       formData.append('accountID', accountID);
       const token = localStorage.getItem('sessionToken');
 
+      // the url /avatar/* doesn't exist on the backend
       const response = await fetch(`${API_URL}/avatar/upload/${accountID}`, {
         method: 'POST',
         headers: {

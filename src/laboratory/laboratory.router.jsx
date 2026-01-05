@@ -3,6 +3,7 @@ import { laboratoryRoute } from './routes/laboratory.route.jsx';
 import { profileRoute } from './routes/profile.route.jsx';
 import { watchlistRoute } from './routes/watchlist.route.jsx';
 import { messagesRoute } from './routes/messages.route.jsx';
+import { homelabRoute } from './routes/homelab.route.jsx';
 import { homestarRunnerRoute } from './routes/homestarRunner.route.jsx';
 import ProtectedRoute from '../components/ProtectedRoute.jsx';
 import LaboratoryError from './pages/LaboratoryError/index.jsx';
@@ -17,6 +18,7 @@ export const laboratoryRoutes = [
       profileRoute,
       watchlistRoute,
       messagesRoute,
+      homelabRoute,
       homestarRunnerRoute
     ]
   }

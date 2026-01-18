@@ -6,7 +6,7 @@ export default function LabNav() {
     <NavContainer>
       <Logout />
       <div className='title'>
-        <SiteTitleLink to='/laboratory'>BucketLab Empire Laboratory</SiteTitleLink>
+        <SiteTitleLink to='/laboratory'>BucketLab IO Laboratory</SiteTitleLink>
       </div>
       <div className='nav-list'>
         <StyledUL>

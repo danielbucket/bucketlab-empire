@@ -1,3 +1,5 @@
+import mythTaT100Img from '../../assets/images/T100_0724.jpg';
+
 export const repoList = [
   {
     repo: 'BucketLab API',
@@ -6,21 +8,16 @@ export const repoList = [
     techstack: ['NodeJS', 'ExpressJS', 'MongooseJS', 'MongoDB', 'Docker', 'RaspberryPi'],
   },
   {
-    repo: 'SpinConnect',
-    url: 'https://github.com/danielbucket/SpinConnect',
-    description: 'A full-stack application that allows users to combine multiple musical sources and datasets for a comprehensive musical library experience.',
-    techstack: ['React', 'Node.js', 'Express.js', 'Knex.js', 'PostgreSQL'],
-  },
-  {
-    repo: 'Above Ground Radio',
-    url: '',
-    description: 'An internet based radio station focusing on local music, arts, and community.',
-    techstack: ['Node.js', 'Express.js', 'Knex.js', 'PostgreSQL'],
-  },
-  {
     repo: 'ArborCraft, LLC',
     url: 'https://github.com/danielbucket/arborcraft_site1.0',
     description: 'A single-page application for my local tree service company. It is built with React, Node.js, Express.js. It was my first successful web page deployment.',
     techstack: ['Webpack', 'React', 'Node.js', 'Express.js'],
+  },
+  {
+    repo: 'MythTa T100',
+    url: '/mythtaT100',
+    description: '1998 Toyota T100, aka MythtaT',
+    techstack: ['Tig/Mig Welding', 'Metal Fabrication', 'Automotive Design'],
+    img: mythTaT100Img
   },
 ];

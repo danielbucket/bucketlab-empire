@@ -5,16 +5,17 @@ import {
     ContentStyle,
     StyledLink,
     StyledUL,
+    RepoImage,
     ProjectDetails,
     ImageStyle
 } from './index.styled.js';
 
 export default function Projects() {
-  const [ activeRepo, setActiveRepo ] = useState(null);
+  const [ selectedRepo, setSelectedRepo ] = useState(null);
   const { pageImage, repoList } = useLoaderData();
 
   const handleClick = (list) => {
-    list === null ? setActiveRepo(null) : setActiveRepo(list);
+    list === null ? setSelectedRepo(null) : setSelectedRepo(list);
   };
 
   const renderList = (list) => {
@@ -42,18 +43,18 @@ export default function Projects() {
     <StyledProjects>
       <ImageStyle $pageImage={pageImage}>
         {
-          activeRepo && (
-            <ProjectDetails>
-              <div className="repo-name">{activeRepo.repo}</div>
-              <div className="repo-content">
-                <div className="description">{activeRepo.description}</div>
-                <div className="url">
-                  <CustomLink
-                    to={activeRepo.url}
-                    target="_blank"
-                  >{activeRepo.url}</CustomLink>
+          selectedRepo && (
+            <ProjectDetails $backgroundImage={selectedRepo?.img}>
+                <div className="repo-name">{selectedRepo.repo}</div>
+                <div className="repo-content">
+                  <div className="description">{selectedRepo.description}</div>
+                  <div className="url">
+                    <CustomLink
+                      to={selectedRepo.url}
+                      target="_blank"
+                    >{selectedRepo.url}</CustomLink>
+                  </div>
                 </div>
-              </div>
             </ProjectDetails>
           )
         }

@@ -5,6 +5,18 @@ import { PageLayout, StyledImage, StyledContent } from '../../style/root.style.j
 export const StyledProjects = styled(PageLayout)``;
 export const ImageStyle = styled(StyledImage)``;
 export const ContentStyle = styled(StyledContent)``;
+export const RepoImage = styled.div`
+  background-image: url(${props => props.$propsImage});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  width: 100%;
+  max-width: 60rem;
+  height: 70%;
+  border-radius: 0.5rem;
+  box-shadow: rgba(14, 102, 240, 0.92) 0px 0px 0.25rem 0.25rem;
+`;
 
 export const StyledUL = styled.ul`
   display: flex;
@@ -17,6 +29,7 @@ export const StyledUL = styled.ul`
   font-size: 2.50rem;
   
   li {
+
     width: 30rem;
     display: flex;
     justify-content: center;
@@ -49,6 +62,8 @@ export const ProjectDetails = styled.div`
   align-items: center;
   height: 100%;
   background-color: rgb(86 142 253 / 71%);
+  background-image: url(${props => props.$backgroundImage});
+  background-size: cover;
   font-size: 1.5rem;
   text-shadow: #fff 1px 0 5px;
 
@@ -60,6 +75,8 @@ export const ProjectDetails = styled.div`
       opacity: 1;
     }
   }
+
+
   
   .repo-name {
     height: 5rem;

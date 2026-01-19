@@ -7,7 +7,7 @@ const content = {
 };
 
 export const mythtaTRoute = {
-  path: '/mythta-t',
+  path: '/mythtaT100',
   element: <MythtaT />,
   loader: async () => ({
       image,

@@ -15,7 +15,7 @@ export const repoList = [
   },
   {
     repo: 'MythTa T100',
-    url: '',
+    url: '/mythtaT100',
     description: '1998 Toyota T100, aka MythtaT',
     techstack: ['Tig/Mig Welding', 'Metal Fabrication', 'Automotive Design'],
     img: mythTaT100Img

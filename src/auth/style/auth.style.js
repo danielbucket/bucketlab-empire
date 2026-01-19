@@ -9,7 +9,7 @@ export const AuthBaseStyle = styled.div`
   padding-bottom: 5rem;
 
   background-image: url(${(props) => props.$pageImage});
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
 `;

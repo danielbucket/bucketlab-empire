@@ -10,14 +10,14 @@ export default function Login() {
 
   if (isAuthenticated) {
     return <Navigate to="/laboratory" replace />;
-  }
+  };
 
   return (
     <LoginStyle $pageImage={pageImage}>
       <LoginForm />
       <NavStyle>
         <div className="login-opts">
-          <button onClick={() => navigate('/auth/new-login')}>
+          <button onClick={() => navigate('/auth/new')}>
             <span>Sign Up</span>
           </button>
         </div>

@@ -11,7 +11,7 @@ const API_URL = import.meta.env.DEV
   : 'https://api.bucketlab.io/accounts/';
 
 
-const NewLoginForm = () => {
+export default function NewAccountForm() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -125,5 +125,3 @@ const NewLoginForm = () => {
     </FormContainerStyle>
   );
 };
-
-export default NewLoginForm;

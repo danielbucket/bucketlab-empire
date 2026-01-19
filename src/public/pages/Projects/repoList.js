@@ -14,7 +14,7 @@ export const repoList = [
     techstack: ['Webpack', 'React', 'Node.js', 'Express.js'],
   },
   {
-    repo: 'MythTa T100',
+    repo: 'Mythta T100',
     url: '/mythtaT100',
     description: '1998 Toyota T100, aka MythtaT',
     techstack: ['Tig/Mig Welding', 'Metal Fabrication', 'Automotive Design'],

@@ -10,7 +10,6 @@ const API_URL = import.meta.env.DEV
   ? 'https://dev.bucketlab.io/accounts/'
   : 'https://api.bucketlab.io/accounts/';
 
-
 export default function NewAccountForm() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);

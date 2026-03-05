@@ -1,9 +1,9 @@
 import Laboratory from '../pages/Laboratory/Laboratory.jsx';
 import { jwtDecode } from 'jwt-decode';
 
-let API_URL = 'https://api.bucketlab.io/accounts';
+let API_URL = 'https://api.bucketlab.io/profiles';
 if (import.meta.env.DEV) {
-  API_URL = 'https://dev.bucketlab.io/accounts';
+  API_URL = 'https://dev.bucketlab.io/profiles';
 }
 
 export const laboratoryRoute = {
@@ -11,21 +11,21 @@ export const laboratoryRoute = {
   element: <Laboratory />,
   loader: async () => {
     const token = localStorage.getItem('sessionToken');
-    const account = jwtDecode(token);
+    const profile = jwtDecode(token);
 
-    const response = await fetch(`${API_URL}/${account.id}`, {
+    const response = await fetch(`${API_URL}/${profile.id}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
       });
     if (!response.ok) {
       localStorage.removeItem('sessionToken');
-      localStorage.removeItem('accountData');
+      localStorage.removeItem('profileData');
       return null;
     }
 
     const data = await response.json();
-    localStorage.setItem('accountData', JSON.stringify(data));
+    localStorage.setItem('profileData', JSON.stringify(data));
     return data;
   }
 };

@@ -30,19 +30,19 @@ function AuthProvider({ children }) {
     const storedToken = localStorage.getItem('sessionToken');
     return isValidJWT(storedToken) ? storedToken : null;
   });
-  const [account, setAccount_] = useState(() => {
-    const storedAccount = localStorage.getItem('accountData');
-    return storedAccount ? JSON.parse(storedAccount) : null;
+  const [profile, setProfile_] = useState(() => {
+    const storedProfile = localStorage.getItem('profileData');
+    return storedProfile ? JSON.parse(storedProfile) : null;
   });
 
-  const setAccount = (accountData) => {
-    if (accountData) {
-      localStorage.setItem('accountData', JSON.stringify(accountData));
-      setAccount_(accountData);
+  const setProfile = (profileData) => {
+    if (profileData) {
+      localStorage.setItem('profileData', JSON.stringify(profileData));
+      setProfile_(profileData);
     } else {
-      console.warn('Attempted to set invalid account data');
-      localStorage.removeItem('accountData');
-      setAccount_(null);
+      console.warn('Attempted to set invalid profile data');
+      localStorage.removeItem('profileData');
+      setProfile_(null);
     }
   };
 
@@ -59,9 +59,9 @@ function AuthProvider({ children }) {
 
   const logout = useCallback(() => {
     setToken_(null);
-    setAccount_(null);
+    setProfile_(null);
     localStorage.removeItem('sessionToken');
-    localStorage.removeItem('accountData');
+    localStorage.removeItem('profileData');
   }, []);
 
   useEffect(() => {
@@ -90,12 +90,12 @@ function AuthProvider({ children }) {
 
   const authContextValue = useMemo(() => ({
     token, 
-    account,
+    profile,
     setToken,
-    setAccount,
+    setProfile,
     logout,
     isAuthenticated: token && isValidJWT(token)
-  }), [token, account, logout]);
+  }), [token, profile, logout]);
 
   return (
     <AuthContext.Provider value={authContextValue}>

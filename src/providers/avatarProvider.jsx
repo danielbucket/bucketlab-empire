@@ -21,30 +21,30 @@ export function AvatarProvider({ children }) {
     };
   }, [avatarUrl]);
 
-  // Track the last fetched accountID to prevent duplicate fetches
+  // Track the last fetched profileID to prevent duplicate fetches
   const [lastFetchedId, setLastFetchedId] = useState(null);
 
   // Fetch avatar from backend
-  const fetchAvatar = useCallback(async (accountID) => {
-    if (!accountID) return;
+  const fetchAvatar = useCallback(async (profileID) => {
+    if (!profileID) return;
     
     // Skip if already fetching this ID and no error occurred
-    if (accountID === lastFetchedId && !error && avatarUrl) {
+    if (profileID === lastFetchedId && !error && avatarUrl) {
       return;
     }
     
     setIsLoading(true);
     setError(null);
     
-    console.log('Fetching avatar for accountID:', accountID);
+    console.log('Fetching avatar for profileID:', profileID);
 
     try {
-      const res = await fetch(`${API_URL}/avatar/${accountID}`);
+      const res = await fetch(`${API_URL}/avatar/${profileID}`);
       if (!res.ok) {
         if (res.status === 404) {
           // No avatar exists yet, not an error
           setAvatarUrl(null);
-          setLastFetchedId(accountID);
+          setLastFetchedId(profileID);
           setIsLoading(false);
           return;
         }
@@ -56,7 +56,7 @@ export function AvatarProvider({ children }) {
       // Only proceed if there's actual content
       if (!blob || blob.size === 0) {
         setAvatarUrl(null);
-        setLastFetchedId(accountID);
+        setLastFetchedId(profileID);
         setIsLoading(false);
         return;
       }
@@ -68,7 +68,7 @@ export function AvatarProvider({ children }) {
       
       const objectUrl = URL.createObjectURL(blob);
       setAvatarUrl(objectUrl);
-      setLastFetchedId(accountID);
+      setLastFetchedId(profileID);
     } catch (err) {
       console.error('Avatar fetch error:', err);
       setAvatarUrl(null);
@@ -107,9 +107,9 @@ export function AvatarProvider({ children }) {
   }, [avatarUrl]);
   
   // Upload avatar to backend
-  const uploadAvatar = useCallback(async (file, accountID) => {
-    if (!file || !accountID) {
-      setError('Missing file or account ID');``
+  const uploadAvatar = useCallback(async (file, profileID) => {
+    if (!file || !profileID) {
+      setError('Missing file or profile ID');``
       return false;
     }
     
@@ -119,11 +119,11 @@ export function AvatarProvider({ children }) {
     try {
       const formData = new FormData();
       formData.append('avatar', file);
-      formData.append('accountID', accountID);
+      formData.append('profileID', profileID);
       const token = localStorage.getItem('sessionToken');
 
       // the url /avatar/* doesn't exist on the backend
-      const response = await fetch(`${API_URL}/avatar/upload/${accountID}`, {
+      const response = await fetch(`${API_URL}/avatar/upload/${profileID}`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`
@@ -160,9 +160,9 @@ export function AvatarProvider({ children }) {
   }, [setAvatarFromFile]);
   
   // Delete avatar from backend
-  const deleteAvatar = useCallback(async (accountID) => {
-    if (!accountID) {
-      setError('Missing account ID');
+  const deleteAvatar = useCallback(async (profileID) => {
+    if (!profileID) {
+      setError('Missing profile ID');
       return false;
     }
     
@@ -171,7 +171,7 @@ export function AvatarProvider({ children }) {
     
     try {
       const token = localStorage.getItem('sessionToken');
-      const response = await fetch(`${API_URL}/avatar/${accountID}`, {
+      const response = await fetch(`${API_URL}/avatar/${profileID}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`

@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import Avatar from '../Avatar/index.jsx';
 
 const API_URL = import.meta.env.DEV
-  ? 'https://dev.bucketlab.io/accounts/'
-  : 'https://api.bucketlab.io/accounts/';
+  ? 'https://dev.bucketlab.io/profiles/'
+  : 'https://api.bucketlab.io/profiles/';
 
 export default function Profile() {
   // Get initial data from the loader
@@ -25,8 +25,8 @@ export default function Profile() {
   
   const [sessionData, setSessionData] = useState(() => {
     const token = localStorage.getItem('sessionToken');
-    const account = token ? jwtDecode(token) : null;
-    const returnVal = { token, accountID: account?.id };
+    const profile = token ? jwtDecode(token) : null;
+    const returnVal = { token, profileID: profile?.id };
 
     return returnVal || {};
   });
@@ -46,7 +46,7 @@ export default function Profile() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [missingFields, setMissingFields] = useState([]);
-  // State for delete account modal
+  // State for delete profile modal
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deletePassword, setDeletePassword] = useState('');
   const [deleteError, setDeleteError] = useState(null);
@@ -110,7 +110,7 @@ export default function Profile() {
     setIsSaving(true);
 
     try {
-      const response = await fetch(`${API_URL}/${sessionData.accountID}`, {
+      const response = await fetch(`${API_URL}/${sessionData.profileID}`, {
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${sessionData.token}`,
@@ -164,7 +164,7 @@ export default function Profile() {
     setError(null);
   };
 
-  const handleDeleteAccount = () => {
+  const handleDeleteProfile = () => {
     setShowDeleteModal(true);
     setDeletePassword('');
     setDeleteError(null);
@@ -179,7 +179,7 @@ export default function Profile() {
     }
     setIsSaving(true);
     try {
-      const response = await fetch(`${API_URL}/${sessionData.accountID}`, {
+      const response = await fetch(`${API_URL}/${sessionData.profileID}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${sessionData.token}`,
@@ -188,7 +188,7 @@ export default function Profile() {
         body: JSON.stringify({ password: deletePassword })
       });
       if (!response.ok) {
-        let errorMsg = 'Failed to delete account.';
+        let errorMsg = 'Failed to delete profile.';
         try {
           const data = await response.json();
           if (data && data.message) errorMsg = data.message;
@@ -204,7 +204,7 @@ export default function Profile() {
       await new Promise((resolve) => setTimeout(resolve, 500));
       
       localStorage.removeItem('sessionToken');
-      localStorage.removeItem('accountData');
+      localStorage.removeItem('profileData');
       window.location.href = '/';
     } catch (err) {
       setDeleteError(`An error occurred while deleting. Please try again. ${err}`);
@@ -279,8 +279,8 @@ export default function Profile() {
             {isSaving ? 'Saving...' : 'Save'}
           </button>
           <button type="button" onClick={handleDiscardChanges} disabled={isSaving}>Discard Changes</button>
-          <button type="button" onClick={handleDeleteAccount} disabled={isSaving} className="delete-btn">
-            Delete Account
+          <button type="button" onClick={handleDeleteProfile} disabled={isSaving} className="delete-btn">
+            Delete Profile
           </button>
         </form>
         {showModal && (
@@ -296,7 +296,7 @@ export default function Profile() {
         {showDeleteModal && (
           <div className="modal-overlay">
             <div className="modal-content">
-              <h3>Confirm Account Deletion</h3>
+              <h3>Confirm Profile Deletion</h3>
               <p>This action cannot be undone. Please enter your password to confirm:</p>
               <input
                 type="password"
@@ -308,7 +308,7 @@ export default function Profile() {
               />
               {deleteError && <div className="delete-error">{deleteError}</div>}
               <button type="button" onClick={handleConfirmDelete} disabled={isSaving || !deletePassword} className="delete-confirm-btn">
-                {isSaving ? 'Deleting...' : 'Delete Account'}
+                {isSaving ? 'Deleting...' : 'Delete Profile'}
               </button>
               <button type="button" onClick={handleCancelDelete} disabled={isSaving} className="delete-cancel-btn">Cancel</button>
             </div>

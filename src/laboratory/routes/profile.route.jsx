@@ -1,9 +1,9 @@
 import Profile from '../pages/Profile/Profile.jsx';
 import { jwtDecode } from 'jwt-decode'; 
 
-let API_URL = 'https://api.bucketlab.io/accounts';
+let API_URL = 'https://api.bucketlab.io/profiles';
 if (import.meta.env.DEV) {
-  API_URL = 'https://dev.bucketlab.io/accounts';
+  API_URL = 'https://dev.bucketlab.io/profiles';
 }
 
 export const profileRoute = {
@@ -11,22 +11,22 @@ export const profileRoute = {
   element: <Profile />,
   loader: async () => {
     const token = localStorage.getItem('sessionToken');
-    const account = jwtDecode(token);
+    const profile = jwtDecode(token);
 
-    const accountResponse = await fetch(`${API_URL}/${account.id}`, {
+    const profileResponse = await fetch(`${API_URL}/${profile.id}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     });
     
-    if (!accountResponse.ok) {
+    if (!profileResponse.ok) {
       localStorage.removeItem('sessionToken');
-      localStorage.removeItem('accountData');
+      localStorage.removeItem('profileData');
       return null;
     }
 
-    const data = await accountResponse.json();
-    localStorage.setItem('accountData', JSON.stringify(data));
-    return { data, accountID: account.id };
+    const data = await profileResponse.json();
+    localStorage.setItem('profileData', JSON.stringify(data));
+    return { data, profileID: profile.id };
   }
 };

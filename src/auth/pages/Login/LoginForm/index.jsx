@@ -8,12 +8,12 @@ import { VALIDATION_RULES, MESSAGE_TYPES } from "./vars.js";
 
 // API URL based on environment
 const API_URL = import.meta.env.DEV
-  ? 'https://dev.bucketlab.io/accounts'
-  : 'https://api.bucketlab.io/accounts';
+  ? 'https://dev.bucketlab.io/profiles'
+  : 'https://api.bucketlab.io/profiles';
 
 export default function LoginForm() {
   const location = useLocation();
-  const { isAuthenticated, setToken, setAccountData } = useAuth();
+  const { isAuthenticated, setToken, setProfileData } = useAuth();
   const { setAvatarUrl } = useAvatar();
 
   const [defaultEmail, setDefaultEmail] = useState(() => location.state?.email || '');
@@ -52,7 +52,7 @@ export default function LoginForm() {
       message = 'Server error occurred. Please try again later.';
     } else if (errorData?.message) {
       message = errorData.message;
-    }
+    };
 
     setFormState(prev => ({
       ...prev,
@@ -93,12 +93,12 @@ export default function LoginForm() {
         return;
       }
 
-      const { token, avatarUrl } = data.accountData;
+      const { token, avatarUrl } = data.profileData;
       
       if (token) {
         if (isMounted.current) {
           setToken(token);
-          setAccountData(token);
+          setProfileData(token);
           avatarUrl && setAvatarUrl(avatarUrl);
         }
       } else {
@@ -134,7 +134,7 @@ export default function LoginForm() {
         }));
       }
     }
-  }, [setToken, setAccountData, setAvatarUrl, handleApiError]);
+  }, [setToken, setProfileData, setAvatarUrl, handleApiError]);
 
   // Use redirect instead of null render to prevent abrupt unmounts
   if (isAuthenticated) return <Navigate to="/laboratory" replace />;

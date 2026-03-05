@@ -7,15 +7,15 @@ import { FormStyle, FormContainerStyle } from './index.style.js';
 import { VALIDATION_RULES } from './validationRules.js';
 
 const API_URL = import.meta.env.DEV
-  ? 'https://dev.bucketlab.io/accounts/'
-  : 'https://api.bucketlab.io/accounts/';
+  ? 'https://dev.bucketlab.io/profiles/'
+  : 'https://api.bucketlab.io/profiles/';
 
-export default function NewAccountForm() {
+export default function NewProfileForm() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const { setToken, setUserData } = useAuth();
+  const { setToken, setProfileData } = useAuth();
 
   // Async submit handler
   const submitForm = async (values) => {
@@ -36,7 +36,7 @@ export default function NewAccountForm() {
         let errorMsg = 'Registration failed. Please try again.';
         
         if (data?.fail_type === 'email_exists') {
-          errorMsg = 'An account with this email already exists.';
+          errorMsg = 'A profile with this email already exists.';
         } else if (data?.fail_type === 'invalid_email') {
           errorMsg = 'Invalid email format. Please check your email.';
         } else if (data?.fail_type === 'weak_password') {
@@ -55,7 +55,7 @@ export default function NewAccountForm() {
         return;
       }
       if (data.token) setToken(data.token);
-      if (data.user) setUserData(data.user);
+      if (data.user) setProfileData(data.user);
       // After successful registration, navigate to login and pass email
       if (values.email) {
         navigate('/auth/login', { state: { email: values.email } });
@@ -114,7 +114,7 @@ export default function NewAccountForm() {
         </div>
         <div className='submit-btns'>
           <button type="submit" disabled={isLoading}>
-            {isLoading ? 'Creating Account...' : 'Submit'}
+            {isLoading ? 'Creating Profile...' : 'Submit'}
           </button>
           <button type="submit" onClick={handleCancel} disabled={isLoading}>
             Cancel

@@ -1,11 +1,11 @@
 import Profile from '../pages/Profile/Profile.jsx';
 import { jwtDecode } from 'jwt-decode'; 
-import { urls } from '../../../global.urls.js';
+import { PRIVATE_URLS, API_URLS } from '../../global.urls.js';
 
-const { profiles: { getProfileById } } = urls;
+const { profiles: { getProfileById } } = API_URLS;
 
 export const profileRoute = {
-  path: '/laboratory/profile',
+  path: PRIVATE_URLS.cubicle.profile,
   element: <Profile />,
   loader: async () => {
     const token = localStorage.getItem('sessionToken');

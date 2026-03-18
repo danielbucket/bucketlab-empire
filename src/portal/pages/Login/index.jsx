@@ -2,7 +2,7 @@ import { useLoaderData, useNavigate, Navigate } from 'react-router-dom';
 import LoginForm from './LoginForm/index.jsx';
 import { LoginStyle, NavStyle } from './index.styled.js';
 import { useAuth } from '../../../hooks/useAuth.js';
-const { urls } = import('../../../../global.urls.js');
+import { PUBLIC_URLS, PRIVATE_URLS } from '../../../global.urls.js';
 
 export default function Login() {
   const { pageImage } = useLoaderData();
@@ -10,7 +10,7 @@ export default function Login() {
   const { isAuthenticated } = useAuth();
 
   if (isAuthenticated) {
-    return <Navigate to={urls.laboratory.root} replace />;
+    return <Navigate to={PRIVATE_URLS.laboratory.root} replace />;
   };
 
   return (
@@ -18,12 +18,12 @@ export default function Login() {
       <LoginForm />
       <NavStyle>
         <div className="login-opts">
-          <button onClick={() => navigate(urls.portal.createProfile)}>
+          <button onClick={() => navigate(PUBLIC_URLS.portal.createProfile)}>
             <span>Sign Up</span>
           </button>
         </div>
         <div className="go-back-btn">
-          <button onClick={() => navigate(urls.portal.root)}>
+          <button onClick={() => navigate(PUBLIC_URLS.portal.root)}>
             <span>Go Back</span>
           </button>
         </div>

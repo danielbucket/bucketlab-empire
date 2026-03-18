@@ -5,11 +5,7 @@ import { useAvatar } from '../../../../hooks/useAvatar.js';
 import { FormStyle } from './index.styled.js';
 import { useLocation, Navigate } from "react-router-dom";
 import { VALIDATION_RULES, MESSAGE_TYPES } from "./vars.js";
-
-// API URL based on environment
-const API_URL = import.meta.env.DEV
-  ? 'https://dev.bucketlab.io/profiles'
-  : 'https://api.bucketlab.io/profiles';
+import { API_URLS } from '../../../../global.urls.js';
 
 export default function LoginForm() {
   const location = useLocation();
@@ -80,8 +76,7 @@ export default function LoginForm() {
     }));
 
     try {
-      const response = await fetch(`${API_URL}/login`, {
-      // const response = await fetch('api/login', {
+      const response = await fetch(API_URLS.login, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values),

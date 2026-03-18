@@ -3,7 +3,7 @@ import { useAuth } from './hooks/useAuth.js';
 import { publicRoutes } from './public/public.router.jsx';
 import { authRoutes } from './portal/portal.router.jsx';
 import { laboratoryRoutes } from './laboratory/laboratory.router.jsx';
-import { urls } from '../global.urls.js';
+import { PUBLIC_URLS } from './global.urls.js';
 
 export default function Routes() {
 const { isAuthenticated } = useAuth();
@@ -12,7 +12,7 @@ const catchAllRoute = {
   path: '*',
   element: isAuthenticated
     ? <div>404: Page not found</div>
-    : <Navigate to={urls.portal.login} replace />
+    : <Navigate to={PUBLIC_URLS.portal.login} replace />
     // : <Navigate to="/auth/login" replace />
 };
 

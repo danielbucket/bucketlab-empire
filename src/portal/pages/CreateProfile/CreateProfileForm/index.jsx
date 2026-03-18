@@ -5,10 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../../hooks/useAuth.js';
 import { FormStyle, FormContainerStyle } from './index.style.js';
 import { VALIDATION_RULES } from './validationRules.js';
-
-const API_URL = import.meta.env.DEV
-  ? 'https://dev.bucketlab.io/profiles/'
-  : 'https://api.bucketlab.io/profiles/';
+import { API_URLS, PUBLIC_URLS } from '../../../../global.urls.js';
 
 export default function NewProfileForm() {
   const [error, setError] = useState(null);
@@ -23,7 +20,7 @@ export default function NewProfileForm() {
     setError(null);
 
     try {
-      const response = await fetch(API_URL, {
+      const response = await fetch(API_URLS.profiles.createProfile, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values)
@@ -78,7 +75,7 @@ export default function NewProfileForm() {
 
   // Cancel handler
   const handleCancel = () => {
-    navigate('/auth/login');
+    navigate(PUBLIC_URLS.portal.login);
   };
 
   // Form field component

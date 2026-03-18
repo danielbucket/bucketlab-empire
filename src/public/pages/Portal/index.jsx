@@ -6,7 +6,7 @@ export default function Portal() {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/auth/login', {
+    navigate('/portal/login', {
       state: { isNew: false }
     });
   };

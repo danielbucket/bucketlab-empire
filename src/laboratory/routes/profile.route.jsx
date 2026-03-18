@@ -1,10 +1,8 @@
 import Profile from '../pages/Profile/Profile.jsx';
 import { jwtDecode } from 'jwt-decode'; 
+import { urls } from '../../../global.urls.js';
 
-let API_URL = 'https://api.bucketlab.io/profiles';
-if (import.meta.env.DEV) {
-  API_URL = 'https://dev.bucketlab.io/profiles';
-}
+const { profiles: { getProfileById } } = urls;
 
 export const profileRoute = {
   path: '/laboratory/profile',
@@ -13,7 +11,7 @@ export const profileRoute = {
     const token = localStorage.getItem('sessionToken');
     const profile = jwtDecode(token);
 
-    const profileResponse = await fetch(`${API_URL}/${profile.id}`, {
+    const profileResponse = await fetch(getProfileById(profile.id), {
       headers: {
         Authorization: `Bearer ${token}`
       }

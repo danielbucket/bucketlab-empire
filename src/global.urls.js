@@ -1,6 +1,7 @@
-let API_ROOT = 'https://api.bucketlab.io/v1';
+// let API_ROOT = 'https://api.bucketlab.io/v1';
+let API_ROOT = '/api';
 if (import.meta.env.DEV) {
-  API_ROOT = 'https://dev.bucketlab.io/v1';
+  API_ROOT = '/dev';
 };
 
 export const API_URLS = {

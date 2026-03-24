@@ -1,19 +1,15 @@
-// let API_ROOT = 'https://api.bucketlab.io/v1';
-let API_ROOT = '/api';
-if (import.meta.env.DEV) {
-  API_ROOT = '/dev';
-};
+let API_ROOT = 'https://api.bucketlab.io/v1';
+if (import.meta.env.DEV) { API_ROOT = '/dev' };
 
 export const API_URLS = {
-  login: `${API_ROOT}/auth/login`,
-  logout: `${API_ROOT}/auth/logout`,
-  create: `${API_ROOT}/create`,
   profiles: {
+    login: `${API_ROOT}/auth/profiles/login`,
+    create: `${API_ROOT}/auth/profiles/create`,
+    logout: `${API_ROOT}/auth/profiles/logout`,
     getProfileById: (id) => `${API_ROOT}/profiles/${id}`,
-    getProfileByEmail: (email) => `${API_ROOT}/profiles/email/${email}`,
-    updateProfile: (id) => `${API_ROOT}/profiles/${id}/update`,
-    deleteProfile: (id) => `${API_ROOT}/profiles/${id}/delete`,
-    createProfile: `${API_ROOT}/profiles/create`,
+    // deleteProfile: (id) => `${API_ROOT}/profiles/${id}/delete`,
+    // getProfileByEmail: (email) => `${API_ROOT}/profiles/email/${email}`,
+    // updateProfile: (id) => `${API_ROOT}/profiles/${id}/update`,
   },
   laboratory: {
     getLabById: (id) => `${API_ROOT}/laboratory/labs/${id}`,
@@ -28,25 +24,20 @@ export const API_URLS = {
 };
 
 export const PRIVATE_URLS = {
-  portal: {
-    root: '/portal',
-    login: '/portal/login',
-    createProfile: '/portal/create-profile',
-  },
   laboratory: {
     root: '/laboratory',
-    labs: '/laboratory/labs',
+    // labs: '/laboratory/labs',
   },
   messages: {
-    root: '/messages',
+    // root: '/messages',
   },
   cubicle: {
-    root: '/cubicle',
-    profile: '/cubicle/profile',
-    settings: '/cubicle/settings',
-    messages: '/cubicle/messages',
-    watchlist: '/cubicle/watchlist',
-    projects: '/cubicle/projects',
+    // root: '/cubicle',
+    // profile: '/cubicle/profile',
+    // settings: '/cubicle/settings',
+    // messages: '/cubicle/messages',
+    // watchlist: '/cubicle/watchlist',
+    // projects: '/cubicle/projects',
   }
 };
 

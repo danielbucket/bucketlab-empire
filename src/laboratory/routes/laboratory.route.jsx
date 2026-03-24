@@ -1,31 +1,30 @@
 import Laboratory from '../pages/Laboratory/Laboratory.jsx';
 import { jwtDecode } from 'jwt-decode';
+import { constants } from '../../constants.js';
 
-let API_URL = 'https://api.bucketlab.io/profiles';
-if (import.meta.env.DEV) {
-  API_URL = 'https://dev.bucketlab.io/profiles';
-}
+const TOKEN_STORAGE_KEY = constants.TOKEN_STORAGE_KEY;
+const PROFILE_STORAGE_KEY = constants.PROFILE_STORAGE_KEY;
 
 export const laboratoryRoute = {
   path: '/laboratory',
   element: <Laboratory />,
   loader: async () => {
-    const token = localStorage.getItem('sessionToken');
-    const profile = jwtDecode(token);
-
-    const response = await fetch(`${API_URL}/${profile.id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-      });
-    if (!response.ok) {
-      localStorage.removeItem('sessionToken');
-      localStorage.removeItem('profileData');
+    const token = localStorage.getItem(TOKEN_STORAGE_KEY);
+    const profileData = localStorage.getItem(PROFILE_STORAGE_KEY);
+    
+    // Validate token exists and is valid
+    if (!token || !profileData) {
       return null;
     }
 
-    const data = await response.json();
-    localStorage.setItem('profileData', JSON.stringify(data));
-    return data;
+    try {
+      jwtDecode(token);
+      return JSON.parse(profileData);
+    } catch (error) {
+      console.error('Invalid token or profile:', error);
+      localStorage.removeItem(TOKEN_STORAGE_KEY);
+      localStorage.removeItem(PROFILE_STORAGE_KEY);
+      return null;
+    }
   }
 };

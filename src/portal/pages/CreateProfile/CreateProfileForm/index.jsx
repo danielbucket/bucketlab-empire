@@ -7,12 +7,12 @@ import { FormStyle, FormContainerStyle } from './index.style.js';
 import { VALIDATION_RULES } from './validationRules.js';
 import { API_URLS, PUBLIC_URLS } from '../../../../global.urls.js';
 
-export default function NewProfileForm() {
+export default function CreateProfileForm() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const { setToken, setProfileData } = useAuth();
+  const { setToken } = useAuth();
 
   // Async submit handler
   const submitForm = async (values) => {
@@ -20,7 +20,7 @@ export default function NewProfileForm() {
     setError(null);
 
     try {
-      const response = await fetch(API_URLS.profiles.createProfile, {
+      const response = await fetch(API_URLS.profiles.create, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values)
@@ -51,13 +51,17 @@ export default function NewProfileForm() {
         console.error('Registration error:', data);
         return;
       }
+
       if (data.token) setToken(data.token);
-      if (data.user) setProfileData(data.user);
+      // if (data.user) setProfileData(data.user);
       // After successful registration, navigate to login and pass email
       if (values.email) {
-        navigate('/auth/login', { state: { email: values.email } });
-      } else {
-        navigate('/auth/login');
+        navigate(`${PUBLIC_URLS.portal.login}`, {
+          state: {
+            email: values.email,
+            token: data.token
+          }
+        });
       }
     } catch (err) {
       let errorMessage = 'Network error. Please check your connection and try again.';

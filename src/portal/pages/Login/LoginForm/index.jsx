@@ -1,17 +1,15 @@
 import { useForm } from "react-hook-form";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useAuth } from '../../../../hooks/useAuth.js';
-import { useAvatar } from '../../../../hooks/useAvatar.js';
 import { FormStyle } from './index.styled.js';
-import { useLocation, Navigate, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { VALIDATION_RULES, MESSAGE_TYPES } from "./vars.js";
 import { API_URLS, PRIVATE_URLS } from '../../../../global.urls.js';
 
 export default function LoginForm() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { isAuthenticated, setToken, setProfileData } = useAuth();
-  const { setAvatarUrl } = useAvatar();
+  const { setAuth } = useAuth();
 
   const [defaultEmail] = useState(() => location.state?.email || '');
   const [formState, setFormState] = useState({
@@ -83,66 +81,22 @@ export default function LoginForm() {
         signal: abortControllerRef.current.signal
       });
 
+      // data = { status: 'success' | 'fail' | 'error', token: string, email: string }
       const data = await response.json();
-
+      
       if (!response.ok || data.status !== 'success') {
         handleApiError(data);
         return;
       }
-
-      const { token, avatarUrl, id } = data.profileData || data;
-
-      if (!token) {
-        handleApiError({ message: 'Authentication failed. No token received.' });
-        return;
+      // data = { message: 'Login successful', status: 'success', token: string }
+      if (data.status === 'success' && data.token) {
+        console.log('Login successful:', data);
+        
+        // Store token directly
+        setAuth(data.token);
+        navigate(PRIVATE_URLS.laboratory.root, { replace: true });
       }
-
-      // Set token first
-      setToken(token);
-      if (avatarUrl) {
-        setAvatarUrl(avatarUrl);
-      }
-
-      // Fetch profile data using the ID received from login
-      if (id) {
-        try {
-          const profileResponse = await fetch(API_URLS.profiles.getProfileById(id), {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
-            },
-            signal: abortControllerRef.current.signal
-          });
-
-          if (!profileResponse.ok) {
-            console.error('Failed to fetch profile data:', profileResponse.status);
-            setFormState(prev => ({
-              ...prev,
-              message: 'Login successful, but failed to load profile data.',
-              messageType: MESSAGE_TYPES.WARNING,
-              isLoading: false
-            }));
-            return;
-          }
-
-          const profileData = await profileResponse.json();
-          setProfileData(profileData);
-
-          // Redirect immediately after successful login
-          navigate(PRIVATE_URLS.laboratory.root, { replace: true });
-        } catch (profileError) {
-          console.error('Error fetching profile:', profileError);
-          if (profileError.name !== 'AbortError') {
-            setFormState(prev => ({
-              ...prev,
-              message: 'Login successful, but failed to load profile data.',
-              messageType: MESSAGE_TYPES.WARNING,
-              isLoading: false
-            }));
-          }
-        }
-      }
+      
     } catch (err) {
       // Don't show error if request was aborted (unmount)
       if (err.name === 'AbortError') {
@@ -164,10 +118,7 @@ export default function LoginForm() {
         isLoading: false
       }));
     }
-  }, [setToken, setProfileData, setAvatarUrl, handleApiError, navigate]);
-
-  // Early return if already authenticated during render (e.g., page refresh)
-  if (isAuthenticated) return <Navigate to="/laboratory" replace />;
+  }, [setAuth, handleApiError, navigate]);
 
   const FormField = ({ label, name, type = 'text', validation, placeholder, defaultValue }) => (
     <div className='form-field'>

@@ -4,6 +4,7 @@ import { jwtDecode } from 'jwt-decode';
 import { ProfileLayout, FormError } from './profile.styled.js';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '../Avatar/index.jsx';
+import { API_URLS } from '../../../global.urls.js';
 
 const API_URL = import.meta.env.DEV
   ? 'https://dev.bucketlab.io/profiles/'

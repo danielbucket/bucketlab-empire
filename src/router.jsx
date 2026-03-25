@@ -13,12 +13,11 @@ const catchAllRoute = {
   element: isAuthenticated
     ? <div>404: Page not found</div>
     : <Navigate to={PUBLIC_URLS.portal.login} replace />
-    // : <Navigate to="/auth/login" replace />
 };
 
 const router = createBrowserRouter([
   ...publicRoutes,
-  ...authRoutes, // Always include auth routes (login, register, etc.)
+  ...authRoutes, // Always include auth routes (login, create, etc.)
   ...(isAuthenticated ? laboratoryRoutes : []),
   catchAllRoute
 ]);

@@ -2,8 +2,9 @@ import { useEffect, useMemo, useState, useCallback, useRef } from 'react';
 import { AuthContext } from '../context/AuthContext.js';
 import { jwtDecode } from "jwt-decode";
 import { API_URLS } from '../global.urls.js';
-const TOKEN_STORAGE_KEY = 'blabSessionToken';
-const PROFILE_STORAGE_KEY = 'blabProfileData';
+import { constants } from '../global.constants.js';
+
+const AUTH_STORAGE_KEY = constants.AUTH_STORAGE_KEY;
 
 // JWT Token validation helper
 // Returns true or false
@@ -24,65 +25,54 @@ const isValidJWT = (token) => {
 };
 
 function AuthProvider({ children }) {
-  const [token, setToken_] = useState(() => {
-    const storedToken = localStorage.getItem(TOKEN_STORAGE_KEY);
-    return isValidJWT(storedToken) ? storedToken : null;
-  });
-  const [profile, setProfile_] = useState(() => {
-    const storedProfile = localStorage.getItem(PROFILE_STORAGE_KEY);
-    return storedProfile ? JSON.parse(storedProfile) : null;
+  const [auth, setAuth_] = useState(() => {
+    // auth = token string
+    const storedAuth = localStorage.getItem(AUTH_STORAGE_KEY);
+    if (!storedAuth) return null;
+
+    try {
+      // Token is stored as plain string, not JSON
+      return isValidJWT(storedAuth) ? storedAuth : null;
+    } catch {
+      return null;
+    }
   });
 
-  const setProfileData = (data) => {
-    if (data) {
-      localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(data));
-      setProfile_(data);
+  const setAuth = (token) => {
+    if (token && isValidJWT(token)) {
+      localStorage.setItem(AUTH_STORAGE_KEY, token);
+      setAuth_(token);
     } else {
-      console.warn('Attempted to set invalid profile data');
-      localStorage.removeItem(PROFILE_STORAGE_KEY);
-      setProfile_(null);
-    };
-  };
-
-  const setToken = (newToken) => {
-    if (newToken && isValidJWT(newToken)) {
-      localStorage.setItem(TOKEN_STORAGE_KEY, newToken);
-      setToken_(newToken);
-    } else {
-      console.warn('Attempted to set invalid JWT token');
-      localStorage.removeItem(TOKEN_STORAGE_KEY);
-      setToken_(null);
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+      setAuth_(null);
     }
   };
 
   const clearAuthState = useCallback(() => {
-    setToken_(null);
-    setProfile_(null);
-    localStorage.removeItem(TOKEN_STORAGE_KEY);
-    localStorage.removeItem(PROFILE_STORAGE_KEY);
+    localStorage.removeItem(AUTH_STORAGE_KEY);
+    setAuth_(null);
   }, []);
 
   const logoutRef = useRef(null);
 
   const logout = useCallback(async () => {
     // Notify server to invalidate token
-    if (token) {
+    if (auth) {
       try {
         await fetch(API_URLS.logout, {
           method: 'POST',
           headers: { 
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${auth}`
           }
         });
       } catch (error) {
         console.error('Logout API call failed:', error);
-        // Continue with local logout even if API call fails
       }
     }
     
     clearAuthState();
-  }, [token, clearAuthState]);
+  }, [auth, clearAuthState]);
 
   // Keep logout ref stable for context
   useEffect(() => {
@@ -91,14 +81,14 @@ function AuthProvider({ children }) {
 
   // Separate effect for auto-logout logic
   useEffect(() => {
-    if (!token || !isValidJWT(token)) {
+    if (!auth || !isValidJWT(auth)) {
       clearAuthState();
       return;
     }
 
     // Auto-logout when token expires
     try {
-      const payload = jwtDecode(token);
+      const payload = jwtDecode(auth);
       const timeUntilExpiry = (payload.exp * 1000) - Date.now();
       
       if (timeUntilExpiry > 0) {
@@ -110,17 +100,14 @@ function AuthProvider({ children }) {
     } catch {
       clearAuthState();
     }
-  }, [token, clearAuthState]);
+  }, [auth, clearAuthState]);
 
   const authContextValue = useMemo(() => ({
-    token, 
-    profile,
-    setToken,
-    setProfileData,
+    auth, 
+    setAuth,
     logout: logoutRef.current,
-    isAuthenticated: token && isValidJWT(token)
-  }), [token, profile]);
-
+    isAuthenticated: auth && isValidJWT(auth)
+  }), [auth]);
   return (
     <AuthContext.Provider value={authContextValue}>
       { children }

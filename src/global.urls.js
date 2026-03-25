@@ -6,7 +6,7 @@ export const API_URLS = {
     login: `${API_ROOT}/auth/profiles/login`,
     create: `${API_ROOT}/auth/profiles/create`,
     logout: `${API_ROOT}/auth/profiles/logout`,
-    getProfileById: (id) => `${API_ROOT}/profiles/${id}`,
+    getProfileByToken: `${API_ROOT}/profiles/me`,
     // deleteProfile: (id) => `${API_ROOT}/profiles/${id}/delete`,
     // getProfileByEmail: (email) => `${API_ROOT}/profiles/email/${email}`,
     // updateProfile: (id) => `${API_ROOT}/profiles/${id}/update`,

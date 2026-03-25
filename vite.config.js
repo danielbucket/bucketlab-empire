@@ -6,6 +6,7 @@ export default defineConfig(({ mode }) => {
   // Load env file based on `mode` in the current working directory.
   // Set the third parameter to '' to load all env regardless of the `VITE_` prefix.
   const env = loadEnv(mode, process.cwd(), '');
+  
   return {
     plugins: [
       react(),
@@ -20,8 +21,7 @@ export default defineConfig(({ mode }) => {
       port: env.APP_PORT ? Number(env.APP_PORT) : 5173,  
       proxy: {
         '/dev': {
-          // target: `http://app_server:${env.API_PORT || 3000}`,
-          target: `http://localhost:${env.API_PORT || 3000}`,
+          target: `http://localhost:${env.API_PORT || 4020}`,
           changeOrigin: true,
           secure: false,
           rewrite: (path) => {

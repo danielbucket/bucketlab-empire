@@ -81,7 +81,6 @@ export default function LoginForm() {
         signal: abortControllerRef.current.signal
       });
 
-      // data = { status: 'success' | 'fail' | 'error', token: string, email: string }
       const data = await response.json();
       
       if (!response.ok || data.status !== 'success') {
@@ -90,15 +89,11 @@ export default function LoginForm() {
       }
       if (data.status === 'success' && data.token) {
         setAuth(data.token);
-        
-        // Give token time to persist to localStorage before navigating
-        setTimeout(() => {
-          navigate(PRIVATE_URLS.laboratory.root, { replace: true });
-        }, 50);
+
+        navigate(PRIVATE_URLS.laboratory.cubicle, { replace: true });
       }
       
     } catch (err) {
-      // Don't show error if request was aborted (unmount)
       if (err.name === 'AbortError') {
         return;
       }

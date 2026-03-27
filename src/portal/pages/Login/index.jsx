@@ -10,7 +10,7 @@ export default function Login() {
   const { isAuthenticated } = useAuth();
 
   if (isAuthenticated) {
-    return <Navigate to={PRIVATE_URLS.laboratory.root} replace />;
+    return <Navigate to={PRIVATE_URLS.laboratory.cubicle} replace />;
   };
 
   return (

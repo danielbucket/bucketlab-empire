@@ -1,10 +1,10 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { ProfileContext } from '../context/ProfileContext.js';
-import { constants } from '../globals.constants.js';
-import { API_URLS } from '../globals.urls.js';
+import { constants } from '../global.constants.js';
+import { API_URLS } from '../global.urls.js';
 
 const PROFILE_STORAGE_KEY = constants.PROFILE_STORAGE_KEY;
-const TOKEN_STORAGE_KEY = constants.TOKEN_STORAGE_KEY;
+const AUTH_STORAGE_KEY = constants.AUTH_STORAGE_KEY;
 
 function ProfileProvider({ children }) {
   const [profile, setProfile_] = useState(() => {
@@ -17,10 +17,9 @@ function ProfileProvider({ children }) {
       localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(data));
       setProfile_(data);
     } else {
-      console.warn('Attempted to set invalid profile data');
       localStorage.removeItem(PROFILE_STORAGE_KEY);
       setProfile_(null);
-    };
+    }
   };
 
   const getProfile = useCallback((token) => {
@@ -55,10 +54,10 @@ function ProfileProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    const profileToken = localStorage.getItem(TOKEN_STORAGE_KEY);
+    const profileToken = localStorage.getItem(AUTH_STORAGE_KEY);
     if (!profileToken) {
-      setProfile(null);
-      return null;
+      setProfile_(null);
+      return;
     }
     
     getProfile(profileToken);

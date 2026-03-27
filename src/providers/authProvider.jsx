@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useCallback, useRef } from 'react';
+import { useEffect, useMemo, useState, useCallback } from 'react';
 import { AuthContext } from '../context/AuthContext.js';
 import { jwtDecode } from "jwt-decode";
 import { API_URLS } from '../global.urls.js';
@@ -50,12 +50,10 @@ function AuthProvider({ children }) {
     setAuth_(null);
   }, [AUTH_STORAGE_KEY]);
 
-  const logoutRef = useRef(null);
-
   const logout = useCallback(async () => {
     if (auth) {
       try {
-        await fetch(API_URLS.logout, {
+        await fetch(API_URLS.profiles.logout, {
           method: 'POST',
           headers: { 
             'Content-Type': 'application/json',
@@ -68,12 +66,8 @@ function AuthProvider({ children }) {
     }
     
     clearAuthState();
+    return;
   }, [auth, clearAuthState]);
-
-  // Keep logout ref stable for context
-  useEffect(() => {
-    logoutRef.current = logout;
-  }, [logout]);
 
   // Auto-logout when token expires
   useEffect(() => {
@@ -101,9 +95,9 @@ function AuthProvider({ children }) {
   const authContextValue = useMemo(() => ({
     auth, 
     setAuth,
-    logout: logoutRef.current,
+    logout,
     isAuthenticated: auth && isValidJWT(auth)
-  }), [auth, setAuth]);
+  }), [auth, setAuth, logout]);
   return (
     <AuthContext.Provider value={authContextValue}>
       { children }

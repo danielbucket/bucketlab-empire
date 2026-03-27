@@ -4,8 +4,8 @@ if (import.meta.env.DEV) { API_ROOT = '/dev' };
 export const API_URLS = {
   profiles: {
     login: `${API_ROOT}/auth/profiles/login`,
-    create: `${API_ROOT}/auth/profiles/create`,
     logout: `${API_ROOT}/auth/profiles/logout`,
+    create: `${API_ROOT}/auth/profiles/create`,
     getProfileByToken: `${API_ROOT}/profiles/me`,
     // deleteProfile: (id) => `${API_ROOT}/profiles/${id}/delete`,
     // getProfileByEmail: (email) => `${API_ROOT}/profiles/email/${email}`,
@@ -26,6 +26,8 @@ export const API_URLS = {
 export const PRIVATE_URLS = {
   laboratory: {
     root: '/laboratory',
+    cubicle: '/laboratory/cubicle',
+    profile: '/laboratory/profile',
     // labs: '/laboratory/labs',
   },
   messages: {

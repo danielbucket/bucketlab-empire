@@ -1,10 +1,8 @@
 import { rootRoute } from './routes/root.route.jsx';
-import { laboratoryRoute } from './routes/laboratory.route.jsx';
 import { cubicleRoute } from './routes/cubicle.route.jsx';
 import { labsRoute } from './routes/labs.route.jsx';
 
 import { profileRoute } from './routes/profile.route.jsx';
-import { watchlistRoute } from './routes/watchlist.route.jsx';
 import { messagesRoute } from './routes/messages.route.jsx';
 import { homelabRoute } from './routes/homelab.route.jsx';
 import { homestarRunnerRoute } from './routes/homestarRunner.route.jsx';
@@ -17,25 +15,12 @@ export const laboratoryRoutes = [
     element: <ProtectedRoute>{rootRoute.element}</ProtectedRoute>,
     errorElement: <LaboratoryError />,
     children: [
-      { ...laboratoryRoute, index: true },
-      cubicleRoute,
+      { ...cubicleRoute, index: true },
+      profileRoute,
+      messagesRoute,
+      homelabRoute,
+      homestarRunnerRoute,
       labsRoute
     ]
   }
 ];
-
-// export const laboratoryRoutes = [
-//   {
-//     ...rootRoute,
-//     element: <ProtectedRoute>{rootRoute.element}</ProtectedRoute>,
-//     errorElement: <LaboratoryError />,
-//     children: [
-//       { ...laboratoryRoute, index: true },
-//       profileRoute,
-//       watchlistRoute,
-//       messagesRoute,
-//       homelabRoute,
-//       homestarRunnerRoute
-//     ]
-//   }
-// ];

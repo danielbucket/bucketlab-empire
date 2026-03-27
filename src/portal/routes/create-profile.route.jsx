@@ -1,9 +1,9 @@
-import NewProfile from '../pages/NewProfile/index.jsx';
+import CreateProfile from '../pages/CreateProfile/index.jsx';
 import pageImage from '../assets/images/robot-builder.jpeg';
 
-export const newProfileRoute = {
-  path: '/auth/new',
-  element: <NewProfile />,
+export const createProfileRoute = {
+  path: '/portal/create-profile',
+  element: <CreateProfile />,
   loader: async () => {
     return {
       pageImage,

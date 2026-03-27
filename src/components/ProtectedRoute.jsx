@@ -2,12 +2,12 @@ import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth.js';
 
 export default function ProtectedRoute({ children }) {
-  const { isAuthenticated, token } = useAuth();
+  const { isAuthenticated } = useAuth();
   const location = useLocation();
-  // If not authenticated, redirect to login with current location
-  if (!isAuthenticated || !token) {
+
+  if (!isAuthenticated) {
     return <Navigate 
-      to="/auth/login"
+      to="/portal/login"
       state={{ from: location.pathname }}
       replace 
     />;

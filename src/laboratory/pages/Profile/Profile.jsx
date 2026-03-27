@@ -1,30 +1,34 @@
 import { useState, useEffect } from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { useProfile } from '../../../hooks/useProfile.js';
 import { jwtDecode } from 'jwt-decode';
 import { ProfileLayout, FormError } from './profile.styled.js';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '../Avatar/index.jsx';
+import { API_URLS } from '../../../global.urls.js';
+import { constants } from '../../../global.constants.js';
 
 const API_URL = import.meta.env.DEV
   ? 'https://dev.bucketlab.io/profiles/'
   : 'https://api.bucketlab.io/profiles/';
 
 export default function Profile() {
-  // Get initial data from the loader
-  const { data } = useLoaderData().data;
+  // Get profile data from context
+  const { profile: data } = useProfile();
   const navigate = useNavigate();
 
   // Set initial form data
   useEffect(() => {
-    resetFormData(data);
+    if (data) {
+      resetFormData(data);
+    }
   }, [data]);
   
-  const [createdAt, setCreatedAt] = useState(() => data.created_at ? new Date(data.created_at).toLocaleDateString() : '');
+  const [createdAt, setCreatedAt] = useState(() => data?.created_at ? new Date(data.created_at).toLocaleDateString() : '');
   const [showModal, setShowModal] = useState(false);
   const [nextLocation, setNextLocation] = useState(null);
   
   const [sessionData, setSessionData] = useState(() => {
-    const token = localStorage.getItem('sessionToken');
+    const token = localStorage.getItem(constants.AUTH_STORAGE_KEY);
     const profile = token ? jwtDecode(token) : null;
     const returnVal = { token, profileID: profile?.id };
 
@@ -33,12 +37,12 @@ export default function Profile() {
 
   const [formData, setFormData] = useState(() => {
     return {
-      first_name: data.first_name || '',
-      last_name: data.last_name || '',
-      email: data.email || '',
-      website: data.website || '',
-      phone: data.phone || '',
-      company: data.company || ''
+      first_name: data?.first_name || '',
+      last_name: data?.last_name || '',
+      email: data?.email || '',
+      website: data?.website || '',
+      phone: data?.phone || '',
+      company: data?.company || ''
     }
   });
   const [isDirty, setIsDirty] = useState(false);

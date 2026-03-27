@@ -1,10 +1,11 @@
 import Contact from '../pages/Contact';
 import pageImage from '../assets/images/laboratory_02.jpeg';
+import { PUBLIC_URLS } from '../../global.urls.js';
 
 const pageText = 'Thanks for visiting my laboratory! I\'m currently building a contact form for this page. In the meantime, feel free to reach out to me on LinkedIn. I look forward to hearing from you!';
 
 export const contactRoute = {
-  path: '/contact',
+  path: PUBLIC_URLS.contact.root,
   element: <Contact />,
   loader: async () => {
     return {

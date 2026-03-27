@@ -1,35 +1,33 @@
 import { useForm } from "react-hook-form";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useAuth } from '../../../../hooks/useAuth.js';
-import { useAvatar } from '../../../../hooks/useAvatar.js';
 import { FormStyle } from './index.styled.js';
-import { useLocation, Navigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { VALIDATION_RULES, MESSAGE_TYPES } from "./vars.js";
-
-// API URL based on environment
-const API_URL = import.meta.env.DEV
-  ? 'https://dev.bucketlab.io/profiles'
-  : 'https://api.bucketlab.io/profiles';
+import { API_URLS, PRIVATE_URLS } from '../../../../global.urls.js';
 
 export default function LoginForm() {
   const location = useLocation();
-  const { isAuthenticated, setToken, setProfileData } = useAuth();
-  const { setAvatarUrl } = useAvatar();
+  const navigate = useNavigate();
+  const { setAuth } = useAuth();
 
-  const [defaultEmail, setDefaultEmail] = useState(() => location.state?.email || '');
-
-  // Sync defaultEmail with location state
-  useEffect(() => {
-    if (location.state?.email) {
-      setDefaultEmail(location.state.email);
-    }
-  }, [location.state?.email]);
+  const [defaultEmail] = useState(() => location.state?.email || '');
   const [formState, setFormState] = useState({
     isLoading: false,
     message: '',
     messageType: null,
     error: null
   });
+
+  // Use AbortController for request cancellation instead of isMounted
+  const abortControllerRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      // Cancel any pending requests on unmount
+      abortControllerRef.current?.abort();
+    };
+  }, []);
 
   const {
     register,
@@ -41,7 +39,6 @@ export default function LoginForm() {
     let message = 'Login failed. Please try again.';
     let messageType = MESSAGE_TYPES.ERROR;
 
-    // Show specific error messages for wrong password or email
     if (errorData?.fail_type === 'invalid_password') {
       message = 'Incorrect password. Please try again.';
     } else if (errorData?.fail_type === 'user_not_found') {
@@ -52,25 +49,22 @@ export default function LoginForm() {
       message = 'Server error occurred. Please try again later.';
     } else if (errorData?.message) {
       message = errorData.message;
-    };
+    }
 
     setFormState(prev => ({
       ...prev,
       message,
       messageType,
-      error: errorData
+      error: errorData,
+      isLoading: false
     }));
   }, []);
 
-  // Prevent state updates after unmount
-  const isMounted = useRef(true);
-  useEffect(() => {
-    isMounted.current = true;
-    return () => { isMounted.current = false; };
-  }, []);
-
   const onSubmit = useCallback(async (values) => {
-    if (!isMounted.current) return;
+    // Cancel any previous request
+    abortControllerRef.current?.abort();
+    abortControllerRef.current = new AbortController();
+
     setFormState(prev => ({
       ...prev,
       isLoading: true,
@@ -80,64 +74,46 @@ export default function LoginForm() {
     }));
 
     try {
-      const response = await fetch(`${API_URL}/login`, {
-      // const response = await fetch('api/login', {
+      const response = await fetch(API_URLS.profiles.login, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values),
+        signal: abortControllerRef.current.signal
       });
+
       const data = await response.json();
-
-      if (!response.ok || data.status !== 'success') {
-        if (isMounted.current) handleApiError(data);
-        return;
-      }
-
-      const { token, avatarUrl } = data.profileData;
       
-      if (token) {
-        if (isMounted.current) {
-          setToken(token);
-          setProfileData(token);
-          avatarUrl && setAvatarUrl(avatarUrl);
-        }
-      } else {
-        if (isMounted.current) {
-          setFormState(prev => ({
-            ...prev,
-            message: 'Authentication failed. No token received.',
-            messageType: MESSAGE_TYPES.ERROR
-          }));
-        }
+      if (!response.ok || data.status !== 'success') {
+        handleApiError(data);
         return;
       }
+      if (data.status === 'success' && data.token) {
+        setAuth(data.token);
+
+        navigate(PRIVATE_URLS.laboratory.cubicle, { replace: true });
+      }
+      
     } catch (err) {
+      if (err.name === 'AbortError') {
+        return;
+      }
+
       let errorMessage = 'Network error. Please check your connection and try again.';
       if (err.name === 'TypeError' && err.message.includes('fetch')) {
         errorMessage = 'Unable to connect to the server. Please check your internet connection.';
       } else if (err.message.includes('CORS')) {
         errorMessage = 'Server configuration error. Please contact support if this persists.';
       }
-      if (isMounted.current) {
-        setFormState(prev => ({
-          ...prev,
-          message: errorMessage,
-          messageType: MESSAGE_TYPES.ERROR,
-          error: { message: err.message }
-        }));
-      }
-    } finally {
-      if (isMounted.current) {
-        setFormState(prev => ({
-          ...prev,
-          isLoading: false
-        }));
-      }
-    }
-  }, [setToken, setProfileData, setAvatarUrl, handleApiError]);
 
-  // Use redirect instead of null render to prevent abrupt unmounts
-  if (isAuthenticated) return <Navigate to="/laboratory" replace />;
+      setFormState(prev => ({
+        ...prev,
+        message: errorMessage,
+        messageType: MESSAGE_TYPES.ERROR,
+        error: { message: err.message },
+        isLoading: false
+      }));
+    }
+  }, [setAuth, handleApiError, navigate]);
 
   const FormField = ({ label, name, type = 'text', validation, placeholder, defaultValue }) => (
     <div className='form-field'>

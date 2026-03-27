@@ -1,5 +1,6 @@
 import Portal from '../pages/Portal/';
 import pageImage from '../assets/images/lab_access_image.jpeg';
+import { PUBLIC_URLS } from '../../global.urls.js';
 
 const contentData = {
   title: 'Portal',
@@ -7,7 +8,7 @@ const contentData = {
 };
 
 export const portalRoute = {
-  path: '/portal',
+  path: PUBLIC_URLS.portal.root,
   element: <Portal />,
   loader: () => ({
     pageImage,

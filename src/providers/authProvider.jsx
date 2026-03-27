@@ -1,13 +1,11 @@
 import { useEffect, useMemo, useState, useCallback } from 'react';
 import { AuthContext } from '../context/AuthContext.js';
 import { jwtDecode } from "jwt-decode";
-
-let API_URL = 'https://api.bucketlab.io';
-if (import.meta.env.DEV) {
-  API_URL = 'https://dev.bucketlab.io';
-};
+import { API_URLS } from '../global.urls.js';
+import { constants } from '../global.constants.js';
 
 // JWT Token validation helper
+// Returns true or false
 const isValidJWT = (token) => {
   if (!token) return false;
 
@@ -24,82 +22,85 @@ const isValidJWT = (token) => {
   }
 };
 
-
 function AuthProvider({ children }) {
-  const [token, setToken_] = useState(() => {
-    const storedToken = localStorage.getItem('sessionToken');
-    return isValidJWT(storedToken) ? storedToken : null;
-  });
-  const [profile, setProfile_] = useState(() => {
-    const storedProfile = localStorage.getItem('profileData');
-    return storedProfile ? JSON.parse(storedProfile) : null;
-  });
+  const { AUTH_STORAGE_KEY } = constants;
+  const [auth, setAuth_] = useState(() => {
+    const storedAuth = localStorage.getItem(AUTH_STORAGE_KEY);
+    if (!storedAuth) return null;
 
-  const setProfile = (profileData) => {
-    if (profileData) {
-      localStorage.setItem('profileData', JSON.stringify(profileData));
-      setProfile_(profileData);
-    } else {
-      console.warn('Attempted to set invalid profile data');
-      localStorage.removeItem('profileData');
-      setProfile_(null);
+    try {
+      return isValidJWT(storedAuth) ? storedAuth : null;
+    } catch {
+      return null;
     }
-  };
+  });
 
-  const setToken = (newToken) => {
-    if (newToken && isValidJWT(newToken)) {
-      localStorage.setItem('sessionToken', newToken);
-      setToken_(newToken);
-    } else {
-      console.warn('Attempted to set invalid JWT token');
-      localStorage.removeItem('sessionToken');
-      setToken_(null);
-    }
-  };
-
-  const logout = useCallback(() => {
-    setToken_(null);
-    setProfile_(null);
-    localStorage.removeItem('sessionToken');
-    localStorage.removeItem('profileData');
-  }, []);
-
-  useEffect(() => {
+  const setAuth = useCallback((token) => {
     if (token && isValidJWT(token)) {
-      localStorage.setItem('sessionToken', token);
-      // Auto-logout when token expires
-      try {
-        const payload = jwtDecode(token);
-        if (payload.exp) {
-          const timeUntilExpiry = (payload.exp * 1000) - Date.now();
-          if (timeUntilExpiry > 0) {
-            const timeoutId = setTimeout(logout, timeUntilExpiry);
-            return () => clearTimeout(timeoutId);
-          } else {
-            logout();
-          }
-        }
-      } catch {
-        logout();
-      }
+      localStorage.setItem(AUTH_STORAGE_KEY, token);
+      setAuth_(token);
     } else {
-      localStorage.removeItem('sessionToken');
-      if (token) setToken_(null);
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+      setAuth_(null);
     }
-  }, [token, logout]);
+  }, [AUTH_STORAGE_KEY]);
+
+  const clearAuthState = useCallback(() => {
+    localStorage.removeItem(AUTH_STORAGE_KEY);
+    setAuth_(null);
+  }, [AUTH_STORAGE_KEY]);
+
+  const logout = useCallback(async () => {
+    if (auth) {
+      try {
+        await fetch(API_URLS.profiles.logout, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${auth}`
+          }
+        });
+      } catch {
+        // Silently handle logout API errors
+      }
+    }
+    
+    clearAuthState();
+    return;
+  }, [auth, clearAuthState]);
+
+  // Auto-logout when token expires
+  useEffect(() => {
+    if (!auth || !isValidJWT(auth)) {
+      clearAuthState();
+      return;
+    }
+
+    // Auto-logout when token expires
+    try {
+      const payload = jwtDecode(auth);
+      const timeUntilExpiry = (payload.exp * 1000) - Date.now();
+      
+      if (timeUntilExpiry > 0) {
+        const timeoutId = setTimeout(clearAuthState, timeUntilExpiry);
+        return () => clearTimeout(timeoutId);
+      } else {
+        clearAuthState();
+      }
+    } catch {
+      clearAuthState();
+    }
+  }, [auth, clearAuthState]);
 
   const authContextValue = useMemo(() => ({
-    token, 
-    profile,
-    setToken,
-    setProfile,
+    auth, 
+    setAuth,
     logout,
-    isAuthenticated: token && isValidJWT(token)
-  }), [token, profile, logout]);
-
+    isAuthenticated: auth && isValidJWT(auth)
+  }), [auth, setAuth, logout]);
   return (
     <AuthContext.Provider value={authContextValue}>
-      {children}
+      { children }
     </AuthContext.Provider>
   );
 };

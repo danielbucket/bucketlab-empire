@@ -1,5 +1,6 @@
 import MythtaT from '../pages/MythtaT'; 
 import image from '../assets/images/T100_0724.jpg';
+import { PUBLIC_URLS } from '../../global.urls.js';
 
 const content = {
   title: 'Mythta T',
@@ -7,7 +8,7 @@ const content = {
 };
 
 export const mythtaTRoute = {
-  path: '/mythtaT100',
+  path: PUBLIC_URLS.mythtaT.root,
   element: <MythtaT />,
   loader: async () => ({
       image,

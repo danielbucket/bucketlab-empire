@@ -1,8 +1,11 @@
 import { StyledCubicle } from './cubicle.styled';
 import { Link } from 'react-router-dom';
+import { useProfile } from '../../../hooks/useProfile.js';
 
-export default function Cubicle({ account }) {
-  const { first_name } = account;
+  
+export default function Cubicle() {
+  const { profile } = useProfile();
+  const { first_name } = profile || { first_name: 'Scott Farcus' };
 
   return (
     <StyledCubicle>

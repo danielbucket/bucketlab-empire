@@ -2,10 +2,10 @@ import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth.js';
 
 export default function ProtectedRoute({ children }) {
-  const { isAuthenticated, token } = useAuth();
+  const { isAuthenticated } = useAuth();
   const location = useLocation();
 
-  if (!isAuthenticated || !token) {
+  if (!isAuthenticated) {
     return <Navigate 
       to="/portal/login"
       state={{ from: location.pathname }}

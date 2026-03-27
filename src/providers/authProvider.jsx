@@ -4,8 +4,6 @@ import { jwtDecode } from "jwt-decode";
 import { API_URLS } from '../global.urls.js';
 import { constants } from '../global.constants.js';
 
-const AUTH_STORAGE_KEY = constants.AUTH_STORAGE_KEY;
-
 // JWT Token validation helper
 // Returns true or false
 const isValidJWT = (token) => {
@@ -25,20 +23,19 @@ const isValidJWT = (token) => {
 };
 
 function AuthProvider({ children }) {
+  const { AUTH_STORAGE_KEY } = constants;
   const [auth, setAuth_] = useState(() => {
-    // auth = token string
     const storedAuth = localStorage.getItem(AUTH_STORAGE_KEY);
     if (!storedAuth) return null;
 
     try {
-      // Token is stored as plain string, not JSON
       return isValidJWT(storedAuth) ? storedAuth : null;
     } catch {
       return null;
     }
   });
 
-  const setAuth = (token) => {
+  const setAuth = useCallback((token) => {
     if (token && isValidJWT(token)) {
       localStorage.setItem(AUTH_STORAGE_KEY, token);
       setAuth_(token);
@@ -46,17 +43,16 @@ function AuthProvider({ children }) {
       localStorage.removeItem(AUTH_STORAGE_KEY);
       setAuth_(null);
     }
-  };
+  }, [AUTH_STORAGE_KEY]);
 
   const clearAuthState = useCallback(() => {
     localStorage.removeItem(AUTH_STORAGE_KEY);
     setAuth_(null);
-  }, []);
+  }, [AUTH_STORAGE_KEY]);
 
   const logoutRef = useRef(null);
 
   const logout = useCallback(async () => {
-    // Notify server to invalidate token
     if (auth) {
       try {
         await fetch(API_URLS.logout, {
@@ -66,8 +62,8 @@ function AuthProvider({ children }) {
             'Authorization': `Bearer ${auth}`
           }
         });
-      } catch (error) {
-        console.error('Logout API call failed:', error);
+      } catch {
+        // Silently handle logout API errors
       }
     }
     
@@ -79,7 +75,7 @@ function AuthProvider({ children }) {
     logoutRef.current = logout;
   }, [logout]);
 
-  // Separate effect for auto-logout logic
+  // Auto-logout when token expires
   useEffect(() => {
     if (!auth || !isValidJWT(auth)) {
       clearAuthState();
@@ -107,7 +103,7 @@ function AuthProvider({ children }) {
     setAuth,
     logout: logoutRef.current,
     isAuthenticated: auth && isValidJWT(auth)
-  }), [auth]);
+  }), [auth, setAuth]);
   return (
     <AuthContext.Provider value={authContextValue}>
       { children }

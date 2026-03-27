@@ -88,13 +88,13 @@ export default function LoginForm() {
         handleApiError(data);
         return;
       }
-      // data = { message: 'Login successful', status: 'success', token: string }
       if (data.status === 'success' && data.token) {
-        console.log('Login successful:', data);
-        
-        // Store token directly
         setAuth(data.token);
-        navigate(PRIVATE_URLS.laboratory.root, { replace: true });
+        
+        // Give token time to persist to localStorage before navigating
+        setTimeout(() => {
+          navigate(PRIVATE_URLS.laboratory.root, { replace: true });
+        }, 50);
       }
       
     } catch (err) {

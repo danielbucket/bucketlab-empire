@@ -1,11 +1,11 @@
-let API_ROOT = 'https://api.bucketlab.io/v1';
+let API_ROOT = 'https://api.bucketlab.io';
 if (import.meta.env.DEV) { API_ROOT = '/dev' };
 
 export const API_URLS = {
   profiles: {
-    login: `${API_ROOT}/auth/profiles/login`,
-    logout: `${API_ROOT}/auth/profiles/logout`,
-    create: `${API_ROOT}/auth/profiles/create`,
+    login: `${API_ROOT}/auth/login`,
+    logout: `${API_ROOT}/auth/logout`,
+    create: `${API_ROOT}/auth/create`,
     getProfileByToken: `${API_ROOT}/profiles/me`,
     // deleteProfile: (id) => `${API_ROOT}/profiles/${id}/delete`,
     // getProfileByEmail: (email) => `${API_ROOT}/profiles/email/${email}`,

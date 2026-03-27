@@ -25,7 +25,7 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           secure: false,
           rewrite: (path) => {
-            const rewritten = path.replace(/^\/dev/, '/v1');
+            const rewritten = path.replace(/^\/dev/, '');
             console.log(`[PROXY] Rewriting ${path} → ${rewritten}`);
             return rewritten;
           },

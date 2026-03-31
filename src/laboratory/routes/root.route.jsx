@@ -11,39 +11,30 @@ export const rootRoute = {
   element: <Root />,
     loader: async () => {
     const token = localStorage.getItem(AUTH_STORAGE_KEY);
+    console.log('ROOT LOADER: token from storage:', token ? 'YES' : 'NO');
 
     if (!token) {
+      console.log('ROOT LOADER: No token, redirecting to login');
       return redirect('/portal/login');
     }
 
     try {
       const payload = jwtDecode(token);
       const currentTime = Date.now() / 1000;
+      console.log('ROOT LOADER: Token exp check - exp:', payload.exp, 'current:', currentTime, 'valid:', payload.exp > currentTime);
 
       if (!payload.exp || payload.exp < currentTime) {
+        console.log('ROOT LOADER: Token expired, clearing and redirecting');
         localStorage.removeItem(AUTH_STORAGE_KEY);
         localStorage.removeItem(PROFILE_STORAGE_KEY);
         return redirect('/portal/login');
       }
 
-      const response = await fetch(API_URLS.profiles.getProfileByToken, {
-        method: 'GET',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      const data = await response.json();
-
-      if (response.ok && data.profile) {
-        return data.profile;
-      } else {
-        localStorage.removeItem(AUTH_STORAGE_KEY);
-        localStorage.removeItem(PROFILE_STORAGE_KEY);
-        return redirect('/portal/login');
-      }
-    } catch {
+      // Token is valid - let ProfileProvider handle profile fetching
+      console.log('ROOT LOADER: Token valid, allowing ProfileProvider to fetch profile');
+      return null;
+    } catch (error) {
+      console.log('ROOT LOADER: Error in loader:', error.message);
       localStorage.removeItem(AUTH_STORAGE_KEY);
       localStorage.removeItem(PROFILE_STORAGE_KEY);
       return redirect('/portal/login');

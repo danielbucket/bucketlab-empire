@@ -36,17 +36,27 @@ function AuthProvider({ children }) {
   });
 
   const setAuth = useCallback((token) => {
+    console.log('setAuth called with token:', token ? token.substring(0, 30) : null);
     if (token && isValidJWT(token)) {
+      console.log('setAuth: Token valid, storing');
       localStorage.setItem(AUTH_STORAGE_KEY, token);
       setAuth_(token);
     } else {
+      console.log('setAuth: Token invalid, clearing. isValidJWT=', token ? isValidJWT(token) : 'no token');
       localStorage.removeItem(AUTH_STORAGE_KEY);
       setAuth_(null);
     }
   }, [AUTH_STORAGE_KEY]);
 
   const clearAuthState = useCallback(() => {
+    console.log('CLEARING AUTH - Stack:', new Error().stack.split('\n').slice(0, 5).join('\n'));
     localStorage.removeItem(AUTH_STORAGE_KEY);
+    setAuth_(null);
+  }, [AUTH_STORAGE_KEY]);
+
+  const clearAuthAndProfile = useCallback(() => {
+    localStorage.removeItem(AUTH_STORAGE_KEY);
+    localStorage.removeItem(constants.PROFILE_STORAGE_KEY);
     setAuth_(null);
   }, [AUTH_STORAGE_KEY]);
 
@@ -71,7 +81,18 @@ function AuthProvider({ children }) {
 
   // Auto-logout when token expires
   useEffect(() => {
-    if (!auth || !isValidJWT(auth)) {
+    console.log('Auto-logout effect running, auth:', auth ? auth.substring(0, 30) : null);
+    
+    // Only run if we have auth
+    if (!auth) {
+      console.log('Auto-logout effect: No auth, skipping');
+      return;
+    }
+    
+    const isValid = isValidJWT(auth);
+    console.log('Auto-logout effect: isValidJWT =', isValid);
+    if (!isValid) {
+      console.log('Auto-logout effect: Token not valid, clearing');
       clearAuthState();
       return;
     }
@@ -80,14 +101,17 @@ function AuthProvider({ children }) {
     try {
       const payload = jwtDecode(auth);
       const timeUntilExpiry = (payload.exp * 1000) - Date.now();
+      console.log('Auto-logout effect: Time until expiry:', timeUntilExpiry);
       
       if (timeUntilExpiry > 0) {
         const timeoutId = setTimeout(clearAuthState, timeUntilExpiry);
         return () => clearTimeout(timeoutId);
       } else {
+        console.log('Auto-logout effect: Token already expired');
         clearAuthState();
       }
-    } catch {
+    } catch (e) {
+      console.log('Auto-logout effect: Error:', e.message);
       clearAuthState();
     }
   }, [auth, clearAuthState]);
@@ -96,8 +120,9 @@ function AuthProvider({ children }) {
     auth, 
     setAuth,
     logout,
+    clearAuthAndProfile,
     isAuthenticated: auth && isValidJWT(auth)
-  }), [auth, setAuth, logout]);
+  }), [auth, setAuth, logout, clearAuthAndProfile]);
   return (
     <AuthContext.Provider value={authContextValue}>
       { children }

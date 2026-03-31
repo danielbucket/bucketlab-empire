@@ -6,10 +6,9 @@ export const API_URLS = {
     login: `${API_ROOT}/auth/login`,
     logout: `${API_ROOT}/auth/logout`,
     create: `${API_ROOT}/auth/create`,
+    deleteProfile: `${API_ROOT}/auth/delete`,
     getProfile: `${API_ROOT}/profiles/me`,
-    deleteProfile: `${API_ROOT}/profiles/delete`,
     updateProfile: `${API_ROOT}/profiles/update`,
-    // getProfileByEmail: (email) => `${API_ROOT}/profiles/email/${email}`,
   },
   laboratory: {
     getLabById: (id) => `${API_ROOT}/laboratory/labs/${id}`,

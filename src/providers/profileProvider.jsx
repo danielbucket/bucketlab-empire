@@ -23,33 +23,76 @@ function ProfileProvider({ children }) {
   };
 
   const getProfile = useCallback((token) => {
+    if (!token) {
+      console.log('ProfileProvider: No token provided');
+      return;
+    }
+    
+    console.log('ProfileProvider: Fetching profile with token:', token.substring(0, 50) + '...');
     try {
-      fetch(API_URLS.profiles.getProfileByToken, {
+      fetch(API_URLS.profiles.getProfile, {
         method: 'GET',
         headers: { 
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         }
       })
-      .then(response => response.json())
+      .then(response => {
+        console.log('ProfileProvider: Response status:', response.status);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
       .then(data => {
+        console.log('ProfileProvider: Profile data received:', data);
         if (data.status === 'success' && data.profile) {
+          console.log('ProfileProvider: Setting profile');
           setProfile(data.profile);
         } else {
-          console.error('Failed to fetch profile:', data);
+          console.error('ProfileProvider: Failed to fetch profile:', data);
           localStorage.removeItem(PROFILE_STORAGE_KEY);
           setProfile(null);
         }
       })
       .catch(error => {
-        console.error('Error fetching profile:', error);
+        console.error('ProfileProvider: Error fetching profile:', error);
         localStorage.removeItem(PROFILE_STORAGE_KEY);
         setProfile(null);
       });
     } catch (error) {
-      console.error('Error parsing stored profile:', error);
+      console.error('ProfileProvider: Error parsing stored profile:', error);
       localStorage.removeItem(PROFILE_STORAGE_KEY);
       setProfile(null);
+    }
+  }, []);
+
+  const updateProfile = useCallback(async (token, updatedData) => {
+    try {
+      const response = await fetch(API_URLS.profiles.updateProfile, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(updatedData)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      if (data.status === 'success' && data.profile) {
+        setProfile(data.profile);
+        return { success: true, profile: data.profile };
+      } else {
+        console.error('Failed to update profile:', data);
+        return { success: false, error: data.message || 'Failed to update profile' };
+      }
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      return { success: false, error: error.message };
     }
   }, []);
 
@@ -61,12 +104,13 @@ function ProfileProvider({ children }) {
     }
     
     getProfile(profileToken);
-  }, [getProfile]);
+  }, []); // Only run once on mount
 
   const memoizedValue = useMemo(() => ({
     profile,
-    setProfile
-   }), [profile]);
+    setProfile,
+    updateProfile
+   }), [profile, updateProfile]);
   
   return (
     <ProfileContext.Provider value={memoizedValue}>

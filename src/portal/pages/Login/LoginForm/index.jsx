@@ -87,6 +87,7 @@ export default function LoginForm() {
         handleApiError(data);
         return;
       }
+      
       if (data.status === 'success' && data.token) {
         setAuth(data.token);
 

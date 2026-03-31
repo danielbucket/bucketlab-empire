@@ -1,48 +1,27 @@
 import { useState, useEffect } from 'react';
 import { useProfile } from '../../../hooks/useProfile.js';
-import { jwtDecode } from 'jwt-decode';
+import { useAuth } from '../../../hooks/useAuth.js';
 import { ProfileLayout, FormError } from './profile.styled.js';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '../Avatar/index.jsx';
 import { API_URLS } from '../../../global.urls.js';
-import { constants } from '../../../global.constants.js';
-
-const API_URL = import.meta.env.DEV
-  ? 'https://dev.bucketlab.io/profiles/'
-  : 'https://api.bucketlab.io/profiles/';
 
 export default function Profile() {
-  // Get profile data from context
-  const { profile: data } = useProfile();
+  const { profile, setProfile } = useProfile();
+  const { auth, clearAuthAndProfile } = useAuth();
   const navigate = useNavigate();
 
-  // Set initial form data
-  useEffect(() => {
-    if (data) {
-      resetFormData(data);
-    }
-  }, [data]);
-  
-  const [createdAt, setCreatedAt] = useState(() => data?.created_at ? new Date(data.created_at).toLocaleDateString() : '');
   const [showModal, setShowModal] = useState(false);
   const [nextLocation, setNextLocation] = useState(null);
-  
-  const [sessionData, setSessionData] = useState(() => {
-    const token = localStorage.getItem(constants.AUTH_STORAGE_KEY);
-    const profile = token ? jwtDecode(token) : null;
-    const returnVal = { token, profileID: profile?.id };
-
-    return returnVal || {};
-  });
 
   const [formData, setFormData] = useState(() => {
     return {
-      first_name: data?.first_name || '',
-      last_name: data?.last_name || '',
-      email: data?.email || '',
-      website: data?.website || '',
-      phone: data?.phone || '',
-      company: data?.company || ''
+      first_name: profile?.first_name || '',
+      last_name: profile?.last_name || '',
+      email: profile?.email || '',
+      website: profile?.website || '',
+      phone: profile?.phone || '',
+      company: profile?.company || ''
     }
   });
   const [isDirty, setIsDirty] = useState(false);
@@ -55,16 +34,19 @@ export default function Profile() {
   const [deletePassword, setDeletePassword] = useState('');
   const [deleteError, setDeleteError] = useState(null);
 
-  const resetFormData = () => {
-    setFormData({
-      first_name: data.first_name || '',
-      last_name: data.last_name || '',
-      email: data.email || '',
-      website: data.website || '',
-      phone: data.phone || '',
-      company: data.company || ''
-    });
-  };
+  // Set initial form data
+  useEffect(() => {
+    if (profile) {
+      setFormData({
+        first_name: profile.first_name || '',
+        last_name: profile.last_name || '',
+        email: profile.email || '',
+        website: profile.website || '',
+        phone: profile.phone || '',
+        company: profile.company || ''
+      });
+    }
+  }, [profile]);
 
   // Listen for location changes to warn about unsaved changes
   useEffect(() => {
@@ -114,10 +96,10 @@ export default function Profile() {
     setIsSaving(true);
 
     try {
-      const response = await fetch(`${API_URL}/${sessionData.profileID}`, {
+      const response = await fetch(API_URLS.profiles.updateProfile, {
         method: 'PATCH',
         headers: {
-          Authorization: `Bearer ${sessionData.token}`,
+          Authorization: `Bearer ${auth}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(formData)
@@ -138,8 +120,10 @@ export default function Profile() {
         return;
       }
 
-      // Simulate network delay (remove in production)
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      const result = await response.json();
+      if (result.profile) {
+        setProfile(result.profile);
+      }
 
       setIsDirty(false);
       setIsSaving(false);
@@ -149,11 +133,7 @@ export default function Profile() {
       if (nextLocation) {
         const dest = nextLocation;
         setNextLocation(null);
-        if (dest.startsWith('/')) {
-          navigate(dest);
-        } else {
-          window.location.href = dest;
-        }
+        navigate(dest);
       }
     } catch (err) {
       setError(`An error occurred while saving. Please try again. ${err}`);
@@ -162,7 +142,16 @@ export default function Profile() {
   };
 
   const handleDiscardChanges = () => {
-    resetFormData();
+    if (profile) {
+      setFormData({
+        first_name: profile.first_name || '',
+        last_name: profile.last_name || '',
+        email: profile.email || '',
+        website: profile.website || '',
+        phone: profile.phone || '',
+        company: profile.company || ''
+      });
+    }
     setIsDirty(false);
     setMissingFields([]);
     setError(null);
@@ -183,10 +172,10 @@ export default function Profile() {
     }
     setIsSaving(true);
     try {
-      const response = await fetch(`${API_URL}/${sessionData.profileID}`, {
+      const response = await fetch(API_URLS.profiles.deleteProfile, {
         method: 'DELETE',
         headers: {
-          Authorization: `Bearer ${sessionData.token}`,
+          Authorization: `Bearer ${auth}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ password: deletePassword })
@@ -204,12 +193,8 @@ export default function Profile() {
         return;
       }
       
-      // Simulate network delay (remove in production)
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      
-      localStorage.removeItem('sessionToken');
-      localStorage.removeItem('profileData');
-      window.location.href = '/';
+      clearAuthAndProfile();
+      navigate('/');
     } catch (err) {
       setDeleteError(`An error occurred while deleting. Please try again. ${err}`);
       setIsSaving(false);
@@ -226,7 +211,7 @@ export default function Profile() {
   return (
     <ProfileLayout>
       <Avatar />
-      <p>Member since: {createdAt ? createdAt : ''}</p>
+      <p>Member since: {profile?.created_at ? profile.created_at : ''}</p>
       <main>
         {error && (<div className="error-message status-message">{error}</div>)}
         {success && (<div className="success-message status-message">{success}</div>)}

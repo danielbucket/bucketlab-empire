@@ -23,12 +23,8 @@ function ProfileProvider({ children }) {
   };
 
   const getProfile = useCallback((token) => {
-    if (!token) {
-      console.log('ProfileProvider: No token provided');
-      return;
-    }
+    if (!token) { return }
     
-    console.log('ProfileProvider: Fetching profile with token:', token.substring(0, 50) + '...');
     try {
       fetch(API_URLS.profiles.getProfile, {
         method: 'GET',
@@ -38,16 +34,13 @@ function ProfileProvider({ children }) {
         }
       })
       .then(response => {
-        console.log('ProfileProvider: Response status:', response.status);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         return response.json();
       })
       .then(data => {
-        console.log('ProfileProvider: Profile data received:', data);
         if (data.status === 'success' && data.profile) {
-          console.log('ProfileProvider: Setting profile');
           setProfile(data.profile);
         } else {
           console.error('ProfileProvider: Failed to fetch profile:', data);

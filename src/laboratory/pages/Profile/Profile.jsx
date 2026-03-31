@@ -170,7 +170,9 @@ export default function Profile() {
       setDeleteError('Password is required.');
       return;
     }
+
     setIsSaving(true);
+    
     try {
       const response = await fetch(API_URLS.profiles.deleteProfile, {
         method: 'DELETE',
@@ -211,7 +213,7 @@ export default function Profile() {
   return (
     <ProfileLayout>
       <Avatar />
-      <p>Member since: {profile?.created_at ? profile.created_at : ''}</p>
+      <p>Member since: {profile?.created_at ? new Date(profile.created_at).toLocaleDateString() : ''}</p>
       <main>
         {error && (<div className="error-message status-message">{error}</div>)}
         {success && (<div className="success-message status-message">{success}</div>)}

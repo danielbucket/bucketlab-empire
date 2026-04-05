@@ -1,6 +1,6 @@
 import About from '../pages/About';
 import pageImage from '../assets/images/danielBucket_ai_01.jpeg';
-import { PUBLIC_URLS } from '../../global.urls.js';
+import { PUBLIC_URLS } from '../../globals/global.urls.js';
 
 const contentData = {
   bio: "I am the founding father of the BucketLab Empire, and a lifelong learner. I am a full-stack web developer with an inclination for creating and maintaining diverse web applications.",

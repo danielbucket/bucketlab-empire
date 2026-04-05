@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import Routes from './router.jsx';
-import { GlobalStyle } from './global.style.js';
+import { GlobalStyle } from './globals/global.style.js';
 import AuthProvider from './providers/authProvider.jsx';
 import { AvatarProvider } from './providers/avatarProvider.jsx';
 

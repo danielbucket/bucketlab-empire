@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState, useCallback } from 'react';
 import { AuthContext } from '../context/AuthContext.js';
 import { jwtDecode } from "jwt-decode";
-import { API_URLS } from '../global.urls.js';
-import { AUTH_STORAGE_KEY, PROFILE_STORAGE_KEY } from '../global.constants.js';
+import { API_URLS } from '../globals/global.urls.js';
+import { AUTH_STORAGE_KEY, PROFILE_STORAGE_KEY } from '../globals/global.constants.js';
 
 const isValidJWT = (token) => {
   if (!token) return false;
@@ -92,7 +92,7 @@ function AuthProvider({ children }) {
       } else {
         clearAuthState();
       }
-    } catch (e) {
+    } catch {
       clearAuthState();
     }
   }, [auth, clearAuthState]);

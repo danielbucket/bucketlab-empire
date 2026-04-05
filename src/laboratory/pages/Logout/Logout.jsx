@@ -1,7 +1,7 @@
 import { LogoutButton, LogoutIcon } from './logout.styled';
 import { useAuth } from '../../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-import { PUBLIC_URLS } from '../../../global.urls.js';
+import { PUBLIC_URLS } from '../../../globals/global.urls.js';
 
 export default function Logout() {
   const { logout } = useAuth();

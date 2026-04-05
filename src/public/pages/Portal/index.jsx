@@ -1,6 +1,6 @@
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { PortalStyle, ImageStyle, ContentStyle } from './index.styled.js';
-import { PUBLIC_URLS } from '../../../global.urls.js';
+import { PUBLIC_URLS } from '../../../globals/global.urls.js';
 
 export default function Portal() {
   const { pageImage } = useLoaderData();

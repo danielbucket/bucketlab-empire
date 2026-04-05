@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../../hooks/useAuth.js';
 import { FormStyle, FormContainerStyle } from './index.style.js';
 import { VALIDATION_RULES } from './validationRules.js';
-import { API_URLS, PUBLIC_URLS } from '../../../../global.urls.js';
+import { API_URLS, PUBLIC_URLS } from '../../../../globals/global.urls.js';
 
 export default function CreateProfileForm() {
   const [error, setError] = useState(null);

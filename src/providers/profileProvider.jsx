@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { ProfileContext } from '../context/ProfileContext.js';
-import { AUTH_STORAGE_KEY, PROFILE_STORAGE_KEY } from '../global.constants.js';
-import { API_URLS } from '../global.urls.js';
+import { AUTH_STORAGE_KEY, PROFILE_STORAGE_KEY } from '../globals/global.constants.js';
+import { API_URLS } from '../globals/global.urls.js';
 
 function ProfileProvider({ children }) {
   const [profile, setProfile_] = useState(() => {

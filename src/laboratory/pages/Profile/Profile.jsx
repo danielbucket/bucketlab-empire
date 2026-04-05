@@ -4,7 +4,7 @@ import { useAuth } from '../../../hooks/useAuth.js';
 import { ProfileLayout, FormError } from './profile.styled.js';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '../Avatar/index.jsx';
-import { API_URLS } from '../../../global.urls.js';
+import { API_URLS } from '../../../globals/global.urls.js';
 
 export default function Profile() {
   const { profile, setProfile } = useProfile();

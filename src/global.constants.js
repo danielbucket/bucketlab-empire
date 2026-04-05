@@ -1,4 +1,2 @@
-export const constants = {
-  AUTH_STORAGE_KEY: 'blabSessionToken',
-  PROFILE_STORAGE_KEY: 'blabProfileData'
-};
+export const AUTH_STORAGE_KEY = 'blabSessionToken';
+export const PROFILE_STORAGE_KEY = 'blabProfileData';

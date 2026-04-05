@@ -8,17 +8,17 @@ export const API_URLS = {
     create: `${API_ROOT}/auth/create`,
     deleteProfile: `${API_ROOT}/auth/delete`,
     getProfile: `${API_ROOT}/profiles/me`,
-    updateProfile: `${API_ROOT}/profiles/update`,
+    updateProfile: `${API_ROOT}/profiles/update`
   },
   laboratory: {
     getLabById: (id) => `${API_ROOT}/laboratory/labs/${id}`,
     createLab: `${API_ROOT}/laboratory/labs/create`,
     updateLab: (id) => `${API_ROOT}/laboratory/labs/${id}/update`,
-    deleteLab: (id) => `${API_ROOT}/laboratory/labs/${id}/delete`,
+    deleteLab: (id) => `${API_ROOT}/laboratory/labs/${id}/delete`
   },
   messages: {
     getMessages: `${API_ROOT}/messages`,
-    sendMessage: `${API_ROOT}/messages/send`,
+    sendMessage: `${API_ROOT}/messages/send`
   },
 };
 

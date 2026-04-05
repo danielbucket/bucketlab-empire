@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, useCallback } from 'react';
 import { AuthContext } from '../context/AuthContext.js';
 import { jwtDecode } from "jwt-decode";
 import { API_URLS } from '../global.urls.js';
-import { constants } from '../global.constants.js';
+import { AUTH_STORAGE_KEY, PROFILE_STORAGE_KEY } from '../global.constants.js';
 
 const isValidJWT = (token) => {
   if (!token) return false;
@@ -20,7 +20,6 @@ const isValidJWT = (token) => {
 };
 
 function AuthProvider({ children }) {
-  const { AUTH_STORAGE_KEY } = constants;
   const [auth, setAuth_] = useState(() => {
     const storedAuth = localStorage.getItem(AUTH_STORAGE_KEY);
     if (!storedAuth) return null;
@@ -49,7 +48,7 @@ function AuthProvider({ children }) {
 
   const clearAuthAndProfile = useCallback(() => {
     localStorage.removeItem(AUTH_STORAGE_KEY);
-    localStorage.removeItem(constants.PROFILE_STORAGE_KEY);
+    localStorage.removeItem(PROFILE_STORAGE_KEY);
     setAuth_(null);
   }, [AUTH_STORAGE_KEY]);
 

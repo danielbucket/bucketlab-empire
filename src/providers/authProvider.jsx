@@ -46,7 +46,7 @@ function AuthProvider({ children }) {
     setAuth_(null);
   }, [AUTH_STORAGE_KEY]);
 
-  const clearAuthAndProfile = useCallback(() => {
+  const clearAuthAndProfileState = useCallback(() => {
     localStorage.removeItem(AUTH_STORAGE_KEY);
     localStorage.removeItem(PROFILE_STORAGE_KEY);
     setAuth_(null);
@@ -67,9 +67,9 @@ function AuthProvider({ children }) {
       }
     }
     
-    clearAuthState();
+    clearAuthAndProfileState();
     return;
-  }, [auth, clearAuthState]);
+  }, [auth, clearAuthAndProfileState]);
 
   // Auto-logout when token expires
   useEffect(() => {
@@ -101,9 +101,8 @@ function AuthProvider({ children }) {
     auth, 
     setAuth,
     logout,
-    clearAuthAndProfile,
     isAuthenticated: auth && isValidJWT(auth)
-  }), [auth, setAuth, logout, clearAuthAndProfile]);
+  }), [auth, setAuth, logout]);
   return (
     <AuthContext.Provider value={authContextValue}>
       { children }

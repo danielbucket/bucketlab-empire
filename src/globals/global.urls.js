@@ -20,6 +20,9 @@ export const API_URLS = {
     getMessages: `${API_ROOT}/messages`,
     sendMessage: `${API_ROOT}/messages/send`
   },
+  homelab: {
+    status: `${API_ROOT}/homelab/status`
+  }
 };
 
 export const PRIVATE_URLS = {

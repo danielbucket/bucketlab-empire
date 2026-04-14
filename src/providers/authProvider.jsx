@@ -32,7 +32,7 @@ function AuthProvider({ children }) {
   });
 
   const setAuth = useCallback((token) => {
-    if (token && isValidJWT(token)) {
+    if (token) {
       localStorage.setItem(AUTH_STORAGE_KEY, token);
       setAuth_(token);
     } else {
@@ -41,27 +41,40 @@ function AuthProvider({ children }) {
     }
   }, [AUTH_STORAGE_KEY]);
 
-
-
-
-
-
-
-  // const clearLocalStorage = useCallback(() => {
-  //   localStorage.removeItem(AUTH_STORAGE_KEY);
-  //   setAuth_(null);
-  // }, [AUTH_STORAGE_KEY]);
-
   const clearLocalStorage = useCallback(() => {
     localStorage.removeItem(AUTH_STORAGE_KEY);
     localStorage.removeItem(PROFILE_STORAGE_KEY);
     setAuth_(null);
   }, [AUTH_STORAGE_KEY, PROFILE_STORAGE_KEY]);
 
+  const getAuth = useCallback(async (email, password) => {
+    try {
+      const response = await fetch(API_URLS.auth.login, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
 
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Login failed');
+      }
 
-
-
+      const data = await response.json();
+      if (data.status === 'success') {
+        if (isValidJWT(data.token)) {
+          setAuth(data.token);
+        } else {
+          throw new Error('Received an invalid token from the server');
+        }
+      } else {
+        throw new Error(data.message || 'Login failed');
+      }
+    } catch (error) {
+      console.error('AuthProvider: Login error:', error);
+      throw error;
+    }
+  }, [setAuth]);
 
   const logout = useCallback(async () => {
     if (auth) {
@@ -110,11 +123,11 @@ function AuthProvider({ children }) {
 
   const authContextValue = useMemo(() => ({
     auth, 
-    setAuth,
+    getAuth,
     logout,
     clearLocalStorage,
     isAuthenticated: auth && isValidJWT(auth)
-  }), [auth, setAuth, logout, clearLocalStorage]);
+  }), [auth, getAuth, logout, clearLocalStorage]);
   return (
     <AuthContext.Provider value={authContextValue}>
       { children }

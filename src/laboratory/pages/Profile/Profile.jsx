@@ -6,14 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Avatar from '../Avatar/index.jsx';
 import { API_URLS } from '../../../globals/global.urls.js';
 
-const expectedProfile = {
-  first_name: "",
-  last_name: "",
-  email: "",
-  website: "",
-  phone: "",
-  company: ""
-};
+const expectedProfile = { first_name: "", last_name: "", email: "", website: "", phone: "", company: "" };
 
 export default function Profile() {
   const { profile, setProfile } = useProfile();

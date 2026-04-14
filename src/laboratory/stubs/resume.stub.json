@@ -1,0 +1,125 @@
+{
+  "title": "Resume",
+  "description": "This is a stubbed description for the resume page.",
+  "workExperience": [
+    {
+      "company": "AborCraft Tree Services",
+      "location": "Golden, CO",
+      "website": "https://www.aborcraftservices.com/",
+      "role": "Owner/Operator",
+      "duration": "2020 - Present",
+      "description": "Manage and operate a tree service business, providing tree care and maintenance services to residential and commercial clients.",
+      "achievements": [
+        "Founded and grew a small business startup, boosting customer base by 100% while managing operations and project success.",
+        "Implemented efficient scheduling and resource management strategies, reducing operational costs by 15% and improving service delivery.",
+        "Successfully completed over 500 tree care projects, maintaining a 95% customer satisfaction rate through quality service and effective communication.",
+        "Cultivated strong client relationships, leading to a 30% increase in repeat business through transparent communication and trust-building.",
+        "Built and mainrtained a strong online presence, increasing brand visibility and attracting new customers."
+      ],
+      "requirements": [
+        "Daily operations include client consultations, project management, and team leadership.",
+        "Organize and manage a team of 3 employees, ensuring efficient workflow and high-quality service delivery.",
+        "Strong analytical skills and ability to identify market opportunities.",
+        "Excellent communication and interpersonal skills.",
+        "Office management and organizational skills, including scheduling, invoicing, and customer relationship management.",
+        "Physical fitness and ability to perform manual labor, including climbing and working at heights."
+      ]
+    },
+    {
+      "company": "BucketLab.io",
+      "location": "Denver, CO",
+      "website": "https://bucketlab.io/",
+      "role": "Software Engineer / Full Stack Developer",
+      "duration": "2023 - Present",
+      "description": "Working on various projects related to web development and cloud services.",
+      "achievements": [
+        "Contributed to the development of a scalable web application, improving performance by 30% and enhancing user experience.",
+        "Built and maintained a homelab infrastructure, optimizing resource utilization.",
+        "Implemented CI/CD pipelines, reducing deployment time by 50% and increasing deployment frequency.",
+        "Successfully developed and deployed microservices, improving system modularity and scalability."
+      ],
+      "requirements": [
+        "Proficient in JavaScript, React, Node.js, and cloud technologies.",
+        "Experience with agile development methodologies and version control systems.",
+        "Strong problem-solving skills and ability to work in a collaborative team environment."
+      ]
+    },
+    {
+      "company": "Tech Solutions Inc.",
+      "location": "Denver, CO",
+      "website": "https://www.techsolutions.com/",
+      "role": "Frontend Developer",
+      "duration": "2018 - 2020",
+      "description": "Focused on building responsive and user-friendly web interfaces.",
+      "achievements": [
+        "Developed and maintained a customer-facing web application, increasing user engagement by 25%.",
+        "Collaborated with designers and backend developers to implement new features and improve existing ones.",
+        "Optimized frontend performance, reducing load times by 20% and enhancing overall user experience."
+      ],
+      "requirements": [
+        "Proficient in HTML, CSS, JavaScript, and frontend frameworks.",
+        "Experience with responsive design and cross-browser compatibility.",
+        "Strong attention to detail and ability to translate design mockups into functional web interfaces."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Turing School of Software & Design",
+      "degree": "Front End Engineering",
+      "duration": "2017 - 2018",
+      "description": "Studied various aspects of computer science, including algorithms, data structures, and software engineering."
+    }
+  ],
+  "certifications": [
+    {
+      "name": "CompTIA A+",
+      "issuer": "CompTIA",
+      "date": "2026"
+    },
+    {
+      "name": "CompTIA Security+",
+      "issuer": "CompTIA",
+      "date": "2026"
+    },
+    {
+      "name": "Suspension Technology Certification",
+      "issuer": "United Bicycle Institute",
+      "date": "2013"
+    },
+    {
+      "name": "Wheel Builder Certification",
+      "issuer": "United Bicycle Institute",
+      "date": "2013"
+    },
+    {
+      "name": "Professional Repair and Shop Operations Certification",
+      "issuer": "United Bicycle Institute",
+      "date": "2013"
+    },
+    {
+      "name": "Advanced Mechanics Certification",
+      "issuer": "United Bicycle Institute",
+      "date": "2013"
+    }
+  ],
+  "skills": [
+    "JavaScript",
+    "React",
+    "Node.js",
+    "Python",
+    "Docker",
+    "ExpressJS",
+    "MongoDB",
+    "RESTful APIs",
+    "Git",
+    "Agile Development",
+    "Problem Solving",
+    "Team Collaboration",
+    "Project Management",
+    "Customer Service",
+    "Tree Care and Maintenance",
+    "Business Management",
+    "Bicycle Repair and Maintenance"
+  ]
+}

@@ -2,6 +2,12 @@ let API_ROOT = 'https://api.bucketlab.io';
 if (import.meta.env.DEV) { API_ROOT = '/dev' };
 
 export const API_URLS = {
+  auth: {
+    login: `${API_ROOT}/auth/login`,
+    logout: `${API_ROOT}/auth/logout`,
+    create: `${API_ROOT}/auth/create`,
+    delete: `${API_ROOT}/auth/delete`
+  },
   profiles: {
     login: `${API_ROOT}/auth/login`,
     logout: `${API_ROOT}/auth/logout`,

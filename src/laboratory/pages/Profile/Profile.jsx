@@ -17,7 +17,7 @@ const expectedProfile = {
 
 export default function Profile() {
   const { profile, setProfile } = useProfile();
-  const { auth, clearAuthAndProfile } = useAuth();
+  const { auth, clearLocalStorage } = useAuth();
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
@@ -178,7 +178,7 @@ export default function Profile() {
     setIsSaving(true);
     
     try {
-      const response = await fetch(API_URLS.profiles.deleteProfile, {
+      const response = await fetch(API_URLS.auth.delete, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${auth}`,
@@ -199,7 +199,7 @@ export default function Profile() {
         return;
       }
       
-      clearAuthAndProfile();
+      clearLocalStorage();
       navigate('/');
     } catch (err) {
       setDeleteError(`An error occurred while deleting. Please try again. ${err}`);

@@ -41,16 +41,27 @@ function AuthProvider({ children }) {
     }
   }, [AUTH_STORAGE_KEY]);
 
-  const clearAuthState = useCallback(() => {
-    localStorage.removeItem(AUTH_STORAGE_KEY);
-    setAuth_(null);
-  }, [AUTH_STORAGE_KEY]);
 
-  const clearAuthAndProfileState = useCallback(() => {
+
+
+
+
+
+  // const clearLocalStorage = useCallback(() => {
+  //   localStorage.removeItem(AUTH_STORAGE_KEY);
+  //   setAuth_(null);
+  // }, [AUTH_STORAGE_KEY]);
+
+  const clearLocalStorage = useCallback(() => {
     localStorage.removeItem(AUTH_STORAGE_KEY);
     localStorage.removeItem(PROFILE_STORAGE_KEY);
     setAuth_(null);
-  }, [AUTH_STORAGE_KEY]);
+  }, [AUTH_STORAGE_KEY, PROFILE_STORAGE_KEY]);
+
+
+
+
+
 
   const logout = useCallback(async () => {
     if (auth) {
@@ -67,9 +78,9 @@ function AuthProvider({ children }) {
       }
     }
     
-    clearAuthAndProfileState();
+    clearLocalStorage();
     return;
-  }, [auth, clearAuthAndProfileState]);
+  }, [auth, clearLocalStorage]);
 
   // Auto-logout when token expires
   useEffect(() => {
@@ -78,7 +89,7 @@ function AuthProvider({ children }) {
     const isValid = isValidJWT(auth);
 
     if (!isValid) {
-      clearAuthState();
+      clearLocalStorage();
       return;
     }
 
@@ -87,22 +98,23 @@ function AuthProvider({ children }) {
       const timeUntilExpiry = (payload.exp * 1000) - Date.now();
       
       if (timeUntilExpiry > 0) {
-        const timeoutId = setTimeout(clearAuthState, timeUntilExpiry);
+        const timeoutId = setTimeout(clearLocalStorage, timeUntilExpiry);
         return () => clearTimeout(timeoutId);
       } else {
-        clearAuthState();
+        clearLocalStorage();
       }
     } catch {
-      clearAuthState();
+      clearLocalStorage();
     }
-  }, [auth, clearAuthState]);
+  }, [auth, clearLocalStorage]);
 
   const authContextValue = useMemo(() => ({
     auth, 
     setAuth,
     logout,
+    clearLocalStorage,
     isAuthenticated: auth && isValidJWT(auth)
-  }), [auth, setAuth, logout]);
+  }), [auth, setAuth, logout, clearLocalStorage]);
   return (
     <AuthContext.Provider value={authContextValue}>
       { children }

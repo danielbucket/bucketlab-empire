@@ -1,10 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useProfile } from '../../../hooks/useProfile.js';
 import { useAuth } from '../../../hooks/useAuth.js';
 import { ProfileLayout, FormError } from './profile.styled.js';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '../Avatar/index.jsx';
-import { API_URLS } from '../../../global.urls.js';
+import { API_URLS } from '../../../globals/global.urls.js';
+
+const expectedProfile = {
+  first_name: "",
+  last_name: "",
+  email: "",
+  website: "",
+  phone: "",
+  company: ""
+};
 
 export default function Profile() {
   const { profile, setProfile } = useProfile();
@@ -14,16 +23,7 @@ export default function Profile() {
   const [showModal, setShowModal] = useState(false);
   const [nextLocation, setNextLocation] = useState(null);
 
-  const [formData, setFormData] = useState(() => {
-    return {
-      first_name: profile?.first_name || '',
-      last_name: profile?.last_name || '',
-      email: profile?.email || '',
-      website: profile?.website || '',
-      phone: profile?.phone || '',
-      company: profile?.company || ''
-    }
-  });
+  const [formData, setFormData] = useState(() => expectedProfile);
   const [isDirty, setIsDirty] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(null);
@@ -37,14 +37,17 @@ export default function Profile() {
   // Set initial form data
   useEffect(() => {
     if (profile) {
-      setFormData({
+      // parse the profile data to ensure all expected fields are present
+      const parsedProfile = {
         first_name: profile.first_name || '',
         last_name: profile.last_name || '',
         email: profile.email || '',
         website: profile.website || '',
         phone: profile.phone || '',
         company: profile.company || ''
-      });
+      };
+      
+      setFormData(() => parsedProfile);
     }
   }, [profile]);
 
@@ -54,6 +57,8 @@ export default function Profile() {
       if (isDirty) {
         e.preventDefault();
         setShowModal(true);
+        // This should use React Router's navigation instead of direct link navigation
+        // navigate(e.target.href);
         setNextLocation(e.target.href);
       }
     };
@@ -68,23 +73,23 @@ export default function Profile() {
   }, [isDirty]);
 
   // Mark form as dirty on change
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     setIsDirty(true);
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  }, []);
 
-  const handleCancelNavigation = () => {
+  const handleCancelNavigation = useCallback(() => {
     setShowModal(false);
     setNextLocation(null);
-  };
+  }, []);
 
-  const handleSave = async () => {
+  const handleSave = useCallback(async () => {
     if (isSaving) return;
 
     setError(null);
     setSuccess(null);
     setMissingFields([]);
-    const required = ['first_name', 'last_name', 'email'];
+    const required = ['first_name', 'last_name'];
     const missing = required.filter(f => !formData[f]);
     setMissingFields(missing);
 
@@ -131,17 +136,16 @@ export default function Profile() {
       setSuccess('Profile updated successfully.');
 
       if (nextLocation) {
-        const dest = nextLocation;
         setNextLocation(null);
-        navigate(dest);
+        navigate(nextLocation);
       }
     } catch (err) {
       setError(`An error occurred while saving. Please try again. ${err}`);
       setIsSaving(false);
     }
-  };
+  }, [isSaving, formData, auth, setProfile, nextLocation, navigate]);
 
-  const handleDiscardChanges = () => {
+  const handleDiscardChanges = useCallback(() => {
     if (profile) {
       setFormData({
         first_name: profile.first_name || '',
@@ -155,7 +159,7 @@ export default function Profile() {
     setIsDirty(false);
     setMissingFields([]);
     setError(null);
-  };
+  }, [profile]);
 
   const handleDeleteProfile = () => {
     setShowDeleteModal(true);
@@ -247,12 +251,9 @@ export default function Profile() {
             <input
               name="email"
               value={formData.email || ''}
-              onChange={handleChange}
-              style={missingFields.includes('email') ? { border: '1px solid #ff0055' } : {}}
+              disabled
+              readOnly
             />
-            {missingFields.includes('email') && (
-              <FormError>Email is required.</FormError>
-            )}
           </label>
           <label>
             Website:

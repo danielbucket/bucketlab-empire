@@ -1,10 +1,9 @@
 import { createGlobalStyle } from 'styled-components';
-import OrbitronTTF from './assets/fonts/Orbitron/Orbitron-VariableFont_wght.ttf';
-import RobotoTTF from './assets/fonts/Roboto/Roboto-Regular.ttf';
-import LailaMedTTF from './assets/fonts/Laila/Laila-Medium.ttf';
-import UbuntuRegTTF from './assets/fonts/Ubuntu/Ubuntu-Regular.ttf';
-
-import KodeMonoVarTTF from './assets/fonts/Kode_Mono/KodeMono-VariableFont_wght.ttf';
+import OrbitronTTF from '../assets/fonts/Orbitron/Orbitron-VariableFont_wght.ttf';
+import RobotoTTF from '../assets/fonts/Roboto/Roboto-Regular.ttf';
+import LailaMedTTF from '../assets/fonts/Laila/Laila-Medium.ttf';
+import UbuntuRegTTF from '../assets/fonts/Ubuntu/Ubuntu-Regular.ttf';
+import KodeMonoVarTTF from '../assets/fonts/Kode_Mono/KodeMono-VariableFont_wght.ttf';
 
 export const GlobalStyle = createGlobalStyle`
   @font-face {

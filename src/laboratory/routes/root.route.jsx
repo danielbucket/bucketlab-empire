@@ -1,9 +1,7 @@
 import Root from '../pages/Root/index.jsx';
 import { jwtDecode } from 'jwt-decode';
 import { redirect } from 'react-router-dom';
-import { constants } from '../../global.constants.js';
-
-const { AUTH_STORAGE_KEY, PROFILE_STORAGE_KEY } = constants;
+import { AUTH_STORAGE_KEY, PROFILE_STORAGE_KEY } from '../../globals/global.constants.js';
 
 export const rootRoute = {
   path: '/laboratory',

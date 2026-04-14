@@ -4,7 +4,7 @@ import { useAuth } from '../../../../hooks/useAuth.js';
 import { FormStyle } from './index.styled.js';
 import { useLocation, useNavigate } from "react-router-dom";
 import { VALIDATION_RULES, MESSAGE_TYPES } from "./vars.js";
-import { API_URLS, PRIVATE_URLS } from '../../../../global.urls.js';
+import { API_URLS, PRIVATE_URLS } from '../../../../globals/global.urls.js';
 
 export default function LoginForm() {
   const location = useLocation();

@@ -2,7 +2,7 @@ import { useLoaderData, useNavigate, Navigate } from 'react-router-dom';
 import LoginForm from './LoginForm/index.jsx';
 import { LoginStyle, NavStyle } from './index.styled.js';
 import { useAuth } from '../../../hooks/useAuth.js';
-import { PUBLIC_URLS, PRIVATE_URLS } from '../../../global.urls.js';
+import { PUBLIC_URLS, PRIVATE_URLS } from '../../../globals/global.urls.js';
 
 export default function Login() {
   const { pageImage } = useLoaderData();

@@ -3,7 +3,7 @@ import { useAuth } from './hooks/useAuth.js';
 import { publicRoutes } from './public/public.router.jsx';
 import { authRoutes } from './portal/portal.router.jsx';
 import { laboratoryRoutes } from './laboratory/laboratory.router.jsx';
-import { PUBLIC_URLS } from './global.urls.js';
+import { PUBLIC_URLS } from './globals/global.urls.js';
 
 export default function Routes() {
 const { isAuthenticated } = useAuth();

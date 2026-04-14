@@ -1,6 +1,6 @@
 import Portal from '../pages/Portal/';
 import pageImage from '../assets/images/lab_access_image.jpeg';
-import { PUBLIC_URLS } from '../../global.urls.js';
+import { PUBLIC_URLS } from '../../globals/global.urls.js';
 
 const contentData = {
   title: 'Portal',

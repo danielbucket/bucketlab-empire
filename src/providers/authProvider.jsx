@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState, useCallback } from 'react';
 import { AuthContext } from '../context/AuthContext.js';
 import { jwtDecode } from "jwt-decode";
-import { API_URLS } from '../global.urls.js';
-import { constants } from '../global.constants.js';
+import { API_URLS } from '../globals/global.urls.js';
+import { AUTH_STORAGE_KEY, PROFILE_STORAGE_KEY } from '../globals/global.constants.js';
 
 const isValidJWT = (token) => {
   if (!token) return false;
@@ -20,7 +20,6 @@ const isValidJWT = (token) => {
 };
 
 function AuthProvider({ children }) {
-  const { AUTH_STORAGE_KEY } = constants;
   const [auth, setAuth_] = useState(() => {
     const storedAuth = localStorage.getItem(AUTH_STORAGE_KEY);
     if (!storedAuth) return null;
@@ -47,9 +46,9 @@ function AuthProvider({ children }) {
     setAuth_(null);
   }, [AUTH_STORAGE_KEY]);
 
-  const clearAuthAndProfile = useCallback(() => {
+  const clearAuthAndProfileState = useCallback(() => {
     localStorage.removeItem(AUTH_STORAGE_KEY);
-    localStorage.removeItem(constants.PROFILE_STORAGE_KEY);
+    localStorage.removeItem(PROFILE_STORAGE_KEY);
     setAuth_(null);
   }, [AUTH_STORAGE_KEY]);
 
@@ -68,9 +67,9 @@ function AuthProvider({ children }) {
       }
     }
     
-    clearAuthState();
+    clearAuthAndProfileState();
     return;
-  }, [auth, clearAuthState]);
+  }, [auth, clearAuthAndProfileState]);
 
   // Auto-logout when token expires
   useEffect(() => {
@@ -93,7 +92,7 @@ function AuthProvider({ children }) {
       } else {
         clearAuthState();
       }
-    } catch (e) {
+    } catch {
       clearAuthState();
     }
   }, [auth, clearAuthState]);
@@ -102,9 +101,8 @@ function AuthProvider({ children }) {
     auth, 
     setAuth,
     logout,
-    clearAuthAndProfile,
     isAuthenticated: auth && isValidJWT(auth)
-  }), [auth, setAuth, logout, clearAuthAndProfile]);
+  }), [auth, setAuth, logout]);
   return (
     <AuthContext.Provider value={authContextValue}>
       { children }

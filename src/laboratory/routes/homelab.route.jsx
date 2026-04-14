@@ -1,9 +1,6 @@
+import { API_URLS } from '../../globals/global.urls.js';
 import Homelab from '../pages/Homelab/Homelab.jsx';
 
-let API_URL = 'https://api.bucketlab.io/homelab';
-if (import.meta.env.DEV) {
-  API_URL = 'https://dev.bucketlab.io/homelab';
-}
 
 export const homelabRoute = {
   path: '/laboratory/homelab',
@@ -11,7 +8,7 @@ export const homelabRoute = {
   loader: async () => {
     const token = localStorage.getItem('sessionToken');
 
-    const homelabResponse = await fetch(`${API_URL}/status`, {
+    const homelabResponse = await fetch(API_URLS.homelab.status, {
       headers: {
         Authorization: `Bearer ${token}`
       }

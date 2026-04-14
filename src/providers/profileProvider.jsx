@@ -1,10 +1,7 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { ProfileContext } from '../context/ProfileContext.js';
-import { constants } from '../global.constants.js';
-import { API_URLS } from '../global.urls.js';
-
-const PROFILE_STORAGE_KEY = constants.PROFILE_STORAGE_KEY;
-const AUTH_STORAGE_KEY = constants.AUTH_STORAGE_KEY;
+import { AUTH_STORAGE_KEY, PROFILE_STORAGE_KEY } from '../globals/global.constants.js';
+import { API_URLS } from '../globals/global.urls.js';
 
 function ProfileProvider({ children }) {
   const [profile, setProfile_] = useState(() => {
@@ -12,7 +9,7 @@ function ProfileProvider({ children }) {
     return storedProfile ? JSON.parse(storedProfile) : null;
   });
 
-  const setProfile = (data) => {
+  const setProfile = useCallback((data) => {
     if (data) {
       localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(data));
       setProfile_(data);
@@ -20,45 +17,38 @@ function ProfileProvider({ children }) {
       localStorage.removeItem(PROFILE_STORAGE_KEY);
       setProfile_(null);
     }
-  };
+  }, [setProfile_]);
 
-  const getProfile = useCallback((token) => {
+  const getProfile = useCallback(async (token) => {
     if (!token) { return }
     
     try {
-      fetch(API_URLS.profiles.getProfile, {
+      const response = await fetch(API_URLS.profiles.getProfile, {
         method: 'GET',
         headers: { 
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         }
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(data => {
-        if (data.status === 'success' && data.profile) {
-          setProfile(data.profile);
-        } else {
-          console.error('ProfileProvider: Failed to fetch profile:', data);
-          localStorage.removeItem(PROFILE_STORAGE_KEY);
-          setProfile(null);
-        }
-      })
-      .catch(error => {
-        console.error('ProfileProvider: Error fetching profile:', error);
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      if (data.status === 'success' && data.profile) {
+        setProfile(data.profile);
+      } else {
+        console.error('ProfileProvider: Failed to fetch profile:', data);
         localStorage.removeItem(PROFILE_STORAGE_KEY);
         setProfile(null);
-      });
+      }
     } catch (error) {
-      console.error('ProfileProvider: Error parsing stored profile:', error);
+      console.error('ProfileProvider: Error fetching profile:', error);
       localStorage.removeItem(PROFILE_STORAGE_KEY);
       setProfile(null);
     }
-  }, []);
+  }, [setProfile]);
 
   const updateProfile = useCallback(async (token, updatedData) => {
     try {

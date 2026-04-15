@@ -51,8 +51,14 @@ export const ResumeContainer = styled.div`
   border-radius: 12px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
   padding: 3rem;
-  line-height: 1.6;
+  line-height: 1.7;
   color: #333;
+  font-size: 1.05rem;
+
+  p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
 
   @media (max-width: 768px) {
     padding: 2rem 1.5rem;
@@ -97,11 +103,11 @@ export const ContactInfo = styled.div`
   gap: 2rem;
   flex-wrap: wrap;
   justify-content: center;
-  font-size: 0.95rem;
+  font-size: 1.1rem;
 
   @media (max-width: 768px) {
     gap: 1rem;
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 
   @media print {
@@ -125,7 +131,7 @@ export const Section = styled.section`
 `;
 
 export const SectionTitle = styled.h2`
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   color: #667eea;
   margin: 0 0 0.5rem 0;
   font-weight: 700;
@@ -170,13 +176,13 @@ export const ExperienceHeader = styled.div`
 
   span {
     color: #999;
-    font-size: 0.9rem;
+    font-size: 1rem;
     white-space: nowrap;
   }
 `;
 
 export const ExperienceTitle = styled.h3`
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   margin: 0;
   color: #1a1a1a;
   font-weight: 700;
@@ -184,7 +190,7 @@ export const ExperienceTitle = styled.h3`
 
 export const ExperienceDetails = styled.div`
   color: #666;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   margin-bottom: 0.75rem;
   font-weight: 500;
 
@@ -207,10 +213,11 @@ export const AchievementsList = styled.ul`
 `;
 
 export const AchievementItem = styled.li`
-  padding: 0.5rem 0 0.5rem 1.5rem;
+  padding: 0.6rem 0 0.6rem 1.5rem;
   position: relative;
   color: #555;
-  font-size: 0.95rem;
+  font-size: 1rem;
+  line-height: 1.5;
 
   &:before {
     content: '▹';
@@ -250,16 +257,18 @@ export const EducationItem = styled.div`
 
   strong {
     color: #1a1a1a;
-    font-size: 1.05rem;
+    font-size: 1.15rem;
   }
 
   p {
     margin: 0.5rem 0;
     color: #555;
+    font-size: 1rem;
 
     &:first-of-type {
       font-weight: 600;
       color: #666;
+      font-size: 1.05rem;
     }
   }
 `;
@@ -298,11 +307,11 @@ export const SkillsContainer = styled.div`
 
 export const SkillTag = styled.span`
   display: inline-block;
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.2rem;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border-radius: 20px;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 600;
   transition: all 0.3s ease;
   box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);

@@ -5,7 +5,7 @@
     {
       "company": "AborCraft Tree Services",
       "location": "Golden, CO",
-      "website": "https://www.aborcraftservices.com/",
+      "website": "https://arborcraftservices.com/",
       "role": "Owner/Operator",
       "duration": "2020 - Present",
       "description": "Manage and operate a tree service business, providing tree care and maintenance services to residential and commercial clients.",
@@ -43,24 +43,6 @@
         "Experience with agile development methodologies and version control systems.",
         "Strong problem-solving skills and ability to work in a collaborative team environment."
       ]
-    },
-    {
-      "company": "Tech Solutions Inc.",
-      "location": "Denver, CO",
-      "website": "https://www.techsolutions.com/",
-      "role": "Frontend Developer",
-      "duration": "2018 - 2020",
-      "description": "Focused on building responsive and user-friendly web interfaces.",
-      "achievements": [
-        "Developed and maintained a customer-facing web application, increasing user engagement by 25%.",
-        "Collaborated with designers and backend developers to implement new features and improve existing ones.",
-        "Optimized frontend performance, reducing load times by 20% and enhancing overall user experience."
-      ],
-      "requirements": [
-        "Proficient in HTML, CSS, JavaScript, and frontend frameworks.",
-        "Experience with responsive design and cross-browser compatibility.",
-        "Strong attention to detail and ability to translate design mockups into functional web interfaces."
-      ]
     }
   ],
   "education": [
@@ -78,7 +60,7 @@
       "date": "2026"
     },
     {
-      "name": "CompTIA Security+",
+      "name": "CompTIA Network+",
       "issuer": "CompTIA",
       "date": "2026"
     },

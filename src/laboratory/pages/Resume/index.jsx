@@ -64,11 +64,11 @@ export default function Resume() {
       <ResumeContainer ref={resumeRef}>
         <Header>
           <HeaderContent>
-            <Title>Daniel Bucket</Title>
+            <Title>Daniel Ludwick</Title>
             <ContactInfo>
               <ContactItem>📧 daniel@bucketlab.io</ContactItem>
               <ContactItem>🔗 bucketlab.io</ContactItem>
-              <ContactItem>📍 Denver, CO</ContactItem>
+              <ContactItem>📍 Golden, CO</ContactItem>
             </ContactInfo>
           </HeaderContent>
         </Header>

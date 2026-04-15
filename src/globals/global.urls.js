@@ -17,10 +17,7 @@ export const API_URLS = {
     updateProfile: `${API_ROOT}/profiles/update`
   },
   laboratory: {
-    getLabById: (id) => `${API_ROOT}/laboratory/labs/${id}`,
-    createLab: `${API_ROOT}/laboratory/labs/create`,
-    updateLab: (id) => `${API_ROOT}/laboratory/labs/${id}/update`,
-    deleteLab: (id) => `${API_ROOT}/laboratory/labs/${id}/delete`
+    getResume: `${API_ROOT}/laboratory/resume`
   },
   messages: {
     getMessages: `${API_ROOT}/messages`,
@@ -36,19 +33,10 @@ export const PRIVATE_URLS = {
     root: '/laboratory',
     cubicle: '/laboratory/cubicle',
     profile: '/laboratory/profile',
-    // labs: '/laboratory/labs',
+    resume: '/laboratory/resume'
   },
-  messages: {
-    // root: '/messages',
-  },
-  cubicle: {
-    // root: '/cubicle',
-    // profile: '/cubicle/profile',
-    // settings: '/cubicle/settings',
-    // messages: '/cubicle/messages',
-    // watchlist: '/cubicle/watchlist',
-    // projects: '/cubicle/projects',
-  }
+  messages: {},
+  cubicle: {}
 };
 
 export const PUBLIC_URLS = {
@@ -68,5 +56,8 @@ export const PUBLIC_URLS = {
   },
   projects: {
     root: '/projects'
+  },
+  resume: {
+    root: '/resume'
   }
 };

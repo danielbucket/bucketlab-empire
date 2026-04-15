@@ -58,43 +58,37 @@ export default function Resume() {
   };
 
   const handlePrint = () => {
-    // Focus the ResumePaper element and print only that
-    const printWindow = window.open('', '', 'height=600,width=800');
-    const resumeContent = resumeRef.current.innerHTML;
-    
-    printWindow.document.write(`
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <title>Resume - Daniel Ludwick</title>
-          <style>
-            body {
-              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-              margin: 0;
-              padding: 20px;
-              background: white;
-              color: #2c3e50;
-              line-height: 1.8;
-            }
-            * {
-              box-sizing: border-box;
-            }
-            @media print {
-              body {
-                margin: 0;
-                padding: 10mm;
+    const element = resumeRef.current;
+    const opt = {
+      margin: [10, 10, 10, 10],
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' },
+      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
+    };
+    html2pdf().set(opt).from(element).outputImg('dataurlstring').then((dataUrl) => {
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>Resume - Daniel Ludwick</title>
+            <style>
+              body { margin: 0; padding: 0; }
+              img { max-width: 100%; height: auto; display: block; }
+              @media print {
+                body { margin: 0; padding: 0; }
+                img { max-width: 100%; height: auto; }
               }
-            }
-          </style>
-        </head>
-        <body>
-          ${resumeContent}
-        </body>
-      </html>
-    `);
-    
-    printWindow.document.close();
-    printWindow.print();
+            </style>
+          </head>
+          <body>
+            <img src="${dataUrl}" />
+          </body>
+        </html>
+      `);
+      printWindow.document.close();
+      printWindow.print();
+    });
   };
 
   return (
@@ -112,13 +106,34 @@ export default function Resume() {
         <ResumePaper ref={resumeRef}>
           {/* Header */}
           <Header>
-            <HeaderTitle>Daniel Ludwick</HeaderTitle>
+            <HeaderTitle>{content.contactInformation?.name || 'Daniel Ludwick'}</HeaderTitle>
             <HeaderSubtitle>Full Stack Developer | Software Engineer | Entrepreneur</HeaderSubtitle>
             <ContactGrid>
-              <ContactItem>📧 daniel@bucketlab.io</ContactItem>
-              <ContactItem>🌐 bucketlab.io</ContactItem>
-              <ContactItem>📍 Golden, CO</ContactItem>
-              <ContactItem>💼 LinkedIn</ContactItem>
+              {content.contactInformation?.email && (
+                <ContactItem>📧 {content.contactInformation.email}</ContactItem>
+              )}
+              {content.contactInformation?.phone && (
+                <ContactItem>📱 {content.contactInformation.phone}</ContactItem>
+              )}
+              {content.contactInformation?.location && (
+                <ContactItem>📍 {content.contactInformation.location}</ContactItem>
+              )}
+              {content.contactInformation?.linkedin && (
+                <ContactItem>
+                  💼{' '}
+                  <a href={`https://${content.contactInformation.linkedin}`} target="_blank" rel="noopener noreferrer">
+                    LinkedIn
+                  </a>
+                </ContactItem>
+              )}
+              {content.contactInformation?.github && (
+                <ContactItem>
+                  🐙{' '}
+                  <a href={content.contactInformation.github} target="_blank" rel="noopener noreferrer">
+                    GitHub
+                  </a>
+                </ContactItem>
+              )}
             </ContactGrid>
           </Header>
 

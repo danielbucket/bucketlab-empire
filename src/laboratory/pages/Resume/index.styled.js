@@ -112,7 +112,7 @@ export const ContactGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1.2rem;
-  font-size: 1.15rem;
+  font-size: 1.5rem;
 
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
@@ -123,6 +123,24 @@ export const ContactGrid = styled.div`
 export const ContactItem = styled.div`
   color: #555;
   font-weight: 500;
+
+  a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #764ba2;
+      text-decoration: underline;
+    }
+  }
+
+  @media print {
+    a {
+      color: #333;
+    }
+  }
 `;
 
 export const Section = styled.section`

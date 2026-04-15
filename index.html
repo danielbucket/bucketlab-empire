@@ -5,6 +5,31 @@
     <link rel="icon" type="image/png" href="/src/assets/icons/favicon_acts_96x96.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BucketLab IO</title>
+    <style>
+      @media print {
+        body {
+          margin: 0;
+          padding: 0;
+          background: white;
+        }
+        * {
+          box-shadow: none !important;
+        }
+        button {
+          display: none !important;
+        }
+        a {
+          color: #333;
+          text-decoration: none;
+        }
+        h1, h2, h3, h4, h5, h6 {
+          page-break-after: avoid;
+        }
+        p {
+          page-break-inside: avoid;
+        }
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>

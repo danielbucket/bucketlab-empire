@@ -1,6 +1,5 @@
 import Resume from '../pages/Resume/index.jsx';
 import { PUBLIC_URLS, API_URLS } from '../../globals/global.urls.js';
-import resumeData from '../pages/Resume/resume.stub.json';
 
 export const resumeRoute = {
   path: PUBLIC_URLS.resume.root,
@@ -32,26 +31,8 @@ export const resumeRoute = {
 
       return publicResume;
     } catch (error) {
-      console.warn('Failed to fetch resume from API, using stub data:', error);
-      
-      // Fallback to stub data and filter it
-      const publicResume = {
-        title: resumeData.title,
-        description: resumeData.description,
-        workExperience: resumeData.workExperience?.map((job) => ({
-          company: job.company,
-          location: job.location,
-          role: job.role,
-          duration: job.duration,
-          description: job.description,
-          achievements: job.achievements,
-        })) || [],
-        education: resumeData.education || [],
-        certifications: resumeData.certifications || [],
-        skills: resumeData.skills || [],
-      };
-
-      return publicResume;
+      console.error('Failed to fetch resume from API:', error);
+      throw new Error('Unable to load resume data. Please try again later.');
     }
   }
 };

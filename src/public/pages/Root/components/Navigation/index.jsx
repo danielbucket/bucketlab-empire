@@ -10,8 +10,8 @@ export default function Navigation() {
         <StyledUL>
           <CustomLink to='/about'>About</CustomLink>
           <CustomLink to='/projects'>Projects</CustomLink>
-          <CustomLink to='/portal'>Portal</CustomLink>
           <CustomLink to='/resume'>Resume</CustomLink>
+          <CustomLink to='/portal'>Portal</CustomLink>
         </StyledUL>
       </div>
     </NavigationStyle>

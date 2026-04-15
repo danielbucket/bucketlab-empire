@@ -43,6 +43,82 @@
         "Experience with agile development methodologies and version control systems.",
         "Strong problem-solving skills and ability to work in a collaborative team environment."
       ]
+    },
+    {
+      "company": "Coral Creek Music",
+      "location": "Denver, CO",
+      "website": "https://www.coralcreekmusic.com/",
+      "role": "Music Festival Site-Ops Manager",
+      "duration": "2023 - Present",
+      "description": "Manage site operations for a music festival, including logistics, vendor coordination, and on-site management.",
+      "achievements": [
+        "Successfully coordinated logistics for a multi-day music festival, ensuring smooth operations and high attendee satisfaction.",
+        "Implemented a vendor management system, improving communication and efficiency among festival vendors.",
+        "Developed and executed on-site management plans, resulting in a 20% increase in operational efficiency.",
+        "Led a team of volunteers and staff during the festival, fostering a collaborative and positive work environment.",
+        "Cultivated strong relationships with vendors and stakeholders, contributing to the overall success of the festival."
+      ],
+      "requirements": [
+        "Experience in event management and logistics coordination.",
+        "Strong organizational and communication skills.",
+        "Ability to manage a team and work under pressure during events."
+      ]
+    },
+    {
+      "company": "Pedal Pushers Cyclery",
+      "location": "Golden, CO",
+      "website": "https://www.pedalpusherscyclery.com/",
+      "role": "Bicycle Mechanic / Retail Sales Associate",
+      "duration": "2013 - 2015",
+      "description": "Provided bicycle repair and maintenance services to customers, ensuring high-quality workmanship and customer satisfaction.",
+      "achievements": [
+        "Successfully repaired and maintained bicycles, maintaining a high standard of workmanship and customer satisfaction.",
+        "Implemented efficient repair processes, reducing turnaround time by 20% and increasing customer throughput.",
+        "Cultivated strong customer relationships, leading to a 25% increase in repeat business through excellent service and communication.",
+        "Trained and mentored junior mechanics, improving team skills and performance."
+      ],
+      "requirements": [
+        "Proficient in bicycle repair and maintenance techniques.",
+        "Strong problem-solving skills and attention to detail.",
+        "Excellent customer service skills and ability to communicate effectively with customers."
+      ]
+    },
+    {
+      "company": "Town of Avon Recreation Department",
+      "location": "Avon, CO",
+      "website": "https://www.avon.org/2046/Recreation",
+      "role": "Front Desk Supervisor",
+      "duration": "2007 - 2013",
+      "description": "Managed front desk operations for a recreation department, providing excellent customer service and ensuring smooth operations.",
+      "achievements": [
+        "Successfully managed front desk operations, ensuring efficient service delivery and high customer satisfaction.",
+        "Implemented a new scheduling system, improving efficiency and reducing wait times for customers.",
+        "Cultivated strong relationships with customers, leading to increased community engagement and participation in recreational programs.",
+        "Trained and supervised front desk staff, improving team performance and customer service quality."
+      ],
+      "requirements": [
+        "Experience in customer service and front desk operations.",
+        "Strong organizational and communication skills.",
+        "Ability to manage a team and work in a fast-paced environment."
+      ]
+    },
+    {
+      "company": "USMC - United States Marine Corps",
+      "location": "Various Locations",
+      "website": "https://www.marines.mil/",
+      "role": "Electrician / Motor Transport Operator",
+      "duration": "2002 - 2006",
+      "description": "Served in the United States Marine Corps, performing various roles including electrician and motor transport operator.",
+      "achievements": [
+        "Successfully completed military training and served in various roles, demonstrating adaptability and commitment to service.",
+        "Received commendations for outstanding performance and dedication to duty.",
+        "Cultivated strong teamwork and leadership skills through military service."
+      ],
+      "requirements": [
+        "Military training and experience in various roles.",
+        "Strong discipline, teamwork, and leadership skills.",
+        "Ability to adapt to various environments and situations."
+      ]
     }
   ],
   "education": [
@@ -51,6 +127,20 @@
       "degree": "Front End Engineering",
       "duration": "2017 - 2018",
       "description": "Studied various aspects of computer science, including algorithms, data structures, and software engineering."
+    }
+  ],
+  "projects": [
+    {
+      "name": "Personal Portfolio Website",
+      "description": "Developed a personal portfolio website to showcase my projects and skills.",
+      "technologies": ["React", "CSS", "JavaScript", "ExpressJS", "MongoDB"],
+      "link": "https://bucketlab.io"
+    },
+    {
+      "name": "Homelab Infrastructure",
+      "description": "Built and maintained a homelab infrastructure for testing and learning about various technologies.",
+      "technologies": ["Docker", "Kubernetes", "Linux"],
+      "link": "https://api.bucketlab.io/health"
     }
   ],
   "certifications": [
@@ -83,7 +173,23 @@
       "name": "Advanced Mechanics Certification",
       "issuer": "United Bicycle Institute",
       "date": "2013"
+    },
+    {
+      "name": "Crowd Managers Training",
+      "issuer": "Fire Marshal's Support Services",
+      "date": "2026"
     }
+  ],
+  "hobbies": [
+    "Cycling",
+    "Music",
+    "Traveling",
+    "Gardening",
+    "Cycling",
+    "Rafting",
+    "Camping",
+    "Technology and Gadgets",
+    "DIY Projects"
   ],
   "skills": [
     "JavaScript",

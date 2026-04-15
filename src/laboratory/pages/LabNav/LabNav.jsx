@@ -10,11 +10,11 @@ export default function LabNav() {
       </div>
       <div className='nav-list'>
         <StyledUL>
-          <CustomLink to='/laboratory/homestar-runner'>Homestar Runner</CustomLink>
+          <CustomLink to='/laboratory/cubicle'>Cubicle</CustomLink>
+          <CustomLink to='/laboratory/homelab'>Homelab</CustomLink>
           <CustomLink to='/laboratory/messages'>Messages</CustomLink>
-          <CustomLink to='/laboratory/homelab'>The Homelab</CustomLink>
           <CustomLink to='/laboratory/profile'>Profile</CustomLink>
-          {/* <CustomLink to='/laboratory/watchlist'>Watchlist</CustomLink> */}
+          <CustomLink to='/laboratory/resume'>Resume</CustomLink>
         </StyledUL>
       </div>
     </NavContainer>

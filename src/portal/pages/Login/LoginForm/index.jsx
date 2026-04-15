@@ -9,7 +9,7 @@ import { API_URLS, PRIVATE_URLS } from '../../../../globals/global.urls.js';
 export default function LoginForm() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { setAuth } = useAuth();
+  const { getAuth } = useAuth();
 
   const [defaultEmail] = useState(() => location.state?.email || '');
   const [formState, setFormState] = useState({
@@ -74,30 +74,20 @@ export default function LoginForm() {
     }));
 
     try {
-      const response = await fetch(API_URLS.profiles.login, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
-        signal: abortControllerRef.current.signal
-      });
-
-      const data = await response.json();
-      
-      if (!response.ok || data.status !== 'success') {
-        handleApiError(data);
-        return;
+      const response = await getAuth(values.email, values.password);
+      if (response.status === 'success') {
+        setFormState(prev => ({
+          ...prev,
+          message: 'Login successful! Redirecting...',
+          messageType: MESSAGE_TYPES.SUCCESS,
+          isLoading: false
+        }));
+        navigate(PRIVATE_URLS.laboratory.root);
+      } else {
+        handleApiError(response);
       }
-      
-      if (data.status === 'success' && data.token) {
-        setAuth(data.token);
-
-        navigate(PRIVATE_URLS.laboratory.cubicle, { replace: true });
-      }
-      
     } catch (err) {
-      if (err.name === 'AbortError') {
-        return;
-      }
+      if (err.name === 'AbortError') { return }
 
       let errorMessage = 'Network error. Please check your connection and try again.';
       if (err.name === 'TypeError' && err.message.includes('fetch')) {
@@ -114,7 +104,7 @@ export default function LoginForm() {
         isLoading: false
       }));
     }
-  }, [setAuth, handleApiError, navigate]);
+  }, [getAuth, handleApiError, navigate]);
 
   const FormField = ({ label, name, type = 'text', validation, placeholder, defaultValue }) => (
     <div className='form-field'>

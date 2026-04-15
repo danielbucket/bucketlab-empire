@@ -6,18 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import Avatar from '../Avatar/index.jsx';
 import { API_URLS } from '../../../globals/global.urls.js';
 
-const expectedProfile = {
-  first_name: "",
-  last_name: "",
-  email: "",
-  website: "",
-  phone: "",
-  company: ""
-};
+const expectedProfile = { first_name: "", last_name: "", email: "", website: "", phone: "", company: "" };
 
 export default function Profile() {
   const { profile, setProfile } = useProfile();
-  const { auth, clearAuthAndProfile } = useAuth();
+  const { auth, clearLocalStorage } = useAuth();
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
@@ -178,7 +171,7 @@ export default function Profile() {
     setIsSaving(true);
     
     try {
-      const response = await fetch(API_URLS.profiles.deleteProfile, {
+      const response = await fetch(API_URLS.auth.delete, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${auth}`,
@@ -199,7 +192,7 @@ export default function Profile() {
         return;
       }
       
-      clearAuthAndProfile();
+      clearLocalStorage();
       navigate('/');
     } catch (err) {
       setDeleteError(`An error occurred while deleting. Please try again. ${err}`);

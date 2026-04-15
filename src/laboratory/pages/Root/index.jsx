@@ -8,9 +8,15 @@ export default function Root() {
   return (
     <ProfileProvider>
       <StyledRoot>
-        <LabNav />
-        <Outlet />
-        <Footer />
+        <div className="navigation">
+          <LabNav />
+        </div>
+        <div className="content">
+          <Outlet />
+        </div>
+        <div className="footer">
+          <Footer />
+        </div>
       </StyledRoot>
     </ProfileProvider>
   );

@@ -6,7 +6,11 @@ export const resumeRoute = {
   element: <Resume />,
   loader: async () => {
     try {
-      const response = await fetch(API_URLS.laboratory.getResume);
+      const response = await fetch(API_URLS.laboratory.getResume, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       if (!response.ok) throw new Error('Failed to fetch resume');
       const fullResume = await response.json();
 

@@ -16,6 +16,7 @@ export const NavStyle = styled.nav`
 
   margin-bottom: 0.5rem;
   width: 95%;
+  max-width: 40rem;
   height: 4rem;
 
   span {

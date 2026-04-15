@@ -9,7 +9,7 @@ export const cubicleRoute = {
       pageImage,
       content: {
         title: 'Cubicle',
-        description: 'A cozy corner for focused work and creativity'
+        description: 'The place where you can find me working on various projects, coding, and experimenting with new technologies.',
       }
     }
   }

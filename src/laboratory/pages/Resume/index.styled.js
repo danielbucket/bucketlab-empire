@@ -115,7 +115,7 @@ export const ContactGrid = styled.div`
   font-size: 1.5rem;
 
   @media (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     font-size: 1rem;
   }
 `;
@@ -125,20 +125,20 @@ export const ContactItem = styled.div`
   font-weight: 500;
 
   a {
-    color: #667eea;
+    color: #555;
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 500;
     transition: color 0.3s ease;
 
     &:hover {
-      color: #764ba2;
-      text-decoration: underline;
+      color: #667eea;
     }
   }
 
   @media print {
     a {
-      color: #333;
+      color: #555;
+      text-decoration: none;
     }
   }
 `;

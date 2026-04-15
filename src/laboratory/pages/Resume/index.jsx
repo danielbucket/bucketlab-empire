@@ -110,27 +110,25 @@ export default function Resume() {
             <HeaderSubtitle>Full Stack Developer | Software Engineer | Entrepreneur</HeaderSubtitle>
             <ContactGrid>
               {content.contactInformation?.email && (
-                <ContactItem>📧 {content.contactInformation.email}</ContactItem>
+                <ContactItem>{content.contactInformation.email}</ContactItem>
               )}
               {content.contactInformation?.phone && (
-                <ContactItem>📱 {content.contactInformation.phone}</ContactItem>
+                <ContactItem>{content.contactInformation.phone}</ContactItem>
               )}
               {content.contactInformation?.location && (
-                <ContactItem>📍 {content.contactInformation.location}</ContactItem>
+                <ContactItem>{content.contactInformation.location}</ContactItem>
               )}
               {content.contactInformation?.linkedin && (
                 <ContactItem>
-                  💼{' '}
                   <a href={`https://${content.contactInformation.linkedin}`} target="_blank" rel="noopener noreferrer">
-                    LinkedIn
+                    {content.contactInformation.linkedin.replace('www.', '')}
                   </a>
                 </ContactItem>
               )}
               {content.contactInformation?.github && (
                 <ContactItem>
-                  🐙{' '}
                   <a href={content.contactInformation.github} target="_blank" rel="noopener noreferrer">
-                    GitHub
+                    {content.contactInformation.github.replace('https://', '')}
                   </a>
                 </ContactItem>
               )}

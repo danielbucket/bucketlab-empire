@@ -44,17 +44,6 @@ export default function Resume() {
   const { content } = useLoaderData();
   const resumeRef = useRef(null);
 
-  // Ensure content and its properties exist
-  if (!content) {
-    return (
-      <ResumeLayout>
-        <div style={{ textAlign: 'center', padding: '2rem' }}>
-          <p>No resume data available.</p>
-        </div>
-      </ResumeLayout>
-    );
-  }
-
   const handleDownloadPDF = () => {
     const element = resumeRef.current;
     const opt = {
@@ -69,7 +58,43 @@ export default function Resume() {
   };
 
   const handlePrint = () => {
-    window.print();
+    // Focus the ResumePaper element and print only that
+    const printWindow = window.open('', '', 'height=600,width=800');
+    const resumeContent = resumeRef.current.innerHTML;
+    
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Resume - Daniel Ludwick</title>
+          <style>
+            body {
+              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+              margin: 0;
+              padding: 20px;
+              background: white;
+              color: #2c3e50;
+              line-height: 1.8;
+            }
+            * {
+              box-sizing: border-box;
+            }
+            @media print {
+              body {
+                margin: 0;
+                padding: 10mm;
+              }
+            }
+          </style>
+        </head>
+        <body>
+          ${resumeContent}
+        </body>
+      </html>
+    `);
+    
+    printWindow.document.close();
+    printWindow.print();
   };
 
   return (
@@ -98,67 +123,63 @@ export default function Resume() {
           </Header>
 
           {/* Professional Experience */}
-          {content.workExperience && content.workExperience.length > 0 && (
-            <Section>
-              <SectionHeading>Professional Experience</SectionHeading>
-              <SectionContent>
-                {content.workExperience.map((job, index) => (
-                  <JobCard key={index}>
-                    <JobTitle>{job.role}</JobTitle>
-                    <JobMeta>
-                      <strong>{job.company}</strong> • {job.location} • {job.duration}
-                      {job.website && (
-                        <>
-                          {' '}
-                          •{' '}
-                          <JobLink
-                            href={job.website}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            Visit
-                          </JobLink>
-                        </>
-                      )}
-                    </JobMeta>
-                    <JobDescription>{job.description}</JobDescription>
-                    
-                    {job.achievements && job.achievements.length > 0 && (
-                      <div style={{ marginTop: '0.75rem' }}>
-                        <strong style={{ fontSize: '1.1rem', display: 'block', marginBottom: '0.5rem' }}>
-                          Key Achievements:
-                        </strong>
-                        <AchievementList>
-                          {job.achievements.map((achievement, idx) => (
-                            <AchievementListItem key={idx}>
-                              {achievement}
-                            </AchievementListItem>
-                          ))}
-                        </AchievementList>
-                      </div>
+          <Section>
+            <SectionHeading>Professional Experience</SectionHeading>
+            <SectionContent>
+              {content.workExperience.map((job, index) => (
+                <JobCard key={index}>
+                  <JobTitle>{job.role}</JobTitle>
+                  <JobMeta>
+                    <strong>{job.company}</strong> • {job.location} • {job.duration}
+                    {job.website && (
+                      <>
+                        {' '}
+                        •{' '}
+                        <JobLink
+                          href={job.website}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Visit
+                        </JobLink>
+                      </>
                     )}
-                  </JobCard>
-                ))}
-              </SectionContent>
-            </Section>
-          )}
+                  </JobMeta>
+                  <JobDescription>{job.description}</JobDescription>
+                  
+                  {job.achievements && job.achievements.length > 0 && (
+                    <div style={{ marginTop: '0.75rem' }}>
+                      <strong style={{ fontSize: '1.1rem', display: 'block', marginBottom: '0.5rem' }}>
+                        Key Achievements:
+                      </strong>
+                      <AchievementList>
+                        {job.achievements.map((achievement, idx) => (
+                          <AchievementListItem key={idx}>
+                            {achievement}
+                          </AchievementListItem>
+                        ))}
+                      </AchievementList>
+                    </div>
+                  )}
+                </JobCard>
+              ))}
+            </SectionContent>
+          </Section>
 
           {/* Education */}
-          {content.education && content.education.length > 0 && (
-            <Section>
-              <SectionHeading>Education</SectionHeading>
-              <SectionContent>
-                {content.education.map((edu, index) => (
-                  <EducationCard key={index}>
-                    <EducationDegree>{edu.degree}</EducationDegree>
-                    <EducationInstitution>{edu.institution}</EducationInstitution>
-                    <EducationYear>{edu.duration}</EducationYear>
-                    <p style={{ marginTop: '0.5rem' }}>{edu.description}</p>
-                  </EducationCard>
-                ))}
-              </SectionContent>
-            </Section>
-          )}
+          <Section>
+            <SectionHeading>Education</SectionHeading>
+            <SectionContent>
+              {content.education.map((edu, index) => (
+                <EducationCard key={index}>
+                  <EducationDegree>{edu.degree}</EducationDegree>
+                  <EducationInstitution>{edu.institution}</EducationInstitution>
+                  <EducationYear>{edu.duration}</EducationYear>
+                  <p style={{ marginTop: '0.5rem' }}>{edu.description}</p>
+                </EducationCard>
+              ))}
+            </SectionContent>
+          </Section>
 
           {/* Projects */}
           {content.projects && content.projects.length > 0 && (
@@ -186,37 +207,33 @@ export default function Resume() {
           )}
 
           {/* Certifications */}
-          {content.certifications && content.certifications.length > 0 && (
-            <Section>
-              <SectionHeading>Certifications</SectionHeading>
-              <SectionContent>
-                <CertificationList>
-                  {content.certifications.map((cert, index) => (
-                    <CertificationItem key={index}>
-                      <strong>{cert.name}</strong>
-                      <span style={{ color: '#666', marginLeft: '0.5rem' }}>
-                        {cert.issuer} • {cert.date}
-                      </span>
-                    </CertificationItem>
-                  ))}
-                </CertificationList>
-              </SectionContent>
-            </Section>
-          )}
+          <Section>
+            <SectionHeading>Certifications</SectionHeading>
+            <SectionContent>
+              <CertificationList>
+                {content.certifications.map((cert, index) => (
+                  <CertificationItem key={index}>
+                    <strong>{cert.name}</strong>
+                    <span style={{ color: '#666', marginLeft: '0.5rem' }}>
+                      {cert.issuer} • {cert.date}
+                    </span>
+                  </CertificationItem>
+                ))}
+              </CertificationList>
+            </SectionContent>
+          </Section>
 
           {/* Skills */}
-          {content.skills && content.skills.length > 0 && (
-            <Section>
-              <SectionHeading>Technical Skills</SectionHeading>
-              <SectionContent>
-                <SkillsGrid>
-                  {content.skills.map((skill, index) => (
-                    <SkillBadge key={index}>{skill}</SkillBadge>
-                  ))}
-                </SkillsGrid>
-              </SectionContent>
-            </Section>
-          )}
+          <Section>
+            <SectionHeading>Technical Skills</SectionHeading>
+            <SectionContent>
+              <SkillsGrid>
+                {content.skills.map((skill, index) => (
+                  <SkillBadge key={index}>{skill}</SkillBadge>
+                ))}
+              </SkillsGrid>
+            </SectionContent>
+          </Section>
 
           {/* Hobbies */}
           {content.hobbies && content.hobbies.length > 0 && (

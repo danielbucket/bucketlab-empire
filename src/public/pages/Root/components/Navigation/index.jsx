@@ -11,6 +11,7 @@ export default function Navigation() {
           <CustomLink to='/about'>About</CustomLink>
           <CustomLink to='/projects'>Projects</CustomLink>
           <CustomLink to='/portal'>Portal</CustomLink>
+          <CustomLink to='/resume'>Resume</CustomLink>
         </StyledUL>
       </div>
     </NavigationStyle>

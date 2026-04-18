@@ -20,7 +20,7 @@ const isValidJWT = (token) => {
 };
 
 function AuthProvider({ children }) {
-  const [auth, setAuth_] = useState(() => {
+  const [authToken, setAuthToken_] = useState(() => {
     const storedAuth = localStorage.getItem(AUTH_STORAGE_KEY);
     if (!storedAuth) return null;
 
@@ -34,17 +34,17 @@ function AuthProvider({ children }) {
   const setAuth = useCallback((token) => {
     if (token) {
       localStorage.setItem(AUTH_STORAGE_KEY, token);
-      setAuth_(token);
+      setAuthToken_(token);
     } else {
       localStorage.removeItem(AUTH_STORAGE_KEY);
-      setAuth_(null);
+      setAuthToken_(null);
     }
   }, [AUTH_STORAGE_KEY]);
 
   const clearLocalStorage = useCallback(() => {
     localStorage.removeItem(AUTH_STORAGE_KEY);
     localStorage.removeItem(PROFILE_STORAGE_KEY);
-    setAuth_(null);
+    setAuthToken_(null);
   }, [AUTH_STORAGE_KEY, PROFILE_STORAGE_KEY]);
 
   const getAuth = useCallback(async (email, password) => {
@@ -77,13 +77,13 @@ function AuthProvider({ children }) {
   }, [setAuth]);
 
   const logout = useCallback(async () => {
-    if (auth) {
+    if (authToken) {
       try {
         await fetch(API_URLS.profiles.logout, {
           method: 'POST',
           headers: { 
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${auth}`
+            'Authorization': `Bearer ${authToken}`
           }
         });
       } catch {
@@ -93,13 +93,14 @@ function AuthProvider({ children }) {
     
     clearLocalStorage();
     return;
-  }, [auth, clearLocalStorage]);
+  }, [authToken, clearLocalStorage]);
+
 
   // Auto-logout when token expires
   useEffect(() => {
-    if (!auth) { return }
+    if (!authToken) { return }
     
-    const isValid = isValidJWT(auth);
+    const isValid = isValidJWT(authToken);
 
     if (!isValid) {
       clearLocalStorage();
@@ -107,7 +108,7 @@ function AuthProvider({ children }) {
     }
 
     try {
-      const payload = jwtDecode(auth);
+      const payload = jwtDecode(authToken);
       const timeUntilExpiry = (payload.exp * 1000) - Date.now();
       
       if (timeUntilExpiry > 0) {
@@ -119,15 +120,15 @@ function AuthProvider({ children }) {
     } catch {
       clearLocalStorage();
     }
-  }, [auth, clearLocalStorage]);
+  }, [authToken, clearLocalStorage]);
 
   const authContextValue = useMemo(() => ({
-    auth, 
+    authToken, 
     getAuth,
     logout,
     clearLocalStorage,
-    isAuthenticated: auth && isValidJWT(auth)
-  }), [auth, getAuth, logout, clearLocalStorage]);
+    isAuthenticated: authToken && isValidJWT(authToken)
+  }), [authToken, getAuth, logout, clearLocalStorage]);
   return (
     <AuthContext.Provider value={authContextValue}>
       { children }

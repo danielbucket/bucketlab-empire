@@ -1,5 +1,10 @@
 let API_ROOT = 'https://api.bucketlab.io';
-if (import.meta.env.DEV) { API_ROOT = '/dev' };
+let HELLO_WORLD_ROOT = 'https://hello-world.bucketlab.io';
+
+if (import.meta.env.DEV) {
+  API_ROOT = '/dev';
+  HELLO_WORLD_ROOT = '/hello-world';
+}
 
 export const API_URLS = {
   auth: {
@@ -7,6 +12,9 @@ export const API_URLS = {
     logout: `${API_ROOT}/auth/logout`,
     create: `${API_ROOT}/auth/create`,
     delete: `${API_ROOT}/auth/delete`
+  },
+  permissions: {
+    requestPermission: `${API_ROOT}/permissions/request-permission`
   },
   profiles: {
     login: `${API_ROOT}/auth/login`,
@@ -25,8 +33,15 @@ export const API_URLS = {
   },
   homelab: {
     status: `${API_ROOT}/homelab/status`
+  },
+  helloWorld: {
+    root: 'https://hello-world.bucketlab.io/',
+    metrics: 'https://hello-world.bucketlab.io/metrics',
+    auth: 'https://hello-world.bucketlab.io/auth'
   }
 };
+
+
 
 export const PRIVATE_URLS = {
   laboratory: {

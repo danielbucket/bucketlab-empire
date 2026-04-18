@@ -10,7 +10,7 @@ const expectedProfile = { first_name: "", last_name: "", email: "", website: "",
 
 export default function Profile() {
   const { profile, setProfile } = useProfile();
-  const { auth, clearLocalStorage } = useAuth();
+  const { authToken, clearLocalStorage } = useAuth();
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
@@ -97,7 +97,7 @@ export default function Profile() {
       const response = await fetch(API_URLS.profiles.updateProfile, {
         method: 'PATCH',
         headers: {
-          Authorization: `Bearer ${auth}`,
+          Authorization: `Bearer ${authToken}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(formData)
@@ -136,7 +136,7 @@ export default function Profile() {
       setError(`An error occurred while saving. Please try again. ${err}`);
       setIsSaving(false);
     }
-  }, [isSaving, formData, auth, setProfile, nextLocation, navigate]);
+  }, [isSaving, formData, authToken, setProfile, nextLocation, navigate]);
 
   const handleDiscardChanges = useCallback(() => {
     if (profile) {
@@ -171,10 +171,10 @@ export default function Profile() {
     setIsSaving(true);
     
     try {
-      const response = await fetch(API_URLS.auth.delete, {
+      const response = await fetch(API_URLS.authToken.delete, {
         method: 'DELETE',
         headers: {
-          Authorization: `Bearer ${auth}`,
+          Authorization: `Bearer ${authToken}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ password: deletePassword })

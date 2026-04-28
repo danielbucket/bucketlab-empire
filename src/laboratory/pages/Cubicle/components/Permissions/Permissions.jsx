@@ -71,7 +71,7 @@ export default function Permissions({ permissionsList, authToken }) {
 
     setIsSubmitting(true);
     try {
-      const response = await fetch(API_URLS.auth?.requestPermission || '/api/permissions/request-permission', {
+      const response = await fetch(API_URLS.permissions?.requestPermission, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

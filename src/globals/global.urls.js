@@ -14,7 +14,7 @@ export const API_URLS = {
     delete: `${API_ROOT}/auth/delete`
   },
   permissions: {
-    requestPermission: `${API_ROOT}/permissions/request-permission`
+    requestPermission: `${API_ROOT}/administration/permissions/request`
   },
   profiles: {
     login: `${API_ROOT}/auth/login`,

@@ -109,8 +109,8 @@ export const FormStyle = styled('form')`
     border: 10px solid red;
   }
   .message-container.error, .message-container.ERROR {
-    background: #ff005511;
-    color: #ff0055;
+    background: #000000;
+    color: #ff0019ff;
     border: 1px solid #ff0055;
   }
   .message-container.success, .message-container.SUCCESS {

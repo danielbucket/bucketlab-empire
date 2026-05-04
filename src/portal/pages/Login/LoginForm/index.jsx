@@ -4,7 +4,7 @@ import { useAuth } from '../../../../hooks/useAuth.js';
 import { FormStyle } from './index.styled.js';
 import { useLocation, useNavigate } from "react-router-dom";
 import { VALIDATION_RULES, MESSAGE_TYPES } from "./vars.js";
-import { API_URLS, PRIVATE_URLS } from '../../../../globals/global.urls.js';
+import { PRIVATE_URLS } from '../../../../globals/global.urls.js';
 
 export default function LoginForm() {
   const location = useLocation();
@@ -41,10 +41,8 @@ export default function LoginForm() {
 
     if (errorData?.fail_type === 'invalid_password') {
       message = 'Incorrect password. Please try again.';
-    } else if (errorData?.fail_type === 'user_not_found') {
-      message = 'No account found with this email. Please check your email or sign up.';
-    } else if (errorData?.fail_type === 'invalid_email') {
-      message = 'Invalid email format. Please check your email.';
+    } else if (errorData?.fail_type === 'email_not_found') {
+      message = 'No account found with this email.';
     } else if (errorData?.fail_type === 'server_error') {
       message = 'Server error occurred. Please try again later.';
     } else if (errorData?.message) {
@@ -75,6 +73,12 @@ export default function LoginForm() {
 
     try {
       const response = await getAuth(values.email, values.password);
+
+      if (response.status !== 'success') {
+        handleApiError({ fail_type: response.fail_type });
+        return;
+      }
+
       if (response.status === 'success') {
         setFormState(prev => ({
           ...prev,
@@ -82,23 +86,14 @@ export default function LoginForm() {
           messageType: MESSAGE_TYPES.SUCCESS,
           isLoading: false
         }));
-        navigate(PRIVATE_URLS.laboratory.root);
-      } else {
-        handleApiError(response);
+        navigate(PRIVATE_URLS.laboratory.cubicle);
       }
     } catch (err) {
-      if (err.name === 'AbortError') { return }
-
-      let errorMessage = 'Network error. Please check your connection and try again.';
-      if (err.name === 'TypeError' && err.message.includes('fetch')) {
-        errorMessage = 'Unable to connect to the server. Please check your internet connection.';
-      } else if (err.message.includes('CORS')) {
-        errorMessage = 'Server configuration error. Please contact support if this persists.';
-      }
+      console.error('Login error:', err);
 
       setFormState(prev => ({
         ...prev,
-        message: errorMessage,
+        message: err.message || 'An unexpected error occurred. Please try again.',
         messageType: MESSAGE_TYPES.ERROR,
         error: { message: err.message },
         isLoading: false

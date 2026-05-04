@@ -54,18 +54,23 @@ function AuthProvider({ children }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
       });
+      
+      const data = await response.json();
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Login failed');
+      if (data.status !== 'success') {
+        return { ...data.status, ...data };
       }
 
-      const data = await response.json();
       if (data.status === 'success') {
         if (isValidJWT(data.token)) {
           setAuth(data.token);
+          return { status: 'success' };
         } else {
-          throw new Error('Received an invalid token from the server');
+          return {
+            status: 'error',
+            fail_type: 'server_error',
+            message: 'Received invalid token from server. Please try again later.'
+          };
         }
       } else {
         throw new Error(data.message || 'Login failed');

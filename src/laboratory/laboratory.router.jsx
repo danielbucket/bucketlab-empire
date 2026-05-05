@@ -3,7 +3,7 @@ import { cubicleRoute } from './routes/cubicle.route.jsx';
 import { labsRoute } from './routes/labs.route.jsx';
 
 import { profileRoute } from './routes/profile.route.jsx';
-import { messagesRoute } from './routes/messages.route.jsx';
+import { commsRoute } from './routes/comms.route.jsx';
 import { homelabRoute } from './routes/homelab.route.jsx';
 import { resumeRoute } from './routes/resume.route.jsx';
 import ProtectedRoute from '../components/ProtectedRoute.jsx';
@@ -17,7 +17,7 @@ export const laboratoryRoutes = [
     children: [
       { ...cubicleRoute, index: true },
       profileRoute,
-      messagesRoute,
+      commsRoute,
       homelabRoute,
       resumeRoute,
       labsRoute

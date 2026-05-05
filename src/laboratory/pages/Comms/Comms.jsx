@@ -1,12 +1,12 @@
-import { MessagesLayout } from './messages.styled.js';
+import { CommsLayout } from './comms.styled.js';
 import { useLoaderData } from 'react-router-dom';
 
-export default function Messages() {
+export default function Comms() {
   const { messages } = useLoaderData();
 
   return (
-    <MessagesLayout>
-      <h1>Messages</h1>
+    <CommsLayout>
+      <h1>Communications and Messages</h1>
       {/* Render messages here using data */}
       {messages.length === 0 ? (
         <p>No messages found.</p>
@@ -17,6 +17,6 @@ export default function Messages() {
           ))}
         </ul>
       )}
-    </MessagesLayout>
+    </CommsLayout>
   );
 };

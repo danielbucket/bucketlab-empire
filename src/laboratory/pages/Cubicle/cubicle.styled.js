@@ -29,3 +29,9 @@ export const StyledCubicle = styled.div`
     font-size: 1.75rem;
   }
 `;
+
+export const CubicleNav = styled.div`
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+`;

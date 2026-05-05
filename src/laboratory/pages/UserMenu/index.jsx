@@ -7,7 +7,6 @@ export default function UserMenu({ logged_in }) {
     <UserMenuContainer>
       {logged_in && <LogOut />}
       <div>Logged In: {logged_in ? 'Yes' : 'No'}</div>
-
     </UserMenuContainer>
   );
 }

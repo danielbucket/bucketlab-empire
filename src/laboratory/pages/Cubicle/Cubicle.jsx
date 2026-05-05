@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyledCubicle } from './cubicle.styled';
-import { Link } from 'react-router-dom';
+import { StyledCubicle, CubicleNav } from './cubicle.styled.js';
 import { jwtDecode } from 'jwt-decode';
 import { useProfile } from '../../../hooks/useProfile.js';
 import { useAuth } from '../../../hooks/useAuth.js';
@@ -39,11 +38,12 @@ export default function Cubicle() {
 
   return (
     <StyledCubicle>
-      <Permissions permissionsList={permissionsList} />
-      <h1>Welcome, {first_name}. This is your Laboratory Cubicle.</h1>
+      <h1>Welcome, {first_name}.</h1>
+      <CubicleNav>
+        <Permissions permissionsList={permissionsList} />
+      </CubicleNav>
       <div className="development-notes">
-        <p>This is a work in progress. Here you will find various projects, experiments, and tools that I am currently working on. Feel free to explore and check back often for updates!</p>
-        <p>In the meantime, you can check out my <Link to="/laboratory/resume">Resume</Link> or visit the <Link to="/public/home">Public Home Page</Link>.</p>
+        <p>This web app, the BucketLab Empire, is a work in progress, so watch your head. <br /> Here you will find various projects, experiments, and tools that I am currently working on. Feel free to explore and check back often for updates!</p>
       </div>
     </StyledCubicle>
   );

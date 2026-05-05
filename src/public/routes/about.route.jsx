@@ -3,9 +3,7 @@ import pageImage from '../assets/images/danielBucket_ai_01.jpeg';
 import { PUBLIC_URLS } from '../../globals/global.urls.js';
 
 const contentData = {
-  bio: "I am the founding father of the BucketLab Empire, and a lifelong learner. I am a full-stack web developer with an inclination for creating and maintaining diverse web applications.",
-  name: "Daniel Bucket",
-  title: "Founding Father, Bucket Limited, LLC",
+  bio: "'Sup, yo. I'm Daniel Bucket, founding father and supremely leading visionary supreme of the BucketLab Empire. You can tell because of the way I am.",
 };
 
 export const aboutRoute = {

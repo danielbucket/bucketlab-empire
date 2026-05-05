@@ -1,7 +1,9 @@
 import { styled } from 'styled-components';
 import { AuthBaseStyle } from '../../style/auth.style.js';
 
-export const LoginStyle = styled(AuthBaseStyle)``;
+export const LoginStyle = styled(AuthBaseStyle)`
+  background-size: cover;
+`;
 
 export const NavStyle = styled.nav`
   display: flex;

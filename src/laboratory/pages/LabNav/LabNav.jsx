@@ -12,9 +12,8 @@ export default function LabNav() {
         <StyledUL>
           <CustomLink to='/laboratory/cubicle'>Cubicle</CustomLink>
           <CustomLink to='/laboratory/homelab'>Homelab</CustomLink>
-          <CustomLink to='/laboratory/messages'>Messages</CustomLink>
+          <CustomLink to='/laboratory/comms'>Comms</CustomLink>
           <CustomLink to='/laboratory/profile'>Profile</CustomLink>
-          <CustomLink to='/laboratory/resume'>Resume</CustomLink>
         </StyledUL>
       </div>
     </NavContainer>

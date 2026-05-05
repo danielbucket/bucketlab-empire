@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-
+import { hardwareStats, firmwareStats, systemStats } from "./bucketlabStatusStub";
 /**
  * Homelab.jsx
  * React page showcasing the hardware and firmware side of the BucketLabIO project.
@@ -16,32 +16,15 @@ import React, { useEffect, useState, useRef } from "react";
  */
 
 export default function Homelab() {
-  const [hardware, setHardware] = useState({
-    device: "Raspberry Pi 5",
-    model: "Raspberry Pi 5 (16GB)",
-    memoryGB: 16,
-    os: "Ubuntu Server",
-    osVersion: "unknown",
-    storage: { totalGB: 1000, usedGB: 0, mount: "/" },
-    ip: "0.0.0.0",
-  });
-  const [firmware, setFirmware] = useState({
-    systemFirmware: "unknown",
-    bootloader: "unknown",
-    devices: [],
-  });
-  const [system, setSystem] = useState({
-    cpuLoad: 0,
-    cpuTempC: 0,
-    ramUsedGB: 0,
-    ramTotalGB: 16,
-    uptime: "unknown",
-  });
+  const [hardware, setHardware] = useState(hardwareStats);
+  const [firmware, setFirmware] = useState(firmwareStats);
+  const [system, setSystem] = useState(systemStats);
+
   const [statusMessage, setStatusMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const liveRef = useRef(null);
 
-  async function fetchHardware() {
+  const fetchHardware = async () => {
     try {
       const res = await fetch("/api/homelab/hardware");
       if (!res.ok) throw new Error("no hardware");
@@ -51,9 +34,9 @@ export default function Homelab() {
       // fallback defaults are already set
       console.warn("fetchHardware:", e);
     }
-  }
+  };
 
-  async function fetchFirmware() {
+  const fetchFirmware = async () => {
     try {
       const res = await fetch("/api/homelab/firmware");
       if (!res.ok) throw new Error("no firmware");
@@ -62,9 +45,9 @@ export default function Homelab() {
     } catch (e) {
       console.warn("fetchFirmware:", e);
     }
-  }
+  };
 
-  async function fetchSystem() {
+  const fetchSystem = async () => {
     try {
       const res = await fetch("/api/homelab/system");
       if (!res.ok) throw new Error("no system");
@@ -73,20 +56,22 @@ export default function Homelab() {
     } catch (e) {
       console.warn("fetchSystem:", e);
     }
-  }
+  };
+
+  const fetchAll = async () => {
+    await Promise.all([fetchHardware(), fetchFirmware(), fetchSystem()]);
+  };
 
   useEffect(() => {
     // initial load
-    fetchHardware();
-    fetchFirmware();
-    fetchSystem();
+    fetchAll();
 
     // live system updates every 5s
     liveRef.current = setInterval(fetchSystem, 5000);
     return () => clearInterval(liveRef.current);
   }, []);
 
-  async function handleCheckFirmware() {
+  const handleCheckFirmware = async () => {
     setLoading(true);
     setStatusMessage("Checking firmware updates...");
     try {
@@ -103,9 +88,9 @@ export default function Homelab() {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
-  async function handleReboot() {
+  const handleReboot = async () => {
     if (!window.confirm("Reboot the Raspberry Pi 5 now?")) return;
     setLoading(true);
     setStatusMessage("Sending reboot command...");
@@ -120,10 +105,11 @@ export default function Homelab() {
   }
 
   // small presentational helpers
-  function pct(used, total) {
+  const pct = (used, total) => {
     if (!total) return "0%";
     return `${Math.round((used / total) * 100)}%`;
-  }
+  };
+
 
   const containerStyle = {
     fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",
@@ -219,7 +205,7 @@ export default function Homelab() {
           <section style={cardStyle}>
             <h2 style={{ marginTop: 0 }}>Storage & Boot</h2>
             <div>
-              This BucketLabIO instance runs on a 1TB SSD attached to the Raspberry Pi 5 (16GB). Monitor usage
+              This BucketLabIO instance runs on a 1TB SSD attached to the Raspberry Pi5 (16GB). Monitor usage
               here and keep a buffer for experimental logs and firmware artifacts.
             </div>
             <div style={{ marginTop: 8 }}>

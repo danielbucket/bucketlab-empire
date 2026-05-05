@@ -21,7 +21,7 @@ import {
   LoadingMessage,
   NoPermissionsMessage,
   SectionDivider,
-} from './Permissions.styled.js';
+} from './permissions.styled.js';
 
 const DEFAULT_PERMISSIONS = ['guest', 'read:profile', 'delete:profile', 'update:profile'];
 

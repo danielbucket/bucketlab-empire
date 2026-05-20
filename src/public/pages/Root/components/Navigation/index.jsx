@@ -12,6 +12,7 @@ export default function Navigation() {
           <CustomLink to='/projects'>Projects</CustomLink>
           <CustomLink to='/portal'>Portal</CustomLink>
         </StyledUL>
+        <div>BTC: bc1qtvnz56ekmwz9jpqpgkh78tt7wu027pfxt3t6pu</div>
       </div>
     </NavigationStyle>
   );

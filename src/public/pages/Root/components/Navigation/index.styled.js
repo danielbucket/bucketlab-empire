@@ -12,6 +12,7 @@ export const NavigationStyle = styled.header`
   
   .title {
     display: flex;
+    flex-direction: column;
     align-items: center;
     height: 6rem;
   }

@@ -1,4 +1,4 @@
-import { API_URLS } from '../../globals/global.urls.js';
+import { HOMELAB_URLS } from '../../globals/global.urls.js';
 import Homelab from '../pages/Homelab/Homelab.jsx';
 
 
@@ -8,7 +8,7 @@ export const homelabRoute = {
   loader: async () => {
     const token = localStorage.getItem('sessionToken');
 
-    const homelabResponse = await fetch(API_URLS.homelab.status, {
+    const homelabResponse = await fetch(HOMELAB_URLS.homelab.status, {
       headers: {
         Authorization: `Bearer ${token}`
       }

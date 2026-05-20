@@ -30,9 +30,15 @@ export const API_URLS = {
   messages: {
     getMessages: `${API_ROOT}/messages`,
     sendMessage: `${API_ROOT}/messages/send`
-  },
+  }
+};
+
+export const HOMELAB_URLS = {
   homelab: {
-    status: `${API_ROOT}/homelab/status`
+    status: `${API_ROOT}/homelab/status`,
+    firmware: `${API_ROOT}/homelab/firmware`,
+    system: `${API_ROOT}/homelab/system`,
+    hardware: `${API_ROOT}/homelab/hardware`
   },
   helloWorld: {
     root: 'https://hello-world.bucketlab.io/',
@@ -40,8 +46,6 @@ export const API_URLS = {
     auth: 'https://hello-world.bucketlab.io/auth'
   }
 };
-
-
 
 export const PRIVATE_URLS = {
   laboratory: {

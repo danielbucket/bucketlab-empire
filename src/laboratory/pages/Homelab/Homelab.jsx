@@ -1,19 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { hardwareStats, firmwareStats, systemStats } from "./bucketlabStatusStub";
-/**
- * Homelab.jsx
- * React page showcasing the hardware and firmware side of the BucketLabIO project.
- *
- * Expected backend endpoints (examples):
- *  - GET  /api/homelab/hardware   -> { device, model, memoryGB, os, storage: { totalGB, usedGB }, ip }
- *  - GET  /api/homelab/firmware   -> { systemFirmware, bootloader, devices: [{ name, type, fwVersion }] }
- *  - GET  /api/homelab/system     -> { cpuLoad, cpuTempC, ramUsedGB, ramTotalGB, uptime }
- *  - POST /api/homelab/firmware/update  -> { ok, message }
- *  - POST /api/homelab/reboot            -> { ok }
- *
- * This file is intentionally UI-focused and contains conservative calls to these endpoints.
- * Adapt endpoint paths and JSON shapes to your backend.
- */
+import { fetchAllStats, fetchFirmware, fetchHardware, fetchSystem } from "./fetchMetrics";
 
 export default function Homelab() {
   const [hardware, setHardware] = useState(hardwareStats);
@@ -24,47 +11,26 @@ export default function Homelab() {
   const [loading, setLoading] = useState(false);
   const liveRef = useRef(null);
 
-  const fetchHardware = async () => {
-    try {
-      const res = await fetch("/api/homelab/hardware");
-      if (!res.ok) throw new Error("no hardware");
-      const json = await res.json();
-      setHardware((h) => ({ ...h, ...json }));
-    } catch (e) {
-      // fallback defaults are already set
-      console.warn("fetchHardware:", e);
-    }
-  };
+  const UpdateAll = async () => {
+    setStatusMessage("Loading hardware, firmware, and system info...");
+    const { hardware, firmware, system } = await fetchAllStats();
 
-  const fetchFirmware = async () => {
-    try {
-      const res = await fetch("/api/homelab/firmware");
-      if (!res.ok) throw new Error("no firmware");
-      const json = await res.json();
-      setFirmware(json);
-    } catch (e) {
-      console.warn("fetchFirmware:", e);
+    for (const [key, data] of Object.entries({ hardware, firmware, system })) {
+      if (data.error) {
+        setStatusMessage(`Failed to load ${key} data: ${data.message}`);
+        console.warn(`Error fetching ${key}:`, data.message);
+      } else {
+        if (key === "hardware") setHardware(data);
+        else if (key === "firmware") setFirmware(data);
+        else if (key === "system") setSystem(data);
+      }
     }
-  };
-
-  const fetchSystem = async () => {
-    try {
-      const res = await fetch("/api/homelab/system");
-      if (!res.ok) throw new Error("no system");
-      const json = await res.json();
-      setSystem(json);
-    } catch (e) {
-      console.warn("fetchSystem:", e);
-    }
-  };
-
-  const fetchAll = async () => {
-    await Promise.all([fetchHardware(), fetchFirmware(), fetchSystem()]);
+    setStatusMessage("Data loaded successfully.");
   };
 
   useEffect(() => {
     // initial load
-    fetchAll();
+    UpdateAll();
 
     // live system updates every 5s
     liveRef.current = setInterval(fetchSystem, 5000);

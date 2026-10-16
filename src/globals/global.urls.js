@@ -1,10 +1,5 @@
-let API_ROOT = 'https://api.bucketlab.io';
-let HELLO_WORLD_ROOT = 'https://hello-world.bucketlab.io';
-
-if (import.meta.env.DEV) {
-  API_ROOT = '/dev';
-  HELLO_WORLD_ROOT = '/hello-world';
-}
+let API_ROOT = import.meta.env.VITE_API_URL || 'https://api.bucketlab.io';
+let HELLO_WORLD_ROOT = import.meta.env.VITE_HELLO_WORLD_URL || 'https://hello-world.bucketlab.io';
 
 export const API_URLS = {
   auth: {

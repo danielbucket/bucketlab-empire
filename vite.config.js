@@ -1,13 +1,13 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import devtoolsJson from 'vite-plugin-devtools-json';
-const HOST_IP = '10.0.0.5';
+const HOST_IP = process.env.HOST_IP || '172.31.200.14';
 
-export default defineConfig(({ mode }) => {
+  export default defineConfig(({ mode }) => {
   // Load env file based on `mode` in the current working directory.
   // Set the third parameter to '' to load all env regardless of the `VITE_` prefix.
   const env = loadEnv(mode, process.cwd(), '');
-  
+
   return {
     plugins: [
       react(),
@@ -19,17 +19,18 @@ export default defineConfig(({ mode }) => {
     },
     // Example: use an env var to set the dev server port conditionally.
     server: {
+      origin: `http://${HOST_IP}:${env.APP_PORT || 5173}`,
       host: HOST_IP,
-      port: env.APP_PORT ? Number(env.APP_PORT) : 5173,  
+      port: env.APP_PORT ? Number(env.APP_PORT) : 5173,
       proxy: {
         '/dev': {
           target: `http://localhost:${env.API_PORT || 4020}`,
           changeOrigin: true,
           secure: false,
           rewrite: (path) => {
-            const rewritten = path.replace(/^\/dev/, '');
-            console.log(`[PROXY] Rewriting ${path} → ${rewritten}`);
-            return rewritten;
+            const newPath = path.replace(/^\/dev/, '');
+            console.log(`[PROXY] Rewriting ${path} → ${newPath}`);
+            return newPath;
           },
           configure: (proxy) => {
             proxy.on('error', (err) => {
